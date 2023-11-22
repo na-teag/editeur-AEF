@@ -1,3 +1,14 @@
+automate ={
+    "Etats": {
+        "Etat0": {"Transition1": "Etat1", "Transition2": "Etat0"},
+        "Etat1": {"Transition3": "Etat0", "Transition4": "Etat1"}
+    },
+    "EtatsInitiaux": ["Etat0"],
+    "EtatsFinaux": ["Etat1"]
+}
+
+
+
 def est_complet(automate):
     etats = automate['etats']
     alphabet = automate['alphabet']
@@ -10,13 +21,13 @@ def est_complet(automate):
                 
     return True
 
-automate = {
-    'etats': {'q0', 'q1'},
-    'alphabet': {'0', '1'},
-    'transition': {('q0', '0'): 'q1', ('q0', '1'): 'q0', ('q1', '0'): 'q1', ('q1', '1'): 'q0'},
-    'etat_initial': 'q0',
-    'etats_finaux': {'q1'}
-}
+# automate = {
+#     'etats': {'q0', 'q1'},
+#     'alphabet': {'0', '1'},
+#     'transition': {('q0', '0'): 'q1', ('q0', '1'): 'q0', ('q1', '0'): 'q1', ('q1', '1'): 'q0'},
+#     'etat_initial': 'q0',
+#     'etats_finaux': {'q1'}
+# }
 
 if est_complet(automate):
     print("L'automate est complet.")
@@ -33,16 +44,16 @@ def est_deterministe(automate):
             symboles.add(symbole)
     return True
 
-automate = {
-    'q0': {'a': 'q1', 'b': 'q2'},
-    'q1': {'a': 'q3', 'b': 'q4'},
-    'q2': {'a': 'q5', 'b': 'q6'},
-    'q3': {'a': 'q7', 'b': 'q8'},
-    'q4': {'a': 'q9', 'b': 'q10'},
-    'q5': {'a': 'q11', 'b': 'q12'},
-    'q6': {'a': 'q13', 'b': 'q14'},
-    'q7': {'a': 'q15', 'b': 'q16'},
-}
+# automate = {
+#     'q0': {'a': 'q1', 'b': 'q2'},
+#     'q1': {'a': 'q3', 'b': 'q4'},
+#     'q2': {'a': 'q5', 'b': 'q6'},
+#     'q3': {'a': 'q7', 'b': 'q8'},
+#     'q4': {'a': 'q9', 'b': 'q10'},
+#     'q5': {'a': 'q11', 'b': 'q12'},
+#     'q6': {'a': 'q13', 'b': 'q14'},
+#     'q7': {'a': 'q15', 'b': 'q16'},
+# }
 
 if est_deterministe(automate):
     print("L'automate est déterministe.")
