@@ -1,4 +1,5 @@
 import json
+import re # expression régulière pour tester le nom des fichiers
 
 
 #automate ={
@@ -18,51 +19,44 @@ def creer_automate_vide():
 	}
 
 
-def open_or_new():
+def open_or_new(liste_automate, automate_selected):
 	while True:
-		choice = input("Voulez vous importer un automate (1) en éditer un (2) ou en créer un nouveau (3) ?\n")
-		choice.strip()
-		if(choice == "1" or choice == "2" or choice == "3"):
+		choice = input("Voulez vous :\n1 : importer un automate d'état fini (AEF)\n2 : en créer un nouveau ?\n\n")
+		choice = choice.strip()
+		if(choice == "1" or choice == "2"):
 			choice = int(choice)
 			break
 		else:
-			print("Veuillez entrez une des options proposée")
+			print("\nVeuillez entrez une des options proposée")
 	if(choice == 1):
-		nom_fichier = input("entrez le nom du fichier : ")
+		nom_fichier = input("\nentrez le nom du fichier .json : ")
+		nom_fichier = nom_fichier + ".json"
 		try:
 			with open(nom_fichier, 'r') as file:
 				automate = json.load(file)
 				liste_automate.append(automate)
-				print(f"Automate chargé à partir de {nom_fichier}")
+				print(f"AEF chargé à partir de {nom_fichier}")
 		except FileNotFoundError:
 			print(f"Le fichier {nom_fichier} n'existe pas. Veuillez vérifier le nom du fichier.")
-			open_or_new()
-	elif(choice == 2):
-		if(len(liste_automate) == 0):
-			print("aucun automate créé")
-			open_or_new()
-		else:
-			print("séléctionner l'automate à éditer (non disponible)")
-			open_or_new()
+			open_or_new(liste_automate, automate_selected)
 	else:
 		automate_selected = len(liste_automate)
 		liste_automate.append(creer_automate_vide())
-		return automate_selected
-	return -1
+	return liste_automate, automate_selected
 
 
 
 
-def saisir_automate(automate_selected):
-	print("Entrez les états et transitions (état, transition, état_suivant): ")
+def saisir_automate(liste_automate, automate_selected):
+	print("\n\nEntrez les états et transitions (état, transition, état_suivant): ")
 	
 	while True:
-		transition_input = input("Entrez la nouvelle partie de votre automate ou appuyez sur Entrée pour terminer : ").split(',')
+		transition_input = input("Entrez la nouvelle partie de votre AEF ou appuyez sur Entrée pour terminer : ").split(',')
 		
-		if len(transition_input) == 3:
+		if(len(transition_input) == 3 and transition_input[0].strip() != "" and transition_input[1].strip() != "" and transition_input[2].strip() != "" ):
 			etat = transition_input[0].strip() # supprimer les espaces
 			transition = transition_input[1].strip()
-			etat_suivant = transition_input[2].strip() 
+			etat_suivant = transition_input[2].strip()
 
 			if etat not in liste_automate[automate_selected]["Etats"]:
 				liste_automate[automate_selected]["Etats"][etat] = {}  # Ajoute les états s'ils ne sont pas présent
@@ -73,13 +67,12 @@ def saisir_automate(automate_selected):
 		elif(transition_input == ['']):
 			break
 		else:
-			print(transition_input)
 			print("votre entrée n'est pas correcte")
 
 	print("\n")
 
 	while True:
-		etat = input("entrez un état initial (appuyez sur entrer pour terminer): ") # demander les états initiaux
+		etat = input("entrez un état initial (ou appuyez sur entrer pour terminer): ") # demander les états initiaux
 		if(etat in liste_automate[automate_selected]["Etats"] and etat not in liste_automate[automate_selected]["Etats_initiaux"]):
 			liste_automate[automate_selected]["Etats_initiaux"].append(etat)
 		elif(etat == ""):
@@ -88,13 +81,12 @@ def saisir_automate(automate_selected):
 			else:
 				break
 		else:
-			print(etat)
 			print("votre entrée n'est pas correcte")
 
 	print("\n")
 
 	while True:
-		etat = input("entrez un état final (appuyez sur entrer pour terminer): ") # demander les états initiaux
+		etat = input("entrez un état final (ou appuyez sur entrer pour terminer): ") # demander les états initiaux
 		if(etat in liste_automate[automate_selected]["Etats"] and etat not in liste_automate[automate_selected]["Etats_finaux"]):
 			liste_automate[automate_selected]["Etats_finaux"].append(etat)
 		elif(etat == ""):
@@ -103,49 +95,34 @@ def saisir_automate(automate_selected):
 			else:	
 				break
 		else:
-			print(etat)
 			print("votre entrée n'est pas correcte")
+	return liste_automate, automate_selected
 
 
 
-def alphabet(selection):
+def alphabet(liste_automate, automate_selected):
 	transitions_liste = []
-	for transitions in liste_automate[selection]["Etats"].values():
+	for transitions in liste_automate[automate_selected]["Etats"].values():
 		transitions_liste.extend(transitions.keys())
 	alphabet = list(set(transitions_liste))  # Suppression des doublons
 	return alphabet
 
 
 
-def sauvegarder_AEF(selection, fichier):	
+def sauvegarder_AEF(liste_automate, automate_selected, fichier):	
 	with open(fichier, 'w') as file:
-		json.dump(liste_automate[selection], file, indent=4)
+		json.dump(liste_automate[automate_selected], file, indent=4)
 	print(f"AEF sauvegardé dans {fichier}")
 
+def test_nom_fichier(nom):
+	motif = r"^[a-zA-Z0-9_\-\.]+$"
+	if(re.match(motif, nom)):
+		return True # nom conforme
+	else:
+		return False # non conforme
 
-def afficher_AEF(selection):
-	print("Alphabet:", alphabet(selection))
-	print("États:", liste_automate[selection]["Etats"])
-	print("États initiaux:", liste_automate[selection]["Etats_initiaux"])
-	print("États finaux:", liste_automate[selection]["Etats_finaux"])
-
-
-print("\n\n")
-
-liste_automate = []
-automate_selected=-1
-
-if(automate_selected == -1):
-	automate_selected = open_or_new()
-
-if(liste_automate[automate_selected]["Etats"] == {}):
-	saisir_automate(automate_selected)
-
-
-
-print("\n\n")
-print(liste_automate[automate_selected])
-print("\n\n")
-print(afficher_AEF(automate_selected))
-print("\n\n")
-sauvegarder_AEF(automate_selected, "test.json")
+def afficher_AEF(liste_automate, automate_selected):
+	print("Alphabet:", alphabet(liste_automate, automate_selected))
+	print("États:", liste_automate[automate_selected]["Etats"])
+	print("États initiaux:", liste_automate[automate_selected]["Etats_initiaux"])
+	print("États finaux:", liste_automate[automate_selected]["Etats_finaux"])
