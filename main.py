@@ -21,14 +21,15 @@ from fonctions import *
 
 def afficher_menu():
 	print("\n\n\n\n\n\n\n\n")
-	print("1 : visualiser l'AEF séléctionné")
-	print("2 : éditer l'AEF")
-	print("3 : sauvegarder l'AEF")
-	print("4 : faire des tests sur l'AEF")
-	print("5 : modifier l'AEF selon une propriété")
-	print("6 : générer un AEF à partir de celui-ci")
-	print("7 : supprimer l'AEF")
-	print("8 : quitter le programme")
+	print("1 : séléctionner un AEF")
+	print("2 : visualiser l'AEF séléctionné")
+	print("3 : éditer l'AEF")
+	print("4 : sauvegarder l'AEF")
+	print("5 : faire des tests sur l'AEF")
+	print("6 : modifier l'AEF selon une propriété")
+	print("7 : générer un AEF à partir de celui-ci")
+	print("8 : supprimer l'AEF")
+	print("9 : quitter le programme")
 	print("\n\n\n")
 
 def afficher_menu_test():
@@ -62,7 +63,8 @@ def afficher_menu_generer():
 	print("\n\n\n")
 
 def menu_test():
-	while True:
+	test=1
+	while test:
 		afficher_menu_test()
 		choice = input("Choisissez une action : ")
 		choice = choice.strip()
@@ -79,12 +81,13 @@ def menu_test():
 		elif(choice == "6"):
 			print("non disponible") ###### A FAIRE ######
 		elif(choice == "7"):
-			break
+			test=0
 		else:
-			print("Veuillez entrer l'une des options proposés\n")
+			print("Veuillez entrer l'une des options proposées\n")
 
 def menu_generer():
-	while True:
+	test=1
+	while test:
 		afficher_menu_generer()
 		choice = input("Choisissez une action : ")
 		choice = choice.strip()
@@ -99,12 +102,13 @@ def menu_generer():
 		elif(choice == "5"):
 			print("non disponible") ###### A FAIRE ######
 		elif(choice == "6"):
-			break
+			test=0
 		else:
-			print("Veuillez entrer l'une des options proposés\n")
+			print("Veuillez entrer l'une des options proposées\n")
 
 def menu_modif():
-	while True:
+	test=1
+	while test:
 		afficher_menu_modif()
 		choice = input("Choisissez une action : ")
 		choice = choice.strip()
@@ -117,9 +121,9 @@ def menu_modif():
 		elif(choice == "4"):
 			print("non disponible") ###### A FAIRE ######
 		elif(choice == "5"):
-			break
+			test=0
 		else:
-			print("Veuillez entrer l'une des options proposés\n")
+			print("Veuillez entrer l'une des options proposées\n")
 
 
 
@@ -127,43 +131,38 @@ print("\n\n")
 
 liste_automate = []
 automate_selected=-1
-liste_automate, automate_selected = open_or_new(liste_automate, automate_selected) # séléctionner un AEF
+liste_automate, automate_selected = select(liste_automate, automate_selected) # séléctionner un AEF
 
 
 if(liste_automate[automate_selected]["Etats"] == {}):
 	liste_automate, automate_selected = saisir_automate(liste_automate, automate_selected)
 
 
-
-while True:
+test2=1
+while test2:
 	afficher_menu()
 	choice = input("Choisissez une action : ")
 	choice = choice.strip()
 	if(choice == "1"):
-		afficher_AEF(liste_automate, automate_selected)
+		liste_automate, automate_selected = select(liste_automate, automate_selected)
 	elif(choice == "2"):
-		print("non disponible") ###### A FAIRE ######
+		afficher_AEF(liste_automate, automate_selected)
 	elif(choice == "3"):
-		while True:
-			nom_fichier = input("entrez le nom du fichier : ")
-			if(test_nom_fichier(nom_fichier)):
-				nom_fichier = nom_fichier + ".json"
-				sauvegarder_AEF(liste_automate, automate_selected, nom_fichier)
-				break
-			else:
-				print("un fichier ne peut pas contenir de caractères spéciaux\n")
-	elif(choice == "4"):
-		menu_test()
-	elif(choice == "5"):
-		menu_modif()
-	elif(choice == "6"):
-		menu_generer()
-	elif(choice == "7"):
 		print("non disponible") ###### A FAIRE ######
+	elif(choice == "4"):
+		sauvegarder_AEF(liste_automate, automate_selected)
+	elif(choice == "5"):
+		menu_test()
+	elif(choice == "6"):
+		menu_modif()
+	elif(choice == "7"):
+		menu_generer()
 	elif(choice == "8"):
-		break
+		liste_automate, automate_selected = demande_suppr(liste_automate, automate_selected)
+	elif(choice == "9"):
+		test2 = 0
 	else:
-		print("Veuillez entrer l'une des options proposés\n")
+		print("Veuillez entrer l'une des options proposées\n")
 
 
 
