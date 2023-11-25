@@ -148,7 +148,7 @@ while test2:
 	elif(choice == "2"):
 		afficher_AEF(liste_automate, automate_selected)
 	elif(choice == "3"):
-		print("non disponible") ###### A FAIRE ######
+		liste_automate, automate_selected = editAEF(liste_automate, automate_selected)
 	elif(choice == "4"):
 		sauvegarder_AEF(liste_automate, automate_selected)
 	elif(choice == "5"):
