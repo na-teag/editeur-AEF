@@ -247,53 +247,99 @@ def test_transition_entrante(liste_automate, automate_selected, etat): # test s'
 
 
 def suppr_etat(liste_automate, automate_selected): # supprimer toutes les occurences d'un état
-	test = 1
-	while test:
-		print("\n\n\n\n\n\n\n\n")
-		afficher_AEF(liste_automate, automate_selected)
-		print("\n\n\n\n")
-		choix = input("Entrez l'état à supprimer ou appuyez sur entrer pour revenir en arrière : ").strip()
-		if(choix in liste_automate[automate_selected]["Etats"]):
-			choix2 = input(f"Etes-vous sûr de vouloir supprimer l'état {choix} ? Cette action est irréversible\n1 : oui\n2 : non\n\n\n").strip()
-			if(choix2 == "1"):
-				dico = {}
-				del liste_automate[automate_selected]["Etats"][choix]
-				for etat, transition in liste_automate[automate_selected]["Etats"].items():
-					for etat_suivant in transition.values():
-						if(choix in etat_suivant):
-							etat_suivant.remove(choix)
-					
-					for trans in transition.keys():
-						if(liste_automate[automate_selected]["Etats"][etat][trans] == []): # après avoir supprimé des états suivant, s'il y a des transitions qui ne mènent à rien on les ajoute dans une liste pour les supprimer à la fin de la boucle (on peut pas directement.)
-							dico[etat] = trans
-				for etat in dico:
-					del liste_automate[automate_selected]["Etats"][etat][dico[etat]]
-				if(choix in liste_automate[automate_selected]["Etats_initiaux"]): # si l'état est dans la liste des états initiaux ou finaux on l'enlève
-					liste_automate[automate_selected]["Etats_initiaux"].remove(choix)
-				if(choix in liste_automate[automate_selected]["Etats_finaux"]):
-					liste_automate[automate_selected]["Etats_finaux"].remove(choix)
-				if(len(liste_automate[automate_selected]["Etats"]) <= 1): # si l'utilisateur a effacer tous les états de l'AEF
-					print("\n\n\n\n\n\n\n\n\n\n\n\n\n\nVous ne pouvez pas manipuler un AEF vide, veuillez en entrer un nouveau :")
-					return saisir_automate(liste_automate, automate_selected)
-				if(len(liste_automate[automate_selected]["Etats_initiaux"]) == 0): # s'il n'y a plus d'état initiaux ou finaux, on en redemande un autre
-					print("\n\n\n\n\n\n\n\n\n\n\nVous avez supprimé le seul état initial, veuillez en entrer un nouveau")
-					liste_automate, automate_selected = changer_etats_ini_fin(liste_automate, automate_selected, 0)
-				if(len(liste_automate[automate_selected]["Etats_finaux"]) == 0):
-					print("\n\n\n\n\n\n\n\n\n\n\nVous avez supprimé le seul état final, veuillez en entrer un nouveau")
-					liste_automate, automate_selected = changer_etats_ini_fin(liste_automate, automate_selected, 1)
-
-			else:
-				print("action annulée")
-		elif(choix == ""):
-			test = 0
+	print("\n\n\n\n\n\n\n\n")
+	afficher_AEF(liste_automate, automate_selected)
+	print("\n\n\n\n")
+	choix = input("Entrez l'état à supprimer ou appuyez sur entrer pour revenir en arrière : ").strip()
+	if(choix in liste_automate[automate_selected]["Etats"]):
+		choix2 = input(f"Etes-vous sûr de vouloir supprimer l'état {choix} ? Cette action est irréversible\n1 : oui\n2 : non\n\n\n").strip()
+		if(choix2 == "1"):
+			dico = {}
+			del liste_automate[automate_selected]["Etats"][choix]
+			for etat, transition in liste_automate[automate_selected]["Etats"].items():
+				for etat_suivant in transition.values():
+					if(choix in etat_suivant):
+						etat_suivant.remove(choix)
+				
+				for trans in transition.keys():
+					if(liste_automate[automate_selected]["Etats"][etat][trans] == []): # après avoir supprimé des états suivant, s'il y a des transitions qui ne mènent à rien on les ajoute dans une liste pour les supprimer à la fin de la boucle (on peut pas directement.)
+						dico[etat] = trans
+			for etat in dico:
+				del liste_automate[automate_selected]["Etats"][etat][dico[etat]]
+			if(choix in liste_automate[automate_selected]["Etats_initiaux"]): # si l'état est dans la liste des états initiaux ou finaux on l'enlève
+				liste_automate[automate_selected]["Etats_initiaux"].remove(choix)
+			if(choix in liste_automate[automate_selected]["Etats_finaux"]):
+				liste_automate[automate_selected]["Etats_finaux"].remove(choix)
+			if(len(liste_automate[automate_selected]["Etats"]) <= 1): # si l'utilisateur a effacer tous les états de l'AEF
+				print("\n\n\n\n\n\n\n\n\n\n\n\n\n\nVous ne pouvez pas manipuler un AEF vide, veuillez en entrer un nouveau :")
+				return saisir_automate(liste_automate, automate_selected)
+			if(len(liste_automate[automate_selected]["Etats_initiaux"]) == 0): # s'il n'y a plus d'état initiaux ou finaux, on en redemande un autre
+				print("\n\n\n\n\n\n\n\n\n\n\nVous avez supprimé le seul état initial, veuillez en entrer un nouveau")
+				liste_automate, automate_selected = changer_etats_ini_fin(liste_automate, automate_selected, 0)
+			if(len(liste_automate[automate_selected]["Etats_finaux"]) == 0):
+				print("\n\n\n\n\n\n\n\n\n\n\nVous avez supprimé le seul état final, veuillez en entrer un nouveau")
+				liste_automate, automate_selected = changer_etats_ini_fin(liste_automate, automate_selected, 1)
 		else:
-			print("Veuillez entrer une des options proposées")
+			print("action annulée")
+	elif(choix == ""):
+		return liste_automate, automate_selected
+	else:
+		print("Veuillez entrer une des options proposées")
 	return liste_automate, automate_selected
 
 
 
-# def renommer_etats(liste_automate, automate_selected): # renommer toutes les occurences d'un état (peut servir à fusionner deux états)
+def renommer_etats(liste_automate, automate_selected): # renommer toutes les occurences d'un état (peut servir à fusionner deux états)
 # faire gaffe qu'il reste au moins 2 points
+	print("\n\n\n\n\n\n\n\n")
+	afficher_AEF(liste_automate, automate_selected)
+	print("\n\n\n\n")
+	choix = input("Entrez l'état à renommer ou appuyez sur entrer pour revenir en arrière : ").strip()
+	if(choix in liste_automate[automate_selected]["Etats"]):
+		ancien = choix
+		nouveau = input(f"Entrez le nouveau nom à donner à l'état {ancien} ou appuyez sur entrer pour revenir en arrière : ").strip()
+		if(nouveau in liste_automate[automate_selected]["Etats"]):
+			choix = input(f"L'état {nouveau} existe déjà dans l'AEF, êtes vous sûr de vouloir fusionner les états {ancien} et {nouveau} ?\n1 : oui\n2 : non\n\n").strip()
+			if(choix != "1"):
+				return liste_automate, automate_selected
+			else:
+				if(len(liste_automate[automate_selected]["Etats"]) < 3):
+					print("impossible de fusionner les deux états, car il s'agit des deux seuls états de l'AEF")
+					return liste_automate, automate_selected
+		elif(nouveau == ""):
+			return liste_automate, automate_selected
+		else:
+			liste_automate[automate_selected]["Etats"][nouveau] = {} # si l'état n'existe pas, on le créé
+
+
+		for transition, liste_etats_suivants in liste_automate[automate_selected]["Etats"][ancien].items(): # on copie toutes les transitions sortantes vers le nouvel état
+			if(transition not in liste_automate[automate_selected]["Etats"][nouveau].keys()):
+				liste_automate[automate_selected]["Etats"][nouveau][transition] = []
+			for transition2 in liste_etats_suivants:
+				liste_automate[automate_selected]["Etats"][nouveau][transition].append(transition2)
+			list(set(liste_automate[automate_selected]["Etats"][nouveau][transition]))
+		for etat in liste_automate[automate_selected]["Etats"]:
+			if(etat != ancien):
+				for transition, liste_etats_suivants in liste_automate[automate_selected]["Etats"][etat].items(): # on change toute les transition sortante d'autres état vers l'ancien en transition vers le nouveau
+					if(ancien in liste_automate[automate_selected]["Etats"][etat][transition]):
+						liste_automate[automate_selected]["Etats"][etat][transition].remove(ancien)
+						if(nouveau not in liste_automate[automate_selected]["Etats"][etat][transition]):
+							liste_automate[automate_selected]["Etats"][etat][transition].append(nouveau)
+		del liste_automate[automate_selected]["Etats"][ancien] # après avoir transposé toutes les données, on supprime l'ancien état
+
+		if(ancien in liste_automate[automate_selected]["Etats_initiaux"]): # si l'ancien état est dans la liste des état initiaux ou finaux, on le remplace par le nouveau
+			liste_automate[automate_selected]["Etats_initiaux"].remove(ancien)
+			liste_automate[automate_selected]["Etats_initiaux"].append(nouveau)
+		if(ancien in liste_automate[automate_selected]["Etats_finaux"]):
+			liste_automate[automate_selected]["Etats_finaux"].remove(ancien)
+			liste_automate[automate_selected]["Etats_finaux"].append(nouveau)
+
+	elif(choix == ""):
+		return liste_automate, automate_selected
+	else:
+		print("Erreur : l'état", ancien, "n'existe pas dans l'AEF")
+
+	return liste_automate, automate_selected
 
 
 # refaire la fonction saisir_automate() en utilisant les autres fonctions
@@ -307,16 +353,18 @@ def changer_etats_ini_fin(liste_automate, automate_selected, nbr): # ajouter ou 
 	test = 1
 	if(nbr == 0):
 		etat = "Etats_initiaux"
+		nom = "initial"
 	elif(nbr == 1):
 		etat = "Etats_finaux"
+		nom = "final"
 	else:
 		print("erreur, le 3e parametre de changer_etats_ini_fin() ne peut être que 0 ou 1")
 		exit(1)
 	while test:
 		print("\n\n\n\n\n\n\n\n\n\n\n")
 		afficher_AEF(liste_automate, automate_selected)
-		print("\n\n\nEntrez un état déjà présent pour l'effacer, appuyez sur entrer pour sortir")
-		choix = input("Entrez l'état que vous voulez ajouter : ").strip()
+		print("\n\n\nEntrez un état", nom, "déjà présent pour l'effacer, appuyez sur entrer pour sortir")
+		choix = input(f"Entrez l'état {nom} que vous voulez ajouter : ").strip()
 		if choix in liste_automate[automate_selected][etat]:
 			liste_automate[automate_selected][etat].remove(choix)
 		elif(choix in liste_automate[automate_selected]["Etats"]):
@@ -325,7 +373,7 @@ def changer_etats_ini_fin(liste_automate, automate_selected, nbr): # ajouter ou 
 			if(0<len(liste_automate[automate_selected][etat])):
 				test = 0
 			else:
-				print("Vous ne pouvez pas faire d'AEF avec 0 états", etat[6:])
+				print("Votre AEF doit contenir au moins un état ", nom)
 		else:
 			print("Erreur, l'état", choix, "n'existe pas dans cet automate")
 	print("\n\n")
