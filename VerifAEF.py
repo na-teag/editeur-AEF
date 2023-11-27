@@ -1,33 +1,20 @@
 automate ={
-    "Etats": {
-        "Etat0": {"Transition1": "Etat1", "Transition2": "Etat0"},
-        "Etat1": {"Transition3": "Etat0", "Transition4": "Etat1"}
-    },
-    "EtatsInitiaux": ["Etat0"],
-    "EtatsFinaux": ["Etat1"]
+   "Etats": {
+       "Etat0": {"Transition1": ["Etat1"], "Transition2": ["Etat0"], "Transition3": ["Etat0"], "Transition4": ["Etat0"]},
+       "Etat1": {"Transition3": ["Etat0"], "Transition4": ["Etat1"], "Transition1": ["Etat1"], "Transition2": ["Etat1"]}
+   },
+   "Etats_initiaux": ["Etat0"],
+   "Etats_finaux": ["Etat1"],
+   "Alphabet": ["Transition1","Transition2","Transition3","Transition4"]
 }
 
-
-
 def est_complet(automate):
-    etats = automate['etats']
-    alphabet = automate['alphabet']
-    transition = automate['transition']
-    
-    for etat in etats:
-        for symbole in alphabet:
-            if (etat, symbole) not in transition:
+    etats = automate['Etats']  
+    for etat, transitions in etats.items():
+        for symbole in automate['Alphabet']:
+            if symbole not in transitions:
                 return False
-                
     return True
-
-# automate = {
-#     'etats': {'q0', 'q1'},
-#     'alphabet': {'0', '1'},
-#     'transition': {('q0', '0'): 'q1', ('q0', '1'): 'q0', ('q1', '0'): 'q1', ('q1', '1'): 'q0'},
-#     'etat_initial': 'q0',
-#     'etats_finaux': {'q1'}
-# }
 
 if est_complet(automate):
     print("L'automate est complet.")
@@ -59,4 +46,3 @@ if est_deterministe(automate):
     print("L'automate est déterministe.")
 else:
     print("L'automate n'est pas déterministe.")
-
