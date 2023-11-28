@@ -2,6 +2,7 @@ import json
 import re # expression régulière pour tester le nom des fichiers
 
 from fonctions import *
+from verifcomplet import *
 
 
 #automate ={
@@ -71,7 +72,7 @@ def menu_test():
 		if(choice == "1"):
 			print("non disponible") ###### A FAIRE ######
 		elif(choice == "2"):
-			print("non disponible") ###### A FAIRE ######
+			est_complet(liste_automate[automate_selected])
 		elif(choice == "3"):
 			print("non disponible") ###### A FAIRE ######
 		elif(choice == "4"):
