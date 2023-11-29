@@ -73,9 +73,9 @@ def menu_test():
 		if(choice == "1"):
 			print("non disponible") ###### A FAIRE ######
 		elif(choice == "2"):
-			est_complet(liste_automate[automate_selected])
+			est_complet(liste_automate[automate_selected]) # calls the function est_complet
 		elif(choice == "3"):
-			est_deterministe(liste_automate[automate_selected])
+			est_deterministe(liste_automate[automate_selected]) # calls the function est_deterministe
 		elif(choice == "4"):
 			print("non disponible") ###### A FAIRE ######
 		elif(choice == "5"):
