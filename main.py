@@ -3,6 +3,7 @@ import re # expression régulière pour tester le nom des fichiers
 
 from fonctions import *
 from verifcomplet import *
+from verifdeter import *
 
 
 #automate ={
@@ -74,7 +75,7 @@ def menu_test():
 		elif(choice == "2"):
 			est_complet(liste_automate[automate_selected])
 		elif(choice == "3"):
-			print("non disponible") ###### A FAIRE ######
+			est_deterministe(liste_automate[automate_selected])
 		elif(choice == "4"):
 			print("non disponible") ###### A FAIRE ######
 		elif(choice == "5"):
