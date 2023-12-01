@@ -1,5 +1,5 @@
 import json
-import re # expression régulière pour tester le nom des fichiers
+import re # regex to test files names
 
 from fonctions import *
 from verifcomplet import *
@@ -133,11 +133,8 @@ print("\n\n")
 
 liste_automate = []
 automate_selected=-1
-liste_automate, automate_selected = select(liste_automate, automate_selected) # séléctionner un AEF
+liste_automate, automate_selected = select(liste_automate, automate_selected) # select a DFA
 
-
-if(liste_automate[automate_selected]["Etats"] == {}):
-	liste_automate, automate_selected = saisir_automate(liste_automate, automate_selected)
 
 
 test2=1
