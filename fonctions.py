@@ -40,7 +40,7 @@ def select(liste_automate, automate_selected): # importer, créer, ou séléctio
 		elif(choix == 2):
 			automate_selected = len(liste_automate) # l'indice de l'AEF est la taille de la liste avant de l'ajouter : liste vide = taille de 0 -> le premier AEF sera à l'indice 0
 			liste_automate.append(creer_automate_vide())
-			liste_automate, automate_selected = saisir_automate(liste_automate, automate_selected)
+			liste_automate, automate_selected = editer_etats(liste_automate, automate_selected)
 			test=0
 		elif(2 < choix and choix < len(liste_automate)+3):
 			automate_selected = choix-3 # on a ajouté deux option dans une liste qui commence à 1 -> l'indice est décalé de 3
@@ -71,69 +71,7 @@ def openjson(liste_automate, automate_selected):
 	else:
 		return select(liste_automate, automate_selected) # si nom de fichier vide, retour au menu précédent
 
-		
-
-
-
-
-def saisir_automate(liste_automate, automate_selected):
-	nom = input("\n\nEntrez le nom à donner à l'AEF : ")
-	if(nom != ""):
-		liste_automate[automate_selected]["Nom"] = nom 
-		test=1
-		while test:
-			print("\nEntrez les états et transitions sous la forme : état, transition, état_suivant")
-			transition_input = input("Entrez la nouvelle partie de votre AEF ou appuyez sur Entrer pour terminer : ").split(',')
-
-			if(len(transition_input) == 3 and transition_input[0].strip() != "" and transition_input[1].strip() != "" and transition_input[2].strip() != "" ):
-				etat = transition_input[0].strip() # supprimer les espaces
-				transition = transition_input[1].strip()
-				etat_suivant = transition_input[2].strip()
-
-				if etat not in liste_automate[automate_selected]["Etats"]:
-					liste_automate[automate_selected]["Etats"][etat] = {}  # Ajoute les états s'ils ne sont pas présent
-				if etat_suivant not in liste_automate[automate_selected]["Etats"]:
-					liste_automate[automate_selected]["Etats"][etat_suivant] = {}
-				if(transition not in liste_automate[automate_selected]["Etats"][etat]): # si la liste d'états suivants n'existe pas, on la crée
-					liste_automate[automate_selected]["Etats"][etat][transition] = []
-				liste_automate[automate_selected]["Etats"][etat][transition].append(etat_suivant) # Ajoute la transition à l'état
-
-			elif(transition_input == ['']):
-				test=0
-			else:
-				print("votre entrée n'est pas correcte")
-
-		print("\n")
-		test=1
-		while test:
-			etat = input("entrez un état initial (ou appuyez sur entrer pour terminer): ") # demander les états initiaux
-			if(etat in liste_automate[automate_selected]["Etats"] and etat not in liste_automate[automate_selected]["Etats_initiaux"]):
-				liste_automate[automate_selected]["Etats_initiaux"].append(etat)
-			elif(etat == ""):
-				if(len(liste_automate[automate_selected]["Etats_initiaux"]) == 0):
-					print("Veuillez entrer au moins un état initial")
-				else:
-					test=0
-			else:
-				print("votre entrée n'est pas correcte")
-
-		print("\n")
-		test=1
-		while test:
-			etat = input("entrez un état final (ou appuyez sur entrer pour terminer): ") # demander les états initiaux
-			if(etat in liste_automate[automate_selected]["Etats"] and etat not in liste_automate[automate_selected]["Etats_finaux"]):
-				liste_automate[automate_selected]["Etats_finaux"].append(etat)
-			elif(etat == ""):
-				if(len(liste_automate[automate_selected]["Etats_finaux"]) == 0):
-					print("Veuillez entrer au moins un état final")
-				else:	
-					test=0
-			else:
-				print("votre entrée n'est pas correcte")
-		return liste_automate, automate_selected
-	else:	# si nom de l'aef vide, on réapplique la fonction select()
-		suppr(liste_automate, automate_selected) # on supprime l'AEF vide créé dans select()
-		return select(liste_automate, automate_selected)
+	
 
 
 def editAEF(liste_automate, automate_selected): # choisir quelles modifications on veux faire
@@ -172,6 +110,8 @@ def modif_etats(liste_automate, automate_selected): # choisir si l'on veut édit
 
 
 def editer_etats(liste_automate, automate_selected): # ajouter ou supprimer des transitions et états
+	while(liste_automate[automate_selected]["Nom"] == ""):
+		liste_automate[automate_selected]["Nom"] = input("Veuillez donner un nom à l'automate : ")
 	test = 1
 	while test:
 		print("\n\n\n\n\n\n\n\n\n\n\n")
@@ -220,17 +160,25 @@ def editer_etats(liste_automate, automate_selected): # ajouter ou supprimer des 
 					liste_automate[automate_selected]["Etats_finaux"] = []
 					return saisir_automate(liste_automate, automate_selected)
 				if(set(liste_automate[automate_selected]["Etats_initiaux"]) <= set(liste)): # si tous les états initiaux vont être effacés, en demandé un nouveau
-					print("\n\n\n\n\n Vous avez supprimé tous les états initiaux, veuillez en entrez un nouveau")
+					print("\n\n\n\n\n Il n'y a aucun état initial, veuillez en entrez un ")
 					liste_automate[automate_selected]["Etats_initiaux"] = []
 					liste_automate, automate_selected = changer_etats_ini_fin(liste_automate, automate_selected, 0)
 				if(set(liste_automate[automate_selected]["Etats_finaux"]) <= set(liste)): # pareil pour les état finaux
-					print("\n\n\n\n\n Vous avez supprimé tous les états finaux, veuillez en entrez un nouveau")
+					print("\n\n\n\n\n Il n'y a aucun état final, veuillez en entrez un nouveau")
 					liste_automate[automate_selected]["Etats_finaux"] = []
 					liste_automate, automate_selected = changer_etats_ini_fin(liste_automate, automate_selected, 1)
 
 
 		elif(transition_input == ['']): # si la chaîne saisie est vide
-			test = 0
+			if(len(liste_automate[automate_selected]["Etats"].keys()) >= 2):
+				if(len(liste_automate[automate_selected]["Etats_initiaux"]) < 1):
+					liste_automate, automate_selected = changer_etats_ini_fin(liste_automate, automate_selected, 0)
+				if(len(liste_automate[automate_selected]["Etats_finaux"]) < 1):
+					liste_automate, automate_selected = changer_etats_ini_fin(liste_automate, automate_selected, 1)
+				test = 0
+			else:
+				print("Veuillez entrer au moins une transition entre deux états")
+
 		else: # la saisie est incorrecte
 			print("votre entrée n'est pas correcte")
 	return liste_automate, automate_selected
@@ -340,12 +288,6 @@ def renommer_etats(liste_automate, automate_selected): # renommer toutes les occ
 		print("Erreur : l'état", ancien, "n'existe pas dans l'AEF")
 
 	return liste_automate, automate_selected
-
-
-# refaire la fonction saisir_automate() en utilisant les autres fonctions
-
-
-# modélisation graphique
 
 
 
