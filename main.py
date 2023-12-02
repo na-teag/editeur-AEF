@@ -1,9 +1,12 @@
 import json
 import re # regex to test files names
 
+
+
 from fonctions import *
 from verifcomplet import *
 from verifdeter import *
+from image import *
 
 
 #automate ={
@@ -25,13 +28,14 @@ def afficher_menu():
 	print("\n\n\n\n\n\n\n\n")
 	print("1 : séléctionner un AEF")
 	print("2 : visualiser l'AEF séléctionné")
-	print("3 : éditer l'AEF")
-	print("4 : sauvegarder l'AEF")
-	print("5 : faire des tests sur l'AEF")
-	print("6 : modifier l'AEF selon une propriété")
-	print("7 : générer un AEF à partir de celui-ci")
-	print("8 : supprimer l'AEF")
-	print("9 : quitter le programme")
+	print("3 : générer une image de l'AEF")
+	print("4 : éditer l'AEF")
+	print("5 : sauvegarder l'AEF")
+	print("6 : faire des tests sur l'AEF")
+	print("7 : modifier l'AEF selon une propriété")
+	print("8 : générer un AEF à partir de celui-ci")
+	print("9 : supprimer l'AEF")
+	print("10 : quitter le programme")
 	print("\n\n\n")
 
 def afficher_menu_test():
@@ -147,18 +151,20 @@ while test2:
 	elif(choice == "2"):
 		afficher_AEF(liste_automate, automate_selected)
 	elif(choice == "3"):
-		liste_automate, automate_selected = editAEF(liste_automate, automate_selected)
+		image(liste_automate, automate_selected)
 	elif(choice == "4"):
-		sauvegarder_AEF(liste_automate, automate_selected)
+		liste_automate, automate_selected = editAEF(liste_automate, automate_selected)
 	elif(choice == "5"):
-		menu_test()
+		sauvegarder_AEF(liste_automate, automate_selected)
 	elif(choice == "6"):
-		menu_modif()
+		menu_test()
 	elif(choice == "7"):
-		menu_generer()
+		menu_modif()
 	elif(choice == "8"):
-		liste_automate, automate_selected = demande_suppr(liste_automate, automate_selected)
+		menu_generer()
 	elif(choice == "9"):
+		liste_automate, automate_selected = demande_suppr(liste_automate, automate_selected)
+	elif(choice == "10"):
 		test2 = 0
 	else:
 		print("Veuillez entrer l'une des options proposées\n")
