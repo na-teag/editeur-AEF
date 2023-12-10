@@ -6,6 +6,7 @@ import re # regex to test files names
 from fonctions import *
 from verifcomplet import *
 from verifdeter import *
+from rendrecomplet import *
 from image import *
 
 
@@ -119,7 +120,7 @@ def menu_modif():
 		choice = input("Choisissez une action : ")
 		choice = choice.strip()
 		if(choice == "1"):
-			print("non disponible") ###### A FAIRE ######
+			rendrecomplet(liste_automate[automate_selected]) # calls the function rendrecomplet
 		elif(choice == "2"):
 			print("non disponible") ###### A FAIRE ######
 		elif(choice == "3"):

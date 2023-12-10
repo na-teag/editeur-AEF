@@ -19,6 +19,6 @@ def rendrecomplet(automate):
         for etat, transitions in etats.items(): # loops for each etat
             for symbole in Alphabet: # loops for each variable
                 if symbole not in transitions:
-                    # add.symbole
+                    automate["Etats"][etat][symbole] = [etat] # Add the missing transition
         print("L'automate est maintenant complet.")
         return True
