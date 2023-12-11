@@ -9,7 +9,7 @@ def image(liste_automate, automate_selected):
 		if shutil.which('dot') is None:
 			dossier = r'C:\Program Files\Graphviz\bin'
 			resultat2 = subprocess.run(f'dir "{dossier}"', shell=True, capture_output=True, text=True)
-			if(platform.system() == 'Linux' or (platform.system() == 'Windows' and 'File Not Found' in resultat2.stdout)):
+			if(platform.system() == 'Linux' or (platform.system() == 'Windows' and resultat2.stderr != "")):
 				choix = input("\n\nVeuillez installer le logiciel graphviz, voulez vous essayer de lancer l'installation ?\n1 : oui\n2 : non\n\n")
 				if(choix == "1"):
 					print("\n\n\nInstalation du logiciel graphviz en cours...")
