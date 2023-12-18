@@ -1,19 +1,15 @@
-import json
-import re # regex to test files names
-
-
-
-from fonctions import *
+import fonctions
 from verifcomplet import *
 from verifdeter import *
 from rendrecomplet import *
-from image import *
+import image
+import testermot
 
 
 #automate ={
 #    "Etats": {
-#        "Etat0": {"Transition1": "Etat1", "Transition2": "Etat0"},
-#        "Etat1": {"Transition3": "Etat0", "Transition4": "Etat1"}
+#        "Etat0": {"Transition1": ["Etat1"], "Transition2": ["Etat0"]},
+#        "Etat1": {"Transition3": ["Etat0"], "Transition4": ["Etat1"]}
 #    },
 #    "Etats_initiaux": ["Etat0"],
 #    "Etats_finaux": ["Etat1"]
@@ -76,7 +72,7 @@ def menu_test():
 		choice = input("Choisissez une action : ")
 		choice = choice.strip()
 		if(choice == "1"):
-			print("non disponible") ###### A FAIRE ######
+			testermot.tester(liste_automate[automate_selected])
 		elif(choice == "2"):
 			est_complet(liste_automate[automate_selected]) # calls the function est_complet
 		elif(choice == "3"):
@@ -138,7 +134,7 @@ print("\n\n")
 
 liste_automate = []
 automate_selected=-1
-liste_automate, automate_selected = select(liste_automate, automate_selected) # select a DFA
+liste_automate, automate_selected = fonctions.select(liste_automate, automate_selected) # select a DFA
 
 
 
@@ -148,15 +144,15 @@ while test2:
 	choice = input("Choisissez une action : ")
 	choice = choice.strip()
 	if(choice == "1"):
-		liste_automate, automate_selected = select(liste_automate, automate_selected)
+		liste_automate, automate_selected = fonctions.select(liste_automate, automate_selected)
 	elif(choice == "2"):
-		afficher_AEF(liste_automate, automate_selected)
+		fonctions.afficher_AEF(liste_automate[automate_selected])
 	elif(choice == "3"):
-		image(liste_automate, automate_selected)
+		image.image(liste_automate, automate_selected)
 	elif(choice == "4"):
-		liste_automate, automate_selected = editAEF(liste_automate, automate_selected)
+		liste_automate, automate_selected = fonctions.editAEF(liste_automate, automate_selected)
 	elif(choice == "5"):
-		sauvegarder_AEF(liste_automate, automate_selected)
+		fonctions.sauvegarder_AEF(liste_automate, automate_selected)
 	elif(choice == "6"):
 		menu_test()
 	elif(choice == "7"):
@@ -164,7 +160,7 @@ while test2:
 	elif(choice == "8"):
 		menu_generer()
 	elif(choice == "9"):
-		liste_automate, automate_selected = demande_suppr(liste_automate, automate_selected)
+		liste_automate, automate_selected = fonctions.demande_suppr(liste_automate, automate_selected)
 	elif(choice == "10"):
 		test2 = 0
 	else:

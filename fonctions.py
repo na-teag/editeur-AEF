@@ -1,6 +1,4 @@
-import json
-import re # regex to test files names
-
+from fonctions2 import *
 
 #automate ={
 #    "Etats": {
@@ -11,13 +9,26 @@ import re # regex to test files names
 #    "Etats_finaux": ["Etat1"]
 #}
 
-def creer_automate_vide():
-	return {
-		"Etats": {},
-		"Etats_initiaux": [],
-		"Etats_finaux": [],
-		"Nom": ""
-	}
+
+    
+def openjson(liste_automate, automate_selected): # liste_automate needed, do not remove it
+	nom_fichier = input("\nentrez le nom du fichier .json : ")
+	print(nom_fichier)
+	if(nom_fichier != ""):
+		nom_fichier = nom_fichier + ".json"
+		try:
+			with open(nom_fichier, 'r') as file:
+				automate = json.load(file)
+				automate_selected = len(liste_automate)
+				liste_automate.append(automate)
+				print(f"AEF chargé à partir de {nom_fichier}")
+		except FileNotFoundError:
+			print(f"Le fichier {nom_fichier} n'existe pas. Veuillez vérifier le nom du fichier.")
+			liste_automate, automate_selected = openjson(liste_automate, automate_selected) 
+		return liste_automate, automate_selected
+	else:
+		return select(liste_automate, automate_selected) # if the name is empty, back to the last menu
+
 
 
 def select(liste_automate, automate_selected): # create, import or select an existing DFA
@@ -59,27 +70,6 @@ def select(liste_automate, automate_selected): # create, import or select an exi
 
 
 
-def openjson(liste_automate, automate_selected):
-	nom_fichier = input("\nentrez le nom du fichier .json : ")
-	print(nom_fichier)
-	if(nom_fichier != ""):
-		nom_fichier = nom_fichier + ".json"
-		try:
-			with open(nom_fichier, 'r') as file:
-				automate = json.load(file)
-				automate_selected = len(liste_automate)
-				liste_automate.append(automate)
-				print(f"AEF chargé à partir de {nom_fichier}")
-		except FileNotFoundError:
-			print(f"Le fichier {nom_fichier} n'existe pas. Veuillez vérifier le nom du fichier.")
-			liste_automate, automate_selected = openjson(liste_automate, automate_selected) 
-		return liste_automate, automate_selected
-	else:
-		return select(liste_automate, automate_selected) # if the name is empty, back to the last menu
-
-	
-
-
 def editAEF(liste_automate, automate_selected): # choose the modification
 	choix = 0
 	while(choix != "5"):
@@ -102,7 +92,7 @@ def modif_etats(liste_automate, automate_selected): # choose to either edit, ren
 	choix = 0
 	while(choix != "4"):
 		print("\n\n\n\n\n\n\n\n\n\n\n")
-		afficher_AEF(liste_automate, automate_selected)
+		afficher_AEF(liste_automate[automate_selected])
 		choix = input("\n\n\nQue voulez vous faire ?\n1 : Ajouter ou supprimer des transitions\n2 : Renommer un état\n3 : Supprimer un état\n4 : Retour\n\n\n").strip()
 		if(choix == "1"):
 			liste_automate, automate_selected = editer_etats(liste_automate, automate_selected)
@@ -121,11 +111,12 @@ def editer_etats(liste_automate, automate_selected): # add or delete transition 
 	test = 1
 	while test:
 		print("\n\n\n\n\n\n\n\n\n\n\n")
-		afficher_AEF(liste_automate, automate_selected)
-		print("\nEntrez les états et transitions sous la forme : état, transition, état_suivant.\nUne transition déjà existante sera supprimée, ou ajoutée si elle n'exise pas")
-		transition_input = input("Entrez la nouvelle partie de votre AEF ou appuyez sur Entrer pour terminer : ").split(',')
+		afficher_AEF(liste_automate[automate_selected])
+		print("\nEntrez les états et transitions sous la forme : état, transition, état_suivant.\nUne transition déjà existante sera supprimée, ou ajoutée si elle n'existe pas")
+		print("\nCaractères interdits : espace virgule epsilon union étoile plus guillemets")
+		transition_input = input("Entrez la nouvelle partie de votre AEF ou appuyez sur Entrer pour terminer : ").split(',') # nom d'état : pas d'espace, de virgule, de plus ou d'étoile, d'union, d'epsilon
 		# print(transition_input)
-		if(len(transition_input) == 3 and transition_input[0].strip() != "" and transition_input[1].strip() != "" and transition_input[2].strip() != "" ):
+		if(len(transition_input) == 3 and transition_input[0].strip() != "" and transition_input[1].strip() != "" and transition_input[2].strip() != "" and "+" not in transition_input[1].strip() and "*" not in transition_input[1].strip() and "ɛ" not in transition_input[1].strip() and "∪" not in transition_input[1].strip() and " " not in transition_input[1].strip() and " " not in transition_input[0].strip() and " " not in transition_input[2].strip() and "'" not in transition_input[1].strip() and "'" not in transition_input[0].strip() and "'" not in transition_input[2].strip() and '"' not in transition_input[1].strip() and '"' not in transition_input[0].strip() and '"' not in transition_input[2].strip()):
 			etat = transition_input[0].strip() # delete space
 			transition = transition_input[1].strip()
 			etat_suivant = transition_input[2].strip()
@@ -192,9 +183,12 @@ def test_transition_entrante(liste_automate, automate_selected, etat2): # testin
 	return 0
 
 
+
+
+
 def suppr_etat(liste_automate, automate_selected): # delete all apparition of a state
 	print("\n\n\n\n\n\n\n\n")
-	afficher_AEF(liste_automate, automate_selected)
+	afficher_AEF(liste_automate[automate_selected])
 	print("\n\n\n\n")
 	choix = input("Entrez l'état à supprimer ou appuyez sur entrer pour revenir en arrière : ").strip()
 	if(choix in liste_automate[automate_selected]["Etats"]):
@@ -250,9 +244,11 @@ def suppr_etat(liste_automate, automate_selected): # delete all apparition of a 
 
 
 
+
+
 def renommer_etats(liste_automate, automate_selected): # rename all apparitions of a state (can be used to fuse two states)
 	print("\n\n\n\n\n\n\n\n")
-	afficher_AEF(liste_automate, automate_selected)
+	afficher_AEF(liste_automate[automate_selected])
 	print("\n\n\n\n")
 	choix = input("Entrez l'état à renommer ou appuyez sur entrer pour revenir en arrière : ").strip()
 	if(choix in liste_automate[automate_selected]["Etats"]):
@@ -311,6 +307,9 @@ def renommer_etats(liste_automate, automate_selected): # rename all apparitions 
 
 
 
+
+
+
 def changer_etats_ini_fin(liste_automate, automate_selected, nbr): # add or delete initials or finals states
 	test = 1
 	if(nbr == 0):
@@ -324,7 +323,7 @@ def changer_etats_ini_fin(liste_automate, automate_selected, nbr): # add or dele
 		exit(1)
 	while test:
 		print("\n\n\n\n\n\n\n\n\n\n\n")
-		afficher_AEF(liste_automate, automate_selected)
+		afficher_AEF(liste_automate[automate_selected])
 		print("\n\n\nEntrez un état", nom, "déjà présent pour l'effacer, appuyez sur entrer pour sortir")
 		choix = input(f"Entrez l'état {nom} que vous voulez ajouter : ").strip()
 		if choix in liste_automate[automate_selected][etat]:
@@ -349,23 +348,15 @@ def changer_etats_ini_fin(liste_automate, automate_selected, nbr): # add or dele
 
 
 
-def alphabet(liste_automate, automate_selected): # calculate the alphabet
-	transitions_liste = []
-	for transitions in liste_automate[automate_selected]["Etats"].values():
-		transitions_liste.extend(transitions.keys())
-	alphabet = list(set(transitions_liste))  # deleting doubles
-	return alphabet
-
-
-
 def demande_suppr(liste_automate, automate_selected): # ask confirmation before deleting the DFA
 	print("\n\n\n")
-	afficher_AEF(liste_automate, automate_selected)
+	afficher_AEF(liste_automate[automate_selected])
 	choix = input("\n\n\nEtes-vous sûr de vouloir supprimer cet AEF ?\n1 : oui\n2 : non\n\n").strip()
 	if(choix == "1"):
 		return suppr(liste_automate, automate_selected)
 	else:
 		return liste_automate, automate_selected
+
 
 def suppr(liste_automate, automate_selected): # delete the DFA
 	liste_automate.pop(automate_selected)
@@ -374,41 +365,5 @@ def suppr(liste_automate, automate_selected): # delete the DFA
 
 
 
-def sauvegarder_AEF(liste_automate, automate_selected):
-	test=1
-	while test:
-			nom_fichier = input("entrez le nom du fichier : ")
-			if(nom_fichier != ""):
-				if(test_nom_fichier(nom_fichier)):
-					nom_fichier = nom_fichier + ".json"
-					with open(nom_fichier, 'w') as file:
-						json.dump(liste_automate[automate_selected], file, indent=4)
-					test=0
-					print(f"AEF sauvegardé dans {nom_fichier}")
-				else:
-					print("un fichier ne peut pas contenir de caractères spéciaux\n")
-			else:
-				print("fichier non sauvegardé")
 
 
-
-def test_nom_fichier(nom): # check the file name
-	motif = r"^[a-zA-Z0-9_\-\.]+$"
-	if(re.match(motif, nom)):
-		return True # nom conforme
-	else:
-		return False # non conforme
-
-
-
-def afficher_AEF(liste_automate, automate_selected):
-	print("Nom :", liste_automate[automate_selected]["Nom"])
-	print("Alphabet:", alphabet(liste_automate, automate_selected))
-	print("États: {")
-	for etat, transitions in liste_automate[automate_selected]["Etats"].items():
-		print(f"\t{etat}")
-		for transition, etat_suivant in transitions.items():
-			print(f"\t   {transition} , {etat_suivant}")
-	print("\t}")
-	print("États initiaux:", liste_automate[automate_selected]["Etats_initiaux"])
-	print("États finaux:", liste_automate[automate_selected]["Etats_finaux"])
