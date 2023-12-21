@@ -1,14 +1,15 @@
 from fonctions2 import *
 
-#automate ={
-#    "Etats": {
-#        "Etat0": {"Transition1": ["Etat1"], "Transition2": ["Etat0"]},
-#        "Etat1": {"Transition3": ["Etat0"], "Transition4": ["Etat1"]}
-#    },
-#    "Etats_initiaux": ["Etat0"],
-#    "Etats_finaux": ["Etat1"]
-#}
-
+'''
+automate ={
+    "Etats": {
+        "Etat0": {"Transition1": ["Etat1"], "Transition2": ["Etat0"]},
+        "Etat1": {"Transition3": ["Etat0"], "Transition4": ["Etat1"]}
+    },
+    "Etats_initiaux": ["Etat0"],
+    "Etats_finaux": ["Etat1"]
+}
+'''
 
     
 def openjson(liste_automate, automate_selected): # liste_automate needed, do not remove it
