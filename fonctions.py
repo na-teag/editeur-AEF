@@ -56,7 +56,7 @@ def select(liste_automate, automate_selected): # create, import or select an exi
 			liste_automate, automate_selected = openjson(liste_automate, automate_selected) # open the file, and add the content to the list
 			test=0
 		elif(choix == 2):
-			automate_selected = len(liste_automate) # the index of the DFA is the lenght of the list before it's added to it : empty list -> first DFA atindex 0
+			automate_selected = len(liste_automate) # the index of the DFA is the lenght of the list before it's added to it : empty list -> first DFA at index 0
 			liste_automate.append(creer_automate_vide())
 			liste_automate, automate_selected = editer_etats(liste_automate, automate_selected)
 			test=0
@@ -123,7 +123,7 @@ def editer_etats(liste_automate, automate_selected): # add or delete transition 
 			etat_suivant = transition_input[2].strip()
 			if(etat_suivant not in liste_automate[automate_selected]["Etats"]):# Add state if not already existing
 				liste_automate[automate_selected]["Etats"][etat_suivant] = {}
-			if(etat not in liste_automate[automate_selected]["Etats"]): # if not existing, it' added with the transition     ######## PROBLEME ####### si on déclare q0,a,q1 et q2,b,q3 on a 2 AEF différent, et le code ne le détecte pas  ######## PROBLEME #######
+			if(etat not in liste_automate[automate_selected]["Etats"]): # if not existing, it' added with the transition    
 				liste_automate[automate_selected]["Etats"][etat] = {}
 				liste_automate[automate_selected]["Etats"][etat][transition] = []
 				liste_automate[automate_selected]["Etats"][etat][transition].append(etat_suivant)
@@ -218,7 +218,7 @@ def suppr_etat(liste_automate, automate_selected): # delete all apparition of a 
 					if(test_transition_entrante(liste_automate, automate_selected, etat) == 0):
 						liste.append(etat)
 			if(len(liste) != 0):
-				print(liste)
+				#print(liste)
 				for etat in liste:
 					del liste_automate[automate_selected]["Etats"][etat] 
 					if(etat in liste_automate[automate_selected]["Etats_initiaux"]): # if the deleted states are in the initals or finals states, they are deleted too
@@ -229,10 +229,10 @@ def suppr_etat(liste_automate, automate_selected): # delete all apparition of a 
 			if(len(liste_automate[automate_selected]["Etats"]) <= 1): # if all the states have been removed, enter a new DFA
 				print("\n\n\n\n\n\n\n\n\n\n\n\n\n\nVous ne pouvez pas manipuler un AEF vide, veuillez en entrer un nouveau :")
 				return editer_etats(liste_automate, automate_selected)
-			if(len(liste_automate[automate_selected]["Etats_initiaux"]) == 0):
+			if(len(liste_automate[automate_selected]["Etats_initiaux"]) == 0): # if there is 0 initial state, ask another one
 				print("\n\n\n\n\n\n\n\n\n\n\nVous avez supprimé le seul état initial, veuillez en entrer un nouveau")
 				liste_automate, automate_selected = changer_etats_ini_fin(liste_automate, automate_selected, 0)
-			if(len(liste_automate[automate_selected]["Etats_finaux"]) == 0):
+			if(len(liste_automate[automate_selected]["Etats_finaux"]) == 0): # if there is 0 final state, ask another one
 				print("\n\n\n\n\n\n\n\n\n\n\nVous avez supprimé le seul état final, veuillez en entrer un nouveau")
 				liste_automate, automate_selected = changer_etats_ini_fin(liste_automate, automate_selected, 1)
 		else:
@@ -294,10 +294,12 @@ def renommer_etats(liste_automate, automate_selected): # rename all apparitions 
 
 		if(ancien in liste_automate[automate_selected]["Etats_initiaux"]): # if the former state is in the list of initials or finales states, rename them too
 			liste_automate[automate_selected]["Etats_initiaux"].remove(ancien)
-			liste_automate[automate_selected]["Etats_initiaux"].append(nouveau)
+			if(nouveau not in liste_automate[automate_selected]["Etats_initiaux"]):
+				liste_automate[automate_selected]["Etats_initiaux"].append(nouveau)
 		if(ancien in liste_automate[automate_selected]["Etats_finaux"]):
 			liste_automate[automate_selected]["Etats_finaux"].remove(ancien)
-			liste_automate[automate_selected]["Etats_finaux"].append(nouveau)
+			if(nouveau not in liste_automate[automate_selected]["Etats_finaux"]):
+				liste_automate[automate_selected]["Etats_finaux"].append(nouveau)
 
 	elif(choix == ""):
 		return liste_automate, automate_selected
@@ -333,7 +335,16 @@ def changer_etats_ini_fin(liste_automate, automate_selected, nbr): # add or dele
 			if(nbr == 0 and len(liste_automate[automate_selected]["Etats_initiaux"]) >= 1):
 				print("Vous ne pouvez rentrer qu'un état initial")
 			else:
-				liste_automate[automate_selected][etat].append(choix)
+				if(nbr == 0):
+					if(len(liste_automate[automate_selected]["Etats"][choix].keys()) != 0): # check if initial state lead to another state
+						liste_automate[automate_selected][etat].append(choix)
+					else:
+						print("Erreur, l'état", choix, "ne peux pas être défini comme état initial car il ne contient aucune transition")
+				else:
+					if(test_transition_entrante(liste_automate, automate_selected, choix) != 0):
+						liste_automate[automate_selected][etat].append(choix)
+					else:
+						print("Erreur, l'état", choix, "ne peux pas être défini comme état final car aucune transition n'y conduit")
 		elif(choix == ""):
 			if(0<len(liste_automate[automate_selected][etat])):
 				test = 0
