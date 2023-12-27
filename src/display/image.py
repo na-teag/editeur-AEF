@@ -1,4 +1,4 @@
-def image(liste_automate, automate_selected):
+def image(list_automate, automate_selected):
 
 	message_erreur = "Veuillez installer la bibliothèque graphviz" # check all the conditions for using graphviz, and help to install it
 	try:
@@ -30,7 +30,7 @@ def image(liste_automate, automate_selected):
 						print(result.stdout)
 
 					print("\n\nInstallation de graphviz réussie")
-					return image(liste_automate, automate_selected)
+					return image(list_automate, automate_selected)
 			elif(platform.system() == 'Windows' and "File Not Found" not in resultat2.stdout): # if the OS is Windows, the program must be added to the PATH with admin rights
 				print(f"\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nimpossible d'ajouter {dossier} au path, les droits d'administrateurs sont nécéssaires")
 				print(f'\n\npour ajouter le programme au path, ouvrer l\'invité de commande en tant qu\'administrateur et lancer la commande : setx /M PATH "%PATH%;{dossier}"')
@@ -58,7 +58,7 @@ def image(liste_automate, automate_selected):
 						return 1
 					else:
 						print(result.stdout)
-						return image(liste_automate, automate_selected)
+						return image(list_automate, automate_selected)
 				else:
 					print(message_erreur)
 					return 1
@@ -69,8 +69,8 @@ def image(liste_automate, automate_selected):
 			print(message_erreur)
 			return 1
 	
-	automate = liste_automate[automate_selected]
-	with open("image_automate.dot", 'w') as fichier: # write the .dot file
+	automate = list_automate[automate_selected]
+	with open("../file/image_automate.dot", 'w') as fichier: # write the .dot file
 		fichier.write('digraph {\n')
 		
 		
@@ -92,15 +92,15 @@ def image(liste_automate, automate_selected):
 		
 		fichier.write('}')
 
-	graph = graphviz.Source.from_file("image_automate.dot")
-	graph.render("image_automate", format='png', cleanup=True)
+	graph = graphviz.Source.from_file("../file/image_automate.dot")
+	graph.render("../file/image_automate", format='png', cleanup=True)
 
 	print("\n\nL'image à été générée")
 	
 	if(platform.system() == 'Windows'):
-		subprocess.run(["explorer", "image_automate.png"])
+		subprocess.run(["explorer", "../file/image_automate.png"])
 	elif(platform.system() == 'Linux'):
-		subprocess.run(["xdg-open", "image_automate.png"])
+		subprocess.run(["xdg-open", "../file/image_automate.png"])
 	else:
-		print("veuillez ouvrir l'image manuellement")
+		print("veuillez ouvrir l'image du dossier \"file\" manuellement")
 			

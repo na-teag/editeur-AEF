@@ -4,9 +4,10 @@ from unittest.mock import patch
 import unittest
 import copy
 
-import fonctions
-import fonctions2
-import testermot
+import src.data.file as file
+import src.data.structure as strct
+import src.editing.modif as md
+import src.editing.testermot as testermot
 
 ''' # exemple de test
 def fonction_exemple():
@@ -25,10 +26,10 @@ class Testfonction_exemple(unittest.TestCase):
 ##########################################################################  functions from fonctions2.py ##########################################################################
 
 
-class Test_creer_automate_vide(unittest.TestCase): # test of function creer_automate_vide
+class TestCreateAutomate(unittest.TestCase): # test of function CreateAutomate
 	@patch('builtins.input', side_effect=[])
-	def test_creer_automate_vide(self, mock_inputs):
-		result = fonctions2.creer_automate_vide()
+	def TestCreateAutomate(self, mock_inputs):
+		result = strct.createAutomate()
 		result2 = {
 			"Etats": {},
 			"Etats_initiaux": [],
@@ -41,43 +42,43 @@ class Test_creer_automate_vide(unittest.TestCase): # test of function creer_auto
 class Test_alphabet(unittest.TestCase): # test of function alphabet
 	@patch('builtins.input', side_effect=[])
 	def test_alphabet(self, mock_inputs):
-		result = fonctions2.alphabet(automate)
+		result = strct.alphabet(automate)
 		result2 = ['a','b','c','d']
 		self.assertEqual(result.sort(), result2.sort())
 
 
-##########################################################################  functions from fonctions.py ##########################################################################
+##########################################################################  functions from modif.py ##########################################################################
 
-class Test_editer_etats(unittest.TestCase):  # test of function editer_etats
+class testEditStates(unittest.TestCase):  # test of function editeStates
 	@patch('builtins.input', side_effect=['test', 'q0,a,q0', 'q0,a,q1', 'q1,c,q0', 'q1,c,q2', 'q1,d,q1', 'q2,a,q0', 'q2,b,q1', 'q3,b,q2', '', 'q0', '', 'q2', ''])
-	def test_editer_etats(self, mock_inputs):
+	def testEditStates(self, mock_inputs):
 		liste = []
 		indice = 0
-		liste.append(fonctions2.creer_automate_vide())
-		liste, indice = fonctions.editer_etats(liste, indice)
+		liste.append(strct.createAutomate())
+		liste, indice = md.editStates(liste, indice)
 		self.assertEqual(liste[indice], automate)
 
 
-class Test_test_transition_entrante(unittest.TestCase):  # test of function test_transition_entrante
+class testTestTransition(unittest.TestCase):  # test of function testTransition
 	@patch('builtins.input', side_effect=[])
-	def test_test_transition_entrante(self, mock_inputs):
+	def testTestTransition(self, mock_inputs):
 		liste = []
 		liste.append(copy.deepcopy(automate))
-		result = fonctions.test_transition_entrante(liste, 0, "q0")
+		result = md.testTransition(liste, 0, "q0")
 		self.assertEqual(result, 1)
-		result = fonctions.test_transition_entrante(liste, 0, "q3")
+		result = md.testTransition(liste, 0, "q3")
 		self.assertEqual(result, 0)
-		result = fonctions.test_transition_entrante(liste, 0, "q4")
+		result = md.testTransition(liste, 0, "q4")
 		self.assertEqual(result, 0)
 
 
-class Test_renommer_etats(unittest.TestCase):  # test of function renommer_etats
+class TestRenameStates(unittest.TestCase):  # test of function renameStates
 	@patch('builtins.input', side_effect=['q3', 'q0', '1'])
-	def test_renommer_etats(self, mock_inputs):
+	def TestRenameStates(self, mock_inputs):
 		liste = []
 		indice = 0
 		liste.append(copy.deepcopy(automate))
-		liste, indice = fonctions.renommer_etats(liste, indice)
+		liste, indice = md.renameStates(liste, indice)
 		automate2 = {
 			"Etats": {
 				"q0": {"a": ["q0","q1"], "b": ["q2"]},
@@ -91,13 +92,13 @@ class Test_renommer_etats(unittest.TestCase):  # test of function renommer_etats
 		self.assertEqual(liste[indice], automate2)
 
 
-class Test_changer_etats_ini_fin(unittest.TestCase):  # test of function changer_etats_ini_fin, with 3rd parameter = 0
+class testChangeStatesInitFinal(unittest.TestCase):  # test of function changeStatesInitFinal, with 3rd parameter = 0
 	@patch('builtins.input', side_effect=['q0', 'q3', ''])
-	def test_changer_etats_ini_fin(self, mock_inputs):
+	def testChangeStatesInitFinal(self, mock_inputs):
 		liste = []
 		indice = 0
 		liste.append(copy.deepcopy(automate))
-		liste, indice = fonctions.changer_etats_ini_fin(liste, indice, 0)
+		liste, indice = md.changeStatesInitFinal(liste, indice, 0)
 		automate2 = {
 			"Etats": {
 				"q0": {"a": ["q0","q1"]},
@@ -112,13 +113,13 @@ class Test_changer_etats_ini_fin(unittest.TestCase):  # test of function changer
 		self.assertEqual(liste[indice], automate2)
 
 
-class Test_changer_etats_ini_fin2(unittest.TestCase):  # test of function changer_etats_ini_fin, with 3rd parameter = 1
+class testChangeStatesInitFinal2(unittest.TestCase):  # test of function changeStatesInitFinal, with 3rd parameter = 1
 	@patch('builtins.input', side_effect=['q3', 'q1', 'q2', ''])
-	def test_changer_etats_ini_fin2(self, mock_inputs):
+	def testChangeStatesInitFinal2(self, mock_inputs):
 		liste = []
 		indice = 0
 		liste.append(copy.deepcopy(automate))
-		liste, indice = fonctions.changer_etats_ini_fin(liste, indice, 1)
+		liste, indice = md.changeStatesInitFinal(liste, indice, 1)
 		automate2 = {
 			"Etats": {
 				"q0": {"a": ["q0","q1"]},
@@ -133,13 +134,13 @@ class Test_changer_etats_ini_fin2(unittest.TestCase):  # test of function change
 		self.assertEqual(liste[indice], automate2)
 
 
-class Test_suppr_etat(unittest.TestCase):  # test of function suppr_etat
+class testDeleteStates(unittest.TestCase):  # test of function deleteStates
 	@patch('builtins.input', side_effect=['q2', '1', 'q1', ''])
-	def test_suppr_etat(self, mock_inputs):
+	def testDeleteStates(self, mock_inputs):
 		liste = []
 		indice = 0
 		liste.append(copy.deepcopy(automate))
-		liste, indice = fonctions.suppr_etat(liste, indice)
+		liste, indice = md.deleteStates(liste, indice)
 		automate2 = {
 			"Etats": {
 				"q0": {"a": ["q0","q1"]},
@@ -152,13 +153,13 @@ class Test_suppr_etat(unittest.TestCase):  # test of function suppr_etat
 		self.assertEqual(liste[indice], automate2)
 
 
-class Test_demande_suppr(unittest.TestCase):  # test of function demande_suppr, and thus function suppr, and thus function select
+class testDemandDelete(unittest.TestCase):  # test of function demandDelete, and thus function deleteAutomate, and thus function select
 	@patch('builtins.input', side_effect=['1', '2', 'test', 'q0,a,q1', '', 'q0', '', 'q1', ''])
-	def test_demande_suppr(self, mock_inputs):
+	def testDemandDelete(self, mock_inputs):
 		liste = []
 		indice = 0
 		liste.append(copy.deepcopy(automate))
-		liste, indice = fonctions.demande_suppr(liste, indice)
+		liste, indice = md.demandDelete(liste, indice)
 		automate2 = {
 			"Etats": {
 				"q0": {"a": ["q1"]},

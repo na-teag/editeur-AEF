@@ -1,9 +1,12 @@
-import fonctions
-from verifcomplet import *
-from verifdeter import *
-from rendrecomplet import *
-import image
-import testermot
+
+import src.editing.modif as md
+import src.editing.complet as comp
+import src.editing.deter as det
+import src.editing.testermot as testermot
+import src.display.image as im
+import src.display.display as dis
+import src.data.structure as strct
+import src.data.file as dfile
 
 
 #automate ={
@@ -51,7 +54,7 @@ def afficher_menu_modif():
 	print("1 : rendre l'AEF complet")
 	print("2 : rendre l'AEF déterministe")
 	print("3 : rendre l'AEF émondé")
-	print("4  :rendre l'AEF minimal")
+	print("4 : rendre l'AEF minimal")
 	print("5 : retour")
 	print("\n\n\n")
 
@@ -72,11 +75,11 @@ def menu_test():
 		choice = input("Choisissez une action : ")
 		choice = choice.strip()
 		if(choice == "1"):
-			testermot.tester(liste_automate[automate_selected])
+			testermot.tester(list_automate[automate_selected]) # calls the function tester
 		elif(choice == "2"):
-			est_complet(liste_automate[automate_selected]) # calls the function est_complet
+			comp.est_complet(list_automate[automate_selected]) # calls the function est_complet
 		elif(choice == "3"):
-			est_deterministe(liste_automate[automate_selected]) # calls the function est_deterministe
+			det.est_deterministe(list_automate[automate_selected]) # calls the function est_deterministe
 		elif(choice == "4"):
 			print("non disponible") ###### A FAIRE ######
 		elif(choice == "5"):
@@ -116,7 +119,7 @@ def menu_modif():
 		choice = input("Choisissez une action : ")
 		choice = choice.strip()
 		if(choice == "1"):
-			rendrecomplet(liste_automate[automate_selected]) # calls the function rendrecomplet
+			comp.rendrecomplet(list_automate[automate_selected]) # calls the function rendrecomplet
 		elif(choice == "2"):
 			print("non disponible") ###### A FAIRE ######
 		elif(choice == "3"):
@@ -132,9 +135,9 @@ def menu_modif():
 
 print("\n\n") 
 
-liste_automate = []
+list_automate = []
 automate_selected=-1
-liste_automate, automate_selected = fonctions.select(liste_automate, automate_selected) # select a DFA
+list_automate, automate_selected = dfile.loadAutomate(list_automate, automate_selected) # select a DFA
 
 
 
@@ -144,15 +147,15 @@ while test2:
 	choice = input("Choisissez une action : ")
 	choice = choice.strip()
 	if(choice == "1"):
-		liste_automate, automate_selected = fonctions.select(liste_automate, automate_selected)
+		list_automate, automate_selected = dfile.loadAutomate(list_automate, automate_selected)
 	elif(choice == "2"):
-		fonctions.afficher_AEF(liste_automate[automate_selected])
+		dis.displayAEF(list_automate[automate_selected])
 	elif(choice == "3"):
-		image.image(liste_automate, automate_selected)
+		im.image(list_automate, automate_selected)
 	elif(choice == "4"):
-		liste_automate, automate_selected = fonctions.editAEF(liste_automate, automate_selected)
+		list_automate, automate_selected = dis.editAEF(list_automate, automate_selected)
 	elif(choice == "5"):
-		fonctions.sauvegarder_AEF(liste_automate, automate_selected)
+		dfile.saveAEF(list_automate[automate_selected])
 	elif(choice == "6"):
 		menu_test()
 	elif(choice == "7"):
@@ -160,7 +163,7 @@ while test2:
 	elif(choice == "8"):
 		menu_generer()
 	elif(choice == "9"):
-		liste_automate, automate_selected = fonctions.demande_suppr(liste_automate, automate_selected)
+		list_automate, automate_selected = md.demandDelete(list_automate, automate_selected)
 	elif(choice == "10"):
 		test2 = 0
 	else:

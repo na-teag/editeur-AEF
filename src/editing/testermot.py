@@ -1,4 +1,4 @@
-from fonctions2 import alphabet
+from data.structure import alphabet
 
 '''
 automate ={
