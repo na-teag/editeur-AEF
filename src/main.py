@@ -1,12 +1,12 @@
 
-import src.editing.modif as md
-import src.editing.complet as comp
-import src.editing.deter as det
-import src.editing.testermot as testermot
-import src.display.image as im
-import src.display.display as dis
-import src.data.structure as strct
-import src.data.file as dfile
+import editing.modif as md
+import editing.complet as comp
+import editing.deter as det
+import editing.testermot as testermot
+import display.image as im
+import display.display as dis
+import data.structure as strct
+import data.file as dfile
 
 
 #automate ={
@@ -133,41 +133,48 @@ def menu_modif():
 
 
 
-print("\n\n") 
+print("\n\n")
 
-list_automate = []
-automate_selected=-1
-list_automate, automate_selected = dfile.loadAutomate(list_automate, automate_selected) # select a DFA
+def main(): # in a function so it can be called by tests.py
 
-
-
-test2=1
-while test2:
-	afficher_menu()
-	choice = input("Choisissez une action : ")
-	choice = choice.strip()
-	if(choice == "1"):
-		list_automate, automate_selected = dfile.loadAutomate(list_automate, automate_selected)
-	elif(choice == "2"):
-		dis.displayAEF(list_automate[automate_selected])
-	elif(choice == "3"):
-		im.image(list_automate, automate_selected)
-	elif(choice == "4"):
-		list_automate, automate_selected = dis.editAEF(list_automate, automate_selected)
-	elif(choice == "5"):
-		dfile.saveAEF(list_automate[automate_selected])
-	elif(choice == "6"):
-		menu_test()
-	elif(choice == "7"):
-		menu_modif()
-	elif(choice == "8"):
-		menu_generer()
-	elif(choice == "9"):
-		list_automate, automate_selected = md.demandDelete(list_automate, automate_selected)
-	elif(choice == "10"):
-		test2 = 0
-	else:
-		print("Veuillez entrer l'une des options proposées\n")
+	global list_automate
+	list_automate = []
+	global automate_selected
+	automate_selected = -1
+	list_automate, automate_selected = dfile.loadAutomate(list_automate, automate_selected) # select a DFA
 
 
 
+	test2=1
+	while test2:
+		afficher_menu()
+		choice = input("Choisissez une action : ")
+		choice = choice.strip()
+		if(choice == "1"):
+			list_automate, automate_selected = dfile.loadAutomate(list_automate, automate_selected)
+		elif(choice == "2"):
+			dis.displayAEF(list_automate[automate_selected])
+		elif(choice == "3"):
+			im.image(list_automate, automate_selected)
+		elif(choice == "4"):
+			list_automate, automate_selected = dis.editAEF(list_automate, automate_selected)
+		elif(choice == "5"):
+			dfile.saveAEF(list_automate[automate_selected])
+		elif(choice == "6"):
+			menu_test()
+		elif(choice == "7"):
+			menu_modif()
+		elif(choice == "8"):
+			menu_generer()
+		elif(choice == "9"):
+			list_automate, automate_selected = md.demandDelete(list_automate, automate_selected)
+		elif(choice == "10"):
+			test2 = 0
+			return 0
+		else:
+			print("Veuillez entrer l'une des options proposées\n")
+
+
+
+if __name__ == '__main__':
+	main()

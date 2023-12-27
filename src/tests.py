@@ -1,13 +1,17 @@
 
 
 from unittest.mock import patch
+from time import sleep
 import unittest
 import copy
+import platform
+import subprocess
 
-import src.data.file as file
-import src.data.structure as strct
-import src.editing.modif as md
-import src.editing.testermot as testermot
+import data.file as file
+import data.structure as strct
+import editing.modif as md
+import editing.testermot as testermot
+import main
 
 ''' # exemple de test
 def fonction_exemple():
@@ -198,6 +202,20 @@ class Test_tester4(unittest.TestCase):  # test of function tester, and thus func
 		result = testermot.tester(automate)
 		self.assertEqual(result, False)
 
+
+##################################################################  test of functions interractions  ##############################################################
+
+class Test_main(unittest.TestCase):																																																																																																		# ici, mettre les générations d'AEF complément, miroir, produit, et concaténation
+	@patch('builtins.input', side_effect=['2', 'test', 'q0,a,q1', 'q0,a,q0', 'q1,b,q2', 'q2,c,q1', '', 'q0', '', 'q2', '', '1', '3', '2', '3', '4', '1', 'test1', '2', '1', 'q2,c,q3', 'q3,a,q0', '', '2', 'q3', 'q2', '1', '3', 'q0', '1', 'q1', '', '4', '3', 'q1', '', 'q1', '', '4', 'q2', 'q2', '', '5', '5', 'test', '6', '1', 'b', 'c', 'c', 'b', 'c', '', '2', '3', '4', '5', '6', '7', '7', '1', '2', '3', '4', '5', '8', '1',                                                                                  '6', '9', '1', '1', 'test', '10'])
+	def test_main(self, mock_inputs):
+		result = main.main()
+		if(platform.system() == 'Linux'):
+			sleep(0.5)
+			subprocess.run(['rm', '../file/test.json', '../file/image_automate.dot', '../file/image_automate.png'])
+		if(platform.system() == 'Windows'):
+			sleep(0.5)
+			subprocess.run(['del', '../file/test.json', '../file/image_automate.dot', '../file/image_automate.png'], shell=True)
+		self.assertEqual(result, 0)
 
 ##########################################################################  end of tests ##########################################################################
 
