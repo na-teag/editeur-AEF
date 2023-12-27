@@ -5,14 +5,14 @@ import editing.modif as md
 import json
 import re  # regex to test files names
 
-def loadAutomate(list_automate, automate_selected): # function to create, import or select an existing DFA
+def loadAutomate(list_automate, automate_selected): # function to create, import or select an existing FA
 	if(automate_selected == -1):
 		print("\n\n\n\n\nAEF séléctionné : aucun")
 	else:
 		print("AEF séléctionné : ", automate_selected+1)
 	print("\nséléctionnez un AEF :\n1 : importer depuis un fichier\n2 : créer un nouvel AEF")
 	nbr = 3
-	for aef in list_automate: # print all DFA's names
+	for aef in list_automate: # print all FA's names
 		print(nbr, ":", aef["Nom"])
 		nbr+=1
 
@@ -29,7 +29,7 @@ def loadAutomate(list_automate, automate_selected): # function to create, import
 			list_automate, automate_selected = openjson(list_automate, automate_selected) # open the file, and add the content to the list
 			test=0
 		elif(choix == 2):
-			automate_selected = len(list_automate) # the index of the DFA is the lenght of the list before it's added to it : empty list -> first DFA at index 0
+			automate_selected = len(list_automate) # the index of the FA is the lenght of the list before it's added to it : empty list -> first FA at index 0
 			list_automate.append(strct.createAutomate())
 			list_automate, automate_selected = md.editStates(list_automate, automate_selected)
 			test=0

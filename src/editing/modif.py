@@ -36,13 +36,13 @@ def editStates(list_automate, automate_selected): # add or delete transition or 
 
 			liste = []
 			for etat in list_automate[automate_selected]["Etats"]:
-				if(list_automate[automate_selected]["Etats"][etat] == {}): # if the state doesn't have any transition leading or beginning from it, it's deleted because it's not related tho the DFA anymore
+				if(list_automate[automate_selected]["Etats"][etat] == {}): # if the state doesn't have any transition leading or beginning from it, it's deleted because it's not related tho the FA anymore
 					if(testTransition(list_automate, automate_selected, etat) == 0): # testing if the state has transition leading to it
 						liste.append(etat)
 			if(len(liste) != 0):
 				for etat in liste:
 					del list_automate[automate_selected]["Etats"][etat]
-				if(list_automate[automate_selected]["Etats"] == {}): # if all the states have been deleted, ask to enter a new DFA
+				if(list_automate[automate_selected]["Etats"] == {}): # if all the states have been deleted, ask to enter a new FA
 					print("\n\n\n\n\n\n\n\n\n\n\n\n\nVous ne pouvez pas manipuler un AEF vide, merci d'en réenregistrer un :")
 					list_automate[automate_selected]["Etats_initiaux"] = []
 					list_automate[automate_selected]["Etats_finaux"] = []
@@ -108,7 +108,7 @@ def deleteStates(list_automate, automate_selected): # delete all apparition of a
 
 			liste = []
 			for etat in list_automate[automate_selected]["Etats"]:
-				if(list_automate[automate_selected]["Etats"][etat] == {}): # if a state isn't anywhere in the DFA, it's deleted
+				if(list_automate[automate_selected]["Etats"][etat] == {}): # if a state isn't anywhere in the FA, it's deleted
 					if(testTransition(list_automate, automate_selected, etat) == 0):
 						liste.append(etat)
 			if(len(liste) != 0):
@@ -120,7 +120,7 @@ def deleteStates(list_automate, automate_selected): # delete all apparition of a
 					if(etat in list_automate[automate_selected]["Etats_finaux"]):
 						list_automate[automate_selected]["Etats_finaux"].remove(etat)
 				
-			if(len(list_automate[automate_selected]["Etats"]) <= 1): # if all the states have been removed, enter a new DFA
+			if(len(list_automate[automate_selected]["Etats"]) <= 1): # if all the states have been removed, enter a new FA
 				print("\n\n\n\n\n\n\n\n\n\n\n\n\n\nVous ne pouvez pas manipuler un AEF vide, veuillez en entrer un nouveau :")
 				return editStates(list_automate, automate_selected)
 			if(len(list_automate[automate_selected]["Etats_initiaux"]) == 0): # if there is 0 initial state, ask another one
@@ -245,7 +245,7 @@ def changeStatesInitFinal(list_automate, automate_selected, nbr): # add or delet
 
 
 
-def demandDelete(liste_automate, automate_selected): # ask confirmation before deleting the DFA
+def demandDelete(liste_automate, automate_selected): # ask confirmation before deleting the FA
 	print("\n\n\n")
 	dis.displayAEF(liste_automate[automate_selected])
 	choix = input("\n\n\nEtes-vous sûr de vouloir supprimer cet AEF ?\n1 : oui\n2 : non\n\n").strip()
@@ -255,7 +255,7 @@ def demandDelete(liste_automate, automate_selected): # ask confirmation before d
 		return liste_automate, automate_selected
 
 
-def deleteAutomate(liste_automate, automate_selected): # delete the DFA
+def deleteAutomate(liste_automate, automate_selected): # delete the FA
 	liste_automate.pop(automate_selected)
 	automate_selected = -1
 	return file.loadAutomate(liste_automate, automate_selected)

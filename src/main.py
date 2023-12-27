@@ -15,7 +15,8 @@ import data.file as dfile
 #        "Etat1": {"Transition3": ["Etat0"], "Transition4": ["Etat1"]}
 #    },
 #    "Etats_initiaux": ["Etat0"],
-#    "Etats_finaux": ["Etat1"]
+#    "Etats_finaux": ["Etat1"],
+#    "Nom" : "test"
 #}
 
 
@@ -141,7 +142,7 @@ def main(): # in a function so it can be called by tests.py
 	list_automate = []
 	global automate_selected
 	automate_selected = -1
-	list_automate, automate_selected = dfile.loadAutomate(list_automate, automate_selected) # select a DFA
+	list_automate, automate_selected = dfile.loadAutomate(list_automate, automate_selected) # select a FA
 
 
 
