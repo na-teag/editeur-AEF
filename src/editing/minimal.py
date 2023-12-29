@@ -37,6 +37,8 @@ def MooreMinimal (startBilan, automate) :
         return MooreMinimal(bilan,automate)
 
 
+
+
 def toMinimal(automate):
     """ Create an automate being the minimalistic version of the input automate  """
 
