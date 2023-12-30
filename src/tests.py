@@ -27,7 +27,7 @@ class Testfonction_exemple(unittest.TestCase):
 '''
 
 
-##########################################################################  functions from fonctions2.py ##########################################################################
+##########################################################################  functions from structuree.py ##########################################################################
 
 
 class TestCreateAutomate(unittest.TestCase): # test of function CreateAutomate
