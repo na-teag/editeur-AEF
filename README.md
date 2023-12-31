@@ -29,9 +29,9 @@ To enter a new FA, the syntax must be the following one :
 > start_state , transition , end_state
 
 To delete a transition, re-enter it.
-After typing te FA, you will be able to use some other editing function, like delete all occurrences of a state, or rename one.
+After typing the FA, you will be able to use some other editing function, like delete all occurrences of a state, or rename one.
 
-Once you finished typing the FA, to exit you must enter a void line. Then you will enter the initial and final(s) states of the FA. To delete one type it again, and to exit, enter a void line.
+Once you finished typing the FA, to exit you must enter a void line. Then you will have to enter the initial and final(s) states of the FA. To delete one type it again, and to exit, enter a void line.
 
 After that, you will see the main menu, and you'll just have to select an option.
 
@@ -42,12 +42,12 @@ After that, you will see the main menu, and you'll just have to select an option
 # Functionalities details
 ## FA manipulation
 
-beyond the classic operations to manipulate FAs, this program have a few practical options like renaming a state of the FA. It can also be used to fuse two states.
+Beyond the classic operations to manipulate FAs, this program have a few practical options like renaming a state of the FA. It can also be used to fuse two states.
 Another option allow you to delete all occurrences of a state without having to do it one at once.
 
 ## FA graphic representation
 
-the **graphviz** library is used to generate an image of the FA, by generating a .dot file. The program contain a function to install the library by itself that is functional on Windows and Linux.
+The **graphviz** library is used to generate an image of the FA, by generating a .dot file. The program contain a function to install the library by itself that is functional on Windows and Linux.
 
 ## Unit tests
 The project contain a file named *tests.py* that execute all the functions of the program and check the result to detect any inconsistency.
