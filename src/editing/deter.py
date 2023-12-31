@@ -101,20 +101,18 @@ def rendredeterministe(automate):
     print("fin etat ini")
     print(nouvetat)
     print("-----------------------------------------------")
-    letat = []
-    ltransi = []
-    letatfin = []
     while len(nouvetat) > 0 :
-        etat_rechercher = [nouvetat.pop(0)]
+        etat_rechercher = nouvetat[0]
+        etat_rechercherc = [nouvetat.pop(0)]
         print("**************")
         print(nouvetat)
-        print(etat_rechercher)
-        print(list(map(str, etat_rechercher[0].split(','))))
+        etat_rechercherl = (list(map(str, etat_rechercherc[0].split(','))))
+        print(etat_rechercherl)
         print("**************")
         
-        if len(list(map(str, etat_rechercher[0].split(',')))) == 1:
+        if len(etat_rechercherl) == 1:
             for etat, transitions in etats.items():
-                if etat in etat_rechercher:
+                if etat in etat_rechercherl:
                     print("on rentre dans l'etat nouv")
                     print("----")
                     for transi, etatfin in transitions.items():
@@ -136,14 +134,25 @@ def rendredeterministe(automate):
             print(nouvetat)
         else :
             print("osjidnfgsgf")
-            for etat, transitions in etats.items():  
-                if etat in etat_rechercher:
+            for etat, transitions in etats.items():
+                print("boucleetat")
+                if etat in etat_rechercherl:
                     print("on rentre dans l'etat relou")
                     print("----")
-                    letat.append(etat)
                     for transi, etatfin in transitions.items():
-                        ltransi.append(transi)
-                        letatfin.append(etatfin)
+                        print("hm")
+                        etatfinl = [','.join(etatfin)]
+                        etatfinc = ','.join(etatfin)
+                        print(automate0["Etats"][etat_rechercherc[0]])
+                        print(automate0["Etats"]["1,3"])
+                        print(etat_rechercherc)
+                        print(etat_rechercherl)
+                        if etat_rechercherc[0] in automate0["Etats"]:
+                            print("OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO")
+                            if transi not in automate0["Etats"][etat_rechercherc[0]]:
+                                print("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa")
+                        else :
+                            print("ntm")
             #nouvetat.pop(0)
 
 rendredeterministe(automate)
