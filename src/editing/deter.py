@@ -62,19 +62,6 @@ automate ={
    "Etats_finaux": ["2"],
 }
 
-
-
-automate ={
-   "Etats": {
-       "1": {"a": ["1","3"], "b": ["2"]},
-       "2": {"b": ["1","4"]},
-       "3": {"a": ["4"], "b": ["2"]},
-       "4": {"a": ["4"], "b": ["2"]}
-   },
-   "Etats_initiaux": ["1"],
-   "Etats_finaux": ["2"],
-}
-
 automate0 ={
    "Etats": {
    },
@@ -83,6 +70,7 @@ automate0 ={
 }
 
 def rendredeterministe(automate):
+    nouvetat = []
     automate0["Etats_initiaux"] = automate["Etats_initiaux"]
     automate0["Etats_finaux"] = automate["Etats_finaux"]
     i = automate0["Etats_initiaux"]
@@ -93,26 +81,77 @@ def rendredeterministe(automate):
             print("on rentre dans l'etat ini")
             automate0["Etats"][etat] = {}
             for transi, etatfin in transitions.items():
-                print(transi)
-                print(etatfin)
                 if len(etatfin) > 1:
-                    etatfinr = ','.join(etatfin)
-                    automate0["Etats"][etatfinr] = {}
+                    etatfinc = ','.join(etatfin)
+                    automate0["Etats"][etatfinc] = {}
+                    
+                    nouvetat.append(etatfinc)
+                    print(nouvetat)
+                    
                     etatfinl = [','.join(etatfin)]
                     automate0["Etats"][etat][transi] = etatfinl
-                    list(map(str, etatfin[0].split(',')))
-                    print(etatfin)
+                    
                     print("fin")
                 else:
                     automate0["Etats"][etat][transi] = etatfin
-                    etatfin = ','.join(etatfin)
-                    automate0["Etats"][etatfin] = {}
-
+                    etatfinc = ','.join(etatfin)
+                    nouvetat.append(etatfinc)
+                    print(nouvetat)
+                    automate0["Etats"][etatfinc] = {}
+    print("fin etat ini")
+    print(nouvetat)
+    print("-----------------------------------------------")
+    letat = []
+    ltransi = []
+    letatfin = []
+    while len(nouvetat) > 0 :
+        etat_rechercher = [nouvetat.pop(0)]
+        print("**************")
+        print(nouvetat)
+        print(etat_rechercher)
+        print(list(map(str, etat_rechercher[0].split(','))))
+        print("**************")
+        
+        if len(list(map(str, etat_rechercher[0].split(',')))) == 1:
+            for etat, transitions in etats.items():
+                if etat in etat_rechercher:
+                    print("on rentre dans l'etat nouv")
+                    print("----")
+                    for transi, etatfin in transitions.items():
+                        etatfinl = [','.join(etatfin)]
+                        etatfinc = ','.join(etatfin)
+                        if len(etatfin) > 1:
+                            automate0["Etats"][etat][transi] = etatfinl
+                            if etatfinc not in automate0["Etats"]:
+                                automate0["Etats"][etatfinc] = {}
+                                nouvetat.append(etatfinc)
+                                print(nouvetat)
+                        else :
+                            automate0["Etats"][etat][transi] = etatfin
+                            if etatfinc not in automate0["Etats"]:
+                                automate0["Etats"][etatfinc] = {}
+                                nouvetat.append(etatfin)
+                                print(nouvetat)
+            print("fin etat rajouté")
+            print(nouvetat)
+        else :
+            print("osjidnfgsgf")
+            for etat, transitions in etats.items():  
+                if etat in etat_rechercher:
+                    print("on rentre dans l'etat relou")
+                    print("----")
+                    letat.append(etat)
+                    for transi, etatfin in transitions.items():
+                        ltransi.append(transi)
+                        letatfin.append(etatfin)
+            #nouvetat.pop(0)
 
 rendredeterministe(automate)
+print("\nAutomate d'origine :")
 print(automate)
+print("\nAutomate converti :")
 print(automate0)
 
+
 #etatfin = etatfin.split(',')
-
-
+#list(map(str, etatfin[0].split(',')))
