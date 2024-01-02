@@ -1,14 +1,15 @@
 
-import editing.modif as md
-import editing.complet as comp
-import editing.deter as det
-import editing.testermot as testermot
 import display.image as im
 import display.display as dis
 import data.structure as strct
 import data.file as dfile
+import editing.modif as md
+import editing.complet as comp
+import editing.deter as det
+import editing.testermot as testermot
 import editing.complement as complt
-import editing.mirroir as mir
+import editing.miroir as mir
+import editing.minimal as mini
 from copy import deepcopy
 
 
@@ -39,8 +40,9 @@ def afficher_menu():
 	print("6 : faire des tests sur l'AEF")
 	print("7 : modifier l'AEF selon une propriété")
 	print("8 : générer un AEF à partir de celui-ci")
-	print("9 : supprimer l'AEF")
-	print("10 : quitter le programme")
+	print("9 : faire une copie de l'AEF")
+	print("10 : supprimer l'AEF")
+	print("11 : quitter le programme")
 	print("\n\n\n")
 
 def afficher_menu_test():
@@ -96,7 +98,7 @@ def menu_test():
 		else:
 			print("Veuillez entrer l'une des options proposées\n")
 
-def menu_generer():
+def menu_generer(list_automate, automate_selected):
 	test=1
 	while test:
 		afficher_menu_generer()
@@ -105,9 +107,9 @@ def menu_generer():
 		if(choice == "1"):
 			print("non disponible")  ###### A FAIRE ######
 		elif(choice == "2"):
-			complt.complement(list_automate[automate_selected]) # calls the function complement
+			list_automate, automate_selected = complt.complement(list_automate, automate_selected) # calls the function complement
 		elif(choice == "3"):
-			list_automate[automate_selected]=deepcopy(mir.miroirf(list_automate[automate_selected])	)	# calls the function complement
+			list_automate, automate_selected = mir.miroirf(list_automate, automate_selected) # calls the function complement
 		elif(choice == "4"):
 			print("non disponible") ###### A FAIRE ######
 		elif(choice == "5"):
@@ -116,6 +118,7 @@ def menu_generer():
 			test=0
 		else:
 			print("Veuillez entrer l'une des options proposées\n")
+	return list_automate, automate_selected
 
 def menu_modif():
 	test=1
@@ -124,13 +127,13 @@ def menu_modif():
 		choice = input("Choisissez une action : ")
 		choice = choice.strip()
 		if(choice == "1"):
-			comp.rendrecomplet(list_automate[automate_selected]) # calls the function rendrecomplet
+			list_automate[automate_selected] = comp.rendrecomplet(list_automate[automate_selected]) # calls the function rendrecomplet
 		elif(choice == "2"):
 			print("non disponible") ###### A FAIRE ######
 		elif(choice == "3"):
 			print("non disponible") ###### A FAIRE ######
 		elif(choice == "4"):
-			print("non disponible") ###### A FAIRE ######
+			list_automate[automate_selected] = mini.toMinimal(list_automate[automate_selected])
 		elif(choice == "5"):
 			test=0
 		else:
@@ -170,10 +173,14 @@ def main(): # in a function so it can be called by tests.py
 		elif(choice == "7"):
 			menu_modif()
 		elif(choice == "8"):
-			menu_generer()
+			list_automate, automate_selected = menu_generer(list_automate, automate_selected)
 		elif(choice == "9"):
-			list_automate, automate_selected = md.demandDelete(list_automate, automate_selected)
+			list_automate.append(deepcopy(list_automate[automate_selected]))
+			automate_selected = len(list_automate)-1
+			list_automate[automate_selected]["Nom"] += "_copie"
 		elif(choice == "10"):
+			list_automate, automate_selected = md.demandDelete(list_automate, automate_selected)
+		elif(choice == "11"):
 			test2 = 0
 			return 0
 		else:
@@ -181,5 +188,5 @@ def main(): # in a function so it can be called by tests.py
 
 
 
-if __name__ == '__main__':
+if __name__ == '__main__': # call the main function only if run by main.py, if called by tests.py, then do not call it
 	main()

@@ -10,8 +10,8 @@ def MooreMinimal (startBilan, automate) :
 
     alphabet=strct.alphabet(automate)
     result= {}
-
-#add start bilan to the final result table
+    
+    #add start bilan to the final result table
     for state in startBilan:
         result[state]=list(startBilan[state])
 
@@ -19,7 +19,7 @@ def MooreMinimal (startBilan, automate) :
         for i in range(0,len(alphabet)):
             result[state].append(result[automate["Etats"][state][alphabet[i][0][0]]])
 
-#Count different arrangement and give them an unique ID. If already exist give it the corresponding ID
+    #Count different arrangement and give them an unique ID. If already exist give it the corresponding ID
     bilan={}
     alreadyAddedArrangement = []
     i=0

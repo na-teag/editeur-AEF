@@ -6,12 +6,12 @@ import json
 import re  # regex to test files names
 
 def loadAutomate(list_automate, automate_selected): # function to create, import or select an existing FA
+	nbr = 3 # nbr of additional option other than existing FA
 	if(automate_selected == -1):
 		print("\n\n\n\n\nAEF séléctionné : aucun")
 	else:
-		print("AEF séléctionné : ", automate_selected+1)
+		print("AEF séléctionné : ", automate_selected+nbr)
 	print("\nséléctionnez un AEF :\n1 : importer depuis un fichier\n2 : créer un nouvel AEF")
-	nbr = 3
 	for aef in list_automate: # print all FA's names
 		print(nbr, ":", aef["Nom"])
 		nbr+=1
@@ -21,7 +21,7 @@ def loadAutomate(list_automate, automate_selected): # function to create, import
 		test2 = 1
 		while test2:
 			try:
-				choix = int(input("\nSélectionnez un AEF : "))
+				choix = int(input("\nSélectionnez un AEF : ").strip())
 				test2 = 0
 			except ValueError:
 				print("Veuillez entrer un nombre")

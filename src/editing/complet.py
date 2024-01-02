@@ -27,4 +27,4 @@ def rendrecomplet(automate):
                 if symbole not in transitions:
                     automate["Etats"][etat][symbole] = [etat] # Add the missing transition
         print("L'automate est maintenant complet.")
-        return True
+        return automate

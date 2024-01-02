@@ -19,7 +19,7 @@ def editStates(list_automate, automate_selected): # add or delete transition or 
 			etat_suivant = transition_input[2].strip()
 			if(etat_suivant not in list_automate[automate_selected]["Etats"]):# Add state if not already existing
 				list_automate[automate_selected]["Etats"][etat_suivant] = {}
-			if(etat not in list_automate[automate_selected]["Etats"]): # if not existing, it' added with the transition    
+			if(etat not in list_automate[automate_selected]["Etats"]): # if not existing, it's added with the transition    
 				list_automate[automate_selected]["Etats"][etat] = {}
 				list_automate[automate_selected]["Etats"][etat][transition] = []
 				list_automate[automate_selected]["Etats"][etat][transition].append(etat_suivant)
