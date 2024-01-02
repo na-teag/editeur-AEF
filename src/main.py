@@ -7,6 +7,7 @@ import display.image as im
 import display.display as dis
 import data.structure as strct
 import data.file as dfile
+import editing.complement as complt
 
 
 #automate ={
