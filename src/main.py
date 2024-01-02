@@ -8,6 +8,9 @@ import display.display as dis
 import data.structure as strct
 import data.file as dfile
 import editing.complement as complt
+import editing.mirroir as mir
+from copy import deepcopy
+
 
 
 #automate ={
@@ -100,11 +103,11 @@ def menu_generer():
 		choice = input("Choisissez une action : ")
 		choice = choice.strip()
 		if(choice == "1"):
-			print("non disponible") ###### A FAIRE ######
+			print("non disponible")  ###### A FAIRE ######
 		elif(choice == "2"):
-			print("non disponible") ###### A FAIRE ######
+			complt.complement(list_automate[automate_selected]) # calls the function complement
 		elif(choice == "3"):
-			print("non disponible") ###### A FAIRE ######
+			list_automate[automate_selected]=deepcopy(mir.miroirf(list_automate[automate_selected])	)	# calls the function complement
 		elif(choice == "4"):
 			print("non disponible") ###### A FAIRE ######
 		elif(choice == "5"):
