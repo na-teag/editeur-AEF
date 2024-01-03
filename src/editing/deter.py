@@ -156,10 +156,10 @@ def rendredeterministe2(automate):
             #nouvetat.pop(0)
 
 # rendredeterministe2(automate)
-print("\nAutomate d'origine :")
-print(automate)
-print("\nAutomate converti :")
-print(automate0)
+# print("\nAutomate d'origine :")
+# print(automate)
+# print("\nAutomate converti :")
+# print(automate0)
 
 
 #etatfin = etatfin.split(',')
