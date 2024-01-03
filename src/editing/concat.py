@@ -16,7 +16,12 @@ def concat (automate1, automate2) :
 
 	# create new automate 
 	automateFinal=strct.createAutomate()
-	automateFinal["Alphabet"]=list(set(automate1["Alphabet"]+automate2["Alphabet"]))
+	automateFinal = {
+        "Alphabet": list(set(automate1["Alphabet"]+automate2["Alphabet"])), 
+        "Etats":{},
+        "Etats_initiaux": [],
+        "Etats_finaux": []
+    }
   
 	i=0
 	#link the old state name (automate1) to the one in the new automate

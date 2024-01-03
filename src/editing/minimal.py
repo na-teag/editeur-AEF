@@ -7,17 +7,22 @@ def MooreMinimal (startBilan, automate) :
     """  this function is an adaption of the Moore algorithm : it calculates a new bilan from a starting bilan. 
 
     It recurcively calls itself until the starting bilan is the same as the new one.   """
-
-    alphabet=strct.alphabet(automate)
     result= {}
-    
+
+    automate = {
+        "Alphabet": strct.alphabet(automate), 
+        "Etats":{},
+        "Etats_initiaux": [],
+        "Etats_finaux": []
+    }
+    alphabet=strct.alphabet(automate)
     #add start bilan to the final result table
     for state in startBilan:
         result[state]=list(startBilan[state])
 
     for state in result : 
         for i in range(0,len(alphabet)):
-            result[state].append(result[automate["Etats"][state][alphabet[i][0][0]]])
+            result[state].append(result[automate["Etats"][state]["Alphabet"[i][0][0]]])
 
     #Count different arrangement and give them an unique ID. If already exist give it the corresponding ID
     bilan={}
