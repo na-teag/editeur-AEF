@@ -1,6 +1,7 @@
 # This file contains all functions to edit an automate
 import display.display as dis
 import data.file as file
+import re
 
 def verif(val):
     return bool(re.match(r'^[\w-]+$', val)) # letters, numbers, underscore or -

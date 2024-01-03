@@ -4,6 +4,7 @@ import data.structure as strct
 import editing.modif as md
 import json
 import re  # regex to test files names
+import glob
 
 def loadAutomate(list_automate, automate_selected): # function to create, import or select an existing FA
 	nbr = 3 # nbr of additional option other than existing FA
@@ -43,6 +44,12 @@ def loadAutomate(list_automate, automate_selected): # function to create, import
 
 
 def openjson(list_automate, automate_selected): # list_automate needed, do not remove it
+	print("Fichiers disponibles : ")
+	fichiers_json = glob.glob('../file/' + "*.json")
+	for fichier in fichiers_json:
+		fichier = fichier.rsplit('/', 1)[-1]
+		print(fichier, end='\t\t')
+	print("\n")
 	nom_fichier = input("\nentrez le nom du fichier .json : ")
 	# print(nom_fichier)
 	if(nom_fichier != ""):
