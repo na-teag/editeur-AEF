@@ -69,7 +69,7 @@ automate0 ={
    "Etats_finaux": [],
 }
 
-def rendredeterministe(automate):
+def rendredeterministe2(automate):
     nouvetat = []
     automate0["Etats_initiaux"] = automate["Etats_initiaux"]
     automate0["Etats_finaux"] = automate["Etats_finaux"]
@@ -155,7 +155,7 @@ def rendredeterministe(automate):
                             print("ntm")
             #nouvetat.pop(0)
 
-rendredeterministe(automate)
+# rendredeterministe2(automate)
 print("\nAutomate d'origine :")
 print(automate)
 print("\nAutomate converti :")
