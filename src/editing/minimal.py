@@ -2,6 +2,12 @@
 
 import data.structure as strct 
 
+def isMinimal(automate):
+    
+    
+    
+    return True
+
 
 def MooreMinimal (startBilan, automate) : 
     """  this function is an adaption of the Moore algorithm : it calculates a new bilan from a starting bilan. 

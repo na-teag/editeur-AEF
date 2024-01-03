@@ -13,6 +13,10 @@ import editing.modif as md
 import editing.testermot as testermot
 import main
 
+MAGENTA = '\033[95m'
+ENDC = '\033[0m'
+
+
 ''' # exemple de test
 def fonction_exemple():
 	user_input = input("Entrez un nombre : ")
@@ -174,6 +178,19 @@ class testDemandDelete(unittest.TestCase):  # test of function demandDelete, and
 			"Nom" : "test"
 		}
 		self.assertEqual(liste[indice], automate2)
+
+##########################################################################  functions from minimal.py ##########################################################################
+
+print(MAGENTA+"TEST minimal"+ENDC)
+import unitTest.testminimal
+##########################################################################  functions from concat.py ##########################################################################
+
+print(MAGENTA+"TEST concaténation de 2 automates"+ENDC)
+import unitTest.testconcat
+##########################################################################  functions from produit.py ##########################################################################
+
+print(MAGENTA+"TEST produits de 2 automates"+ENDC)
+import unitTest.testproduit
 
 
 ##########################################################################  functions from testermot.py ##########################################################################
