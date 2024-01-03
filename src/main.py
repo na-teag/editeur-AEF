@@ -10,6 +10,9 @@ import editing.testermot as testermot
 import editing.complement as complt
 import editing.miroir as mir
 import editing.minimal as mini
+import editing.langage as lang
+import editing.emonde as emon
+import editing.regex as regex
 from copy import deepcopy
 
 
@@ -68,11 +71,12 @@ def afficher_menu_modif():
 def afficher_menu_generer():
 	print("\n\n\n\n\n\n\n\n")
 	print("1 : générer une expression régulière")
-	print("2 : générer l'AEF complément")
-	print("3 : générer l'AEF miroir")
-	print("4 : générer le produit de cet AEF et d'un autre")
-	print("5 : générer la concaténation de cet AEF et d'un autre")
-	print("6 : retour")
+	print("2 : générer le langage de l'AEF")
+	print("3 : générer l'AEF complément")
+	print("4 : générer l'AEF miroir")
+	print("5 : générer le produit de cet AEF et d'un autre")
+	print("6 : générer la concaténation de cet AEF et d'un autre")
+	print("7 : retour")
 	print("\n\n\n")
 
 def menu_test():
@@ -88,12 +92,12 @@ def menu_test():
 		elif(choice == "3"):
 			det.est_deterministe(list_automate[automate_selected]) # calls the function est_deterministe
 		elif(choice == "4"):
-			print("non disponible") ###### A FAIRE ######
+			emon.est_emonde(list_automate[automate_selected]) # calls the function est_emonde
 		elif(choice == "5"):
 			print("non disponible") ###### A FAIRE ######
 		elif(choice == "6"):
-			print("non disponible") ###### A FAIRE ######
-		elif(choice == "7"):
+			lang.test_automates_equivalents(list_automate, automate_selected)  ###### ERREURS ######
+		elif(choice == "7" or choice == ""):
 			test=0
 		else:
 			print("Veuillez entrer l'une des options proposées\n")
@@ -105,16 +109,18 @@ def menu_generer(list_automate, automate_selected):
 		choice = input("Choisissez une action : ")
 		choice = choice.strip()
 		if(choice == "1"):
-			print("non disponible")  ###### A FAIRE ######
+			regex.regex(list_automate[automate_selected]) # calls the function regex
 		elif(choice == "2"):
-			list_automate, automate_selected = complt.complement(list_automate, automate_selected) # calls the function complement
+			lang.generer_langage(list_automate[automate_selected])  ###### ERREURS ######
 		elif(choice == "3"):
-			list_automate, automate_selected = mir.miroirf(list_automate, automate_selected) # calls the function complement
+			list_automate, automate_selected = complt.complement(list_automate, automate_selected) # calls the function complement
 		elif(choice == "4"):
-			print("non disponible") ###### A FAIRE ######
+			list_automate, automate_selected = mir.miroirf(list_automate, automate_selected) # calls the function complement
 		elif(choice == "5"):
 			print("non disponible") ###### A FAIRE ######
 		elif(choice == "6"):
+			print("non disponible") ###### A FAIRE ######
+		elif(choice == "7" or choice == ""):
 			test=0
 		else:
 			print("Veuillez entrer l'une des options proposées\n")
@@ -134,7 +140,7 @@ def menu_modif():
 			print("non disponible") ###### A FAIRE ######
 		elif(choice == "4"):
 			list_automate[automate_selected] = mini.toMinimal(list_automate[automate_selected])
-		elif(choice == "5"):
+		elif(choice == "5" or choice == ""):
 			test=0
 		else:
 			print("Veuillez entrer l'une des options proposées\n")
@@ -150,7 +156,6 @@ def main(): # in a function so it can be called by tests.py
 	global automate_selected
 	automate_selected = -1
 	list_automate, automate_selected = dfile.loadAutomate(list_automate, automate_selected) # select a FA
-
 
 
 	test2=1

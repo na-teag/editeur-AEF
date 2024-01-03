@@ -2,6 +2,10 @@
 import display.display as dis
 import data.file as file
 
+def verif(val):
+    return bool(re.match(r'^[\w-]+$', val)) # letters, numbers, underscore or -
+
+
 def editStates(list_automate, automate_selected): # add or delete transition or states
 	while(list_automate[automate_selected]["Nom"] == ""):
 		list_automate[automate_selected]["Nom"] = input("Veuillez donner un nom à l'automate : ")
@@ -10,10 +14,10 @@ def editStates(list_automate, automate_selected): # add or delete transition or 
 		print("\n\n\n\n\n\n\n\n\n\n\n")
 		dis.displayAEF(list_automate[automate_selected])
 		print("\nEntrez les états et transitions sous la forme : état, transition, état_suivant.\nUne transition déjà existante sera supprimée, ou ajoutée si elle n'existe pas")
-		print("\nCaractères interdits : espace virgule epsilon union étoile plus guillemets")
-		transition_input = input("Entrez la nouvelle partie de votre AEF ou appuyez sur Entrer pour terminer : ").split(',') # nom d'état : pas d'espace, de virgule, de plus ou d'étoile, d'union, d'epsilon
+		print("\nCaractères autorisés : lettres chiffres underscores et tirets")
+		transition_input = input("Entrez la nouvelle partie de votre AEF ou appuyez sur Entrer pour terminer : ").split(',') # nom d'état : pas d'espace, de virgule, de point, de plus ou d'étoile, d'union, d'epsilon
 		# print(transition_input)
-		if(len(transition_input) == 3 and transition_input[0].strip() != "" and transition_input[1].strip() != "" and transition_input[2].strip() != "" and "+" not in transition_input[1].strip() and "*" not in transition_input[1].strip() and "ɛ" not in transition_input[1].strip() and "∪" not in transition_input[1].strip() and " " not in transition_input[1].strip() and " " not in transition_input[0].strip() and " " not in transition_input[2].strip() and "'" not in transition_input[1].strip() and "'" not in transition_input[0].strip() and "'" not in transition_input[2].strip() and '"' not in transition_input[1].strip() and '"' not in transition_input[0].strip() and '"' not in transition_input[2].strip()):
+		if(len(transition_input) == 3 and verif(transition_input[0].strip()) and verif(transition_input[1].strip()) and verif(transition_input[2].strip())):
 			etat = transition_input[0].strip() # delete space
 			transition = transition_input[1].strip()
 			etat_suivant = transition_input[2].strip()
