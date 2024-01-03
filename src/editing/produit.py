@@ -15,6 +15,11 @@ import data.structure as strct
 
 
 """
+def calculLineProduct():
+
+
+
+
 def product (automate1, automate2):
 
     alphabet1 = strct.alphabet(automate1)
@@ -30,25 +35,4 @@ def product (automate1, automate2):
     #collect the starting state of each one.
     startingState = [[],[]]
 
-    for state in automate1["Etats"]:
-        if automate1.getState(state).isStart:
-            startingState[0].append(state)
-
-    for state in automate2["Etats"]:
-        if automate2.getState(state).isStart:
-            startingState[1].append(state)
-    
-    existingSet.append(startingState) #add as first set
-
- 
- 
- 
- 
- 
- 
-    for Set in existingSet:
-        transitions = calculLineProduct(Set, alphabet, automate1, automate2)
-        newAutomateBP.append( (Set, transitions) )
-        
-        for key in transitions:
             

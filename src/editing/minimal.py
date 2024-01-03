@@ -75,3 +75,4 @@ def toMinimal(automate):
 
 
     return automate
+
