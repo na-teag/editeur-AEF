@@ -37,9 +37,13 @@ def tester(automate):
 		if(mot[0] in automate["Etats"][etat].keys()):
 			test += tester_mot(automate, mot, 0, etat)
 			if(test):
+				print("\033[2J")
 				print("\n\nLe mot", mot, "a été trouvé dans l'automate")
+				print("\n\n\n\n\n\n\n\n\n\n\n")
 				return True
+	print("\033[2J")
 	print("\n\nLe mot", mot, "n'a pas été trouvé dans l'automate")
+	print("\n\n\n\n\n\n\n\n\n\n\n")
 	return False
 		
 	

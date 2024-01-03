@@ -8,11 +8,14 @@ def verif(val):
 
 
 def editStates(list_automate, automate_selected): # add or delete transition or states
-	while(list_automate[automate_selected]["Nom"] == ""):
+	print("\033[2J")
+	if(list_automate[automate_selected]["Nom"] == ""):
 		list_automate[automate_selected]["Nom"] = input("Veuillez donner un nom à l'automate : ")
+	if(list_automate[automate_selected]["Nom"] == ""):
+		return file.loadAutomate(list_automate, automate_selected)
 	test = 1
 	while test:
-		print("\n\n\n\n\n\n\n\n\n\n\n")
+		print("\n\n\n\n\n\n\n\n\n")
 		dis.displayAEF(list_automate[automate_selected])
 		print("\nEntrez les états et transitions sous la forme : état, transition, état_suivant.\nUne transition déjà existante sera supprimée, ou ajoutée si elle n'existe pas")
 		print("\nCaractères autorisés : lettres chiffres underscores et tirets")
@@ -56,19 +59,22 @@ def editStates(list_automate, automate_selected): # add or delete transition or 
 					print("\n\n\n\n\n Il n'y a aucun état initial, veuillez en entrez un ")
 					list_automate[automate_selected]["Etats_initiaux"] = []
 					list_automate, automate_selected = changeStatesInitFinal(list_automate, automate_selected, 0)
-				if(set(list_automate[automate_selected]["Etats_finaux"]) <= set(liste)): # same for fianl states
+				if(set(list_automate[automate_selected]["Etats_finaux"]) <= set(liste)): # same for final states
 					print("\n\n\n\n\n Il n'y a aucun état final, veuillez en entrez un nouveau")
 					list_automate[automate_selected]["Etats_finaux"] = []
 					list_automate, automate_selected = changeStatesInitFinal(list_automate, automate_selected, 1)
 
 
 		elif(transition_input == ['']): # if the answer is empty
-			if(len(list_automate[automate_selected]["Etats"].keys()) >= 1):
-				if(len(list_automate[automate_selected]["Etats_initiaux"]) < 1):
+			if(len(list_automate[automate_selected]["Etats"].keys()) >= 1): # if there is enough states
+				if(len(list_automate[automate_selected]["Etats_initiaux"]) < 1): # if there is not enough initial states, add more
+					print("\033[2J")
 					list_automate, automate_selected = changeStatesInitFinal(list_automate, automate_selected, 0)
-				if(len(list_automate[automate_selected]["Etats_finaux"]) < 1):
+				if(len(list_automate[automate_selected]["Etats_finaux"]) < 1): # if there is not enough final states, add more
+					print("\033[2J")
 					list_automate, automate_selected = changeStatesInitFinal(list_automate, automate_selected, 1)
 				test = 0
+				print("\033[2J")
 			else:
 				print("Veuillez entrer au moins une transition entre deux états")
 
@@ -126,34 +132,45 @@ def deleteStates(list_automate, automate_selected): # delete all apparition of a
 						list_automate[automate_selected]["Etats_finaux"].remove(etat)
 				
 			if(len(list_automate[automate_selected]["Etats"]) <= 1): # if all the states have been removed, enter a new FA
-				print("\n\n\n\n\n\n\n\n\n\n\n\n\n\nVous ne pouvez pas manipuler un AEF vide, veuillez en entrer un nouveau :")
+				print("\033[2J")
+				print("Vous ne pouvez pas manipuler un AEF vide, veuillez en entrer un nouveau :")
+				print("\n\n\n\n\n\n\n\n")
 				return editStates(list_automate, automate_selected)
 			if(len(list_automate[automate_selected]["Etats_initiaux"]) == 0): # if there is 0 initial state, ask another one
-				print("\n\n\n\n\n\n\n\n\n\n\nVous avez supprimé le seul état initial, veuillez en entrer un nouveau")
+				print("\033[2J")
+				print("Vous avez supprimé le seul état initial, veuillez en entrer un nouveau")
+				print("\n\n\n\n\n\n\n\n")
 				list_automate, automate_selected = changeStatesInitFinal(list_automate, automate_selected, 0)
 			if(len(list_automate[automate_selected]["Etats_finaux"]) == 0): # if there is 0 final state, ask another one
-				print("\n\n\n\n\n\n\n\n\n\n\nVous avez supprimé le seul état final, veuillez en entrer un nouveau")
+				print("\033[2J")
+				print("Vous avez supprimé le seul état final, veuillez en entrer un nouveau")
+				print("\n\n\n\n\n\n\n\n")
 				list_automate, automate_selected = changeStatesInitFinal(list_automate, automate_selected, 1)
 		else:
+			print("\033[2J")
 			print("action annulée")
+			print("\n\n\n\n\n\n\n\n")
 	elif(choix == ""):
+		print("\033[2J")
 		return list_automate, automate_selected
 	else:
+		print("\033[2J")
 		print("Veuillez entrer une des options proposées")
+		print("\n\n\n\n\n\n\n\n")
 	return list_automate, automate_selected
 
 
 def renameStates(list_automate, automate_selected): # rename all apparitions of a state (can be used to fuse two states)
-	print("\n\n\n\n\n\n\n\n")
 	dis.displayAEF(list_automate[automate_selected])
 	print("\n\n\n\n")
 	choix = input("Entrez l'état à renommer ou appuyez sur entrer pour revenir en arrière : ").strip()
+	ancien = choix
 	if(choix in list_automate[automate_selected]["Etats"]):
-		ancien = choix
 		nouveau = input(f"Entrez le nouveau nom à donner à l'état {ancien} ou appuyez sur entrer pour revenir en arrière : ").strip()
 		if(nouveau in list_automate[automate_selected]["Etats"]):
 			choix = input(f"L'état {nouveau} existe déjà dans l'AEF, êtes vous sûr de vouloir fusionner les états {ancien} et {nouveau} ?\n1 : oui\n2 : non\n\n").strip()
 			if(choix != "1"):
+				print("\033[2J")
 				return list_automate, automate_selected
 			else:
 				if(len(list_automate[automate_selected]["Etats"]) < 3):
@@ -165,9 +182,12 @@ def renameStates(list_automate, automate_selected): # rename all apparitions of 
 						if(ancien in list_automate[automate_selected]["Etats"][nouveau][transition]):
 							test = 1
 					if(not(len(list_automate[automate_selected]["Etats"]) == 2 and test)): # if the result is a state with a transition on itself, it's ok
+						print("\033[2J")
 						print("impossible de fusionner les deux états, car il s'agit des deux seuls états de l'AEF")
+						print("\n\n\n\n\n\n\n\n")
 						return list_automate, automate_selected
 		elif(nouveau == ""):
+			print("\033[2J")
 			return list_automate, automate_selected
 		else:
 			list_automate[automate_selected]["Etats"][nouveau] = {} # if the state doesn't exist, create it
@@ -198,9 +218,12 @@ def renameStates(list_automate, automate_selected): # rename all apparitions of 
 				list_automate[automate_selected]["Etats_finaux"].append(nouveau)
 
 	elif(choix == ""):
+		print("\033[2J")
 		return list_automate, automate_selected
 	else:
+		print("\033[2J")
 		print("Erreur : l'état", ancien, "n'existe pas dans l'AEF")
+		print("\n\n\n\n\n\n\n\n")
 
 	return list_automate, automate_selected
 
@@ -224,39 +247,49 @@ def changeStatesInitFinal(list_automate, automate_selected, nbr): # add or delet
 		choix = input(f"Entrez l'état {nom} que vous voulez ajouter : ").strip()
 		if choix in list_automate[automate_selected][etat]:
 			list_automate[automate_selected][etat].remove(choix)
+			print("\033[2J")
 		elif(choix in list_automate[automate_selected]["Etats"]):
 			if(nbr == 0 and len(list_automate[automate_selected]["Etats_initiaux"]) >= 1):
+				print("\033[2J")
 				print("Vous ne pouvez rentrer qu'un état initial")
 			else:
 				if(nbr == 0):
 					if(len(list_automate[automate_selected]["Etats"][choix].keys()) != 0): # check if initial state lead to another state
 						list_automate[automate_selected][etat].append(choix)
+						print("\033[2J")
 					else:
+						print("\033[2J")
 						print("Erreur, l'état", choix, "ne peux pas être défini comme état initial car il ne contient aucune transition")
 				else:
 					if(testTransition(list_automate, automate_selected, choix) != 0):
 						list_automate[automate_selected][etat].append(choix)
+						print("\033[2J")
 					else:
+						print("\033[2J")
 						print("Erreur, l'état", choix, "ne peux pas être défini comme état final car aucune transition n'y conduit")
 		elif(choix == ""):
 			if(0<len(list_automate[automate_selected][etat])):
 				test = 0
 			else:
-				print("Votre AEF doit contenir au moins un état ", nom)
+				print("\033[2J")
+				print("Erreur, votre AEF doit contenir au moins un état", nom)
 		else:
+			print("\033[2J")
 			print("Erreur, l'état", choix, "n'existe pas dans cet automate")
-	print("\n\n")
+	print("\033[2J")
 	return list_automate, automate_selected
 
 
 
 def demandDelete(liste_automate, automate_selected): # ask confirmation before deleting the FA
-	print("\n\n\n")
+	print("\033[2J")
 	dis.displayAEF(liste_automate[automate_selected])
 	choix = input("\n\n\nEtes-vous sûr de vouloir supprimer cet AEF ?\n1 : oui\n2 : non\n\n").strip()
 	if(choix == "1"):
+		print("\033[2J")
 		return deleteAutomate(liste_automate, automate_selected)
 	else:
+		print("\033[2J")
 		return liste_automate, automate_selected
 
 

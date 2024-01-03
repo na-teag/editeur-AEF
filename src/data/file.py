@@ -25,7 +25,7 @@ def loadAutomate(list_automate, automate_selected): # function to create, import
 				choix = int(input("\nSélectionnez un AEF : ").strip())
 				test2 = 0
 			except ValueError:
-				print("Veuillez entrer un nombre")
+				print("\n\n\n\nVeuillez entrer un nombre")
 		if(choix == 1):
 			list_automate, automate_selected = openjson(list_automate, automate_selected) # open the file, and add the content to the list
 			test=0
@@ -34,17 +34,19 @@ def loadAutomate(list_automate, automate_selected): # function to create, import
 			list_automate.append(strct.createAutomate())
 			list_automate, automate_selected = md.editStates(list_automate, automate_selected)
 			test=0
+			print("\033[2J")
 		elif(2 < choix and choix < len(list_automate)+3):
 			automate_selected = choix-3 # 2 options added in the list begging at 1 -> the index is shifted by 3
 			test=0
+			print("\033[2J")
 		else:
-			print("Veuillez choisir une des options proposées")
+			print("\n\nVeuillez choisir une des options proposées")
 	return list_automate, automate_selected
 			
 
 
 def openjson(list_automate, automate_selected): # list_automate needed, do not remove it
-	print("Fichiers disponibles : ")
+	print("\n\n\n\nFichiers disponibles : ")
 	fichiers_json = glob.glob('../file/' + "*.json")
 	for fichier in fichiers_json:
 		fichier = fichier.rsplit('/', 1)[-1]
@@ -61,11 +63,14 @@ def openjson(list_automate, automate_selected): # list_automate needed, do not r
 				automate_selected = len(list_automate)
 				list_automate.append(automate)
 				print(f"AEF chargé à partir de {nom_fichier} depuis le dossier \"file\"")
+				print("\033[2J")
 		except FileNotFoundError:
+			print("\033[2J")
 			print(f"Le fichier {nom_fichier} n'existe pas dans le dossier \"file\". Veuillez vérifier le nom du fichier.")
 			list_automate, automate_selected = openjson(list_automate, automate_selected) 
 		return list_automate, automate_selected
 	else:
+		print("\033[2J")
 		return loadAutomate(list_automate, automate_selected) # if the name is empty, back to the last menu
 
 
@@ -84,18 +89,24 @@ def test_nom_fichier(nom): # check the file name
 def saveAEF(automate):
 	test=1
 	while test:
-			nom_fichier = input("entrez le nom du fichier : ")
-			if(nom_fichier != ""):
-				if(test_nom_fichier(nom_fichier)):
-					nom_fichier = nom_fichier + ".json"
-					nom_fichier2 = "../file/" + nom_fichier
-					with open(nom_fichier2, 'w') as file:
-						json.dump(automate, file, indent=4)
-					test=0
-					print(f"AEF sauvegardé dans le dossier \"file\" en tant que {nom_fichier}")
-				else:
-					print("un fichier ne peut pas contenir de caractères spéciaux\n")
+		nom_fichier = input("entrez le nom du fichier : ")
+		if(nom_fichier != ""):
+			if(test_nom_fichier(nom_fichier)):
+				nom_fichier = nom_fichier + ".json"
+				nom_fichier2 = "../file/" + nom_fichier
+				with open(nom_fichier2, 'w') as file:
+					json.dump(automate, file, indent=4)
+				test=0
+				print("\033[2J")
+				print(f"AEF sauvegardé dans le dossier \"file\" en tant que {nom_fichier}")
+				print("\n\n\n\n\n\n\n\n\n\n\n")
 			else:
-				print("fichier non sauvegardé")
+				print("\033[2J")
+				print("un fichier ne peut pas contenir de caractères spéciaux\n")
+		else:
+			print("\033[2J")
+			print("fichier non sauvegardé")
+			print("\n\n\n\n\n\n\n\n\n\n\n")
+			test=0
 
 

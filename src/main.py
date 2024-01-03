@@ -35,7 +35,6 @@ from copy import deepcopy
 
 
 def afficher_menu():
-	print("\n\n\n\n\n\n\n\n")
 	print("1 : séléctionner un AEF")
 	print("2 : visualiser l'AEF séléctionné")
 	print("3 : générer une image de l'AEF")
@@ -50,7 +49,6 @@ def afficher_menu():
 	print("\n\n\n")
 
 def afficher_menu_test():
-	print("\n\n\n\n\n\n\n\n")
 	print("1 : tester si un mot est reconnu")
 	print("2 : tester si l'AEF est complet")
 	print("3 : tester si l'AEF est déterministe")
@@ -61,7 +59,6 @@ def afficher_menu_test():
 	print("\n\n\n")
 
 def afficher_menu_modif():
-	print("\n\n\n\n\n\n\n\n")
 	print("1 : rendre l'AEF complet")
 	print("2 : rendre l'AEF déterministe")
 	print("3 : rendre l'AEF émondé")
@@ -70,7 +67,6 @@ def afficher_menu_modif():
 	print("\n\n\n")
 
 def afficher_menu_generer():
-	print("\n\n\n\n\n\n\n\n")
 	print("1 : générer une expression régulière")
 	print("2 : générer le langage de l'AEF")
 	print("3 : générer l'AEF complément")
@@ -87,21 +83,38 @@ def menu_test():
 		choice = input("Choisissez une action : ")
 		choice = choice.strip()
 		if(choice == "1"):
+			print("\033[2J")
+			dis.displayAEF(list_automate[automate_selected])
+			print("\n\n\n\n")
 			testermot.tester(list_automate[automate_selected]) # calls the function tester
+			print("\n\n\n\n\n\n\n\n\n\n\n")
 		elif(choice == "2"):
+			print("\033[2J")
 			comp.est_complet(list_automate[automate_selected]) # calls the function est_complet
+			print("\n\n\n\n\n\n\n\n\n\n\n")
 		elif(choice == "3"):
+			print("\033[2J")
 			det.est_deterministe(list_automate[automate_selected]) # calls the function est_deterministe
+			print("\n\n\n\n\n\n\n\n\n\n\n")
 		elif(choice == "4"):
+			print("\033[2J")
 			emon.est_emonde(list_automate[automate_selected]) # calls the function est_emonde
+			print("\n\n\n\n\n\n\n\n\n\n\n")
 		elif(choice == "5"):
-			print("non disponible") ###### A FAIRE ######
+			print("\033[2J")
+			print("option non disponible") ###### A FAIRE ######
+			print("\n\n\n\n\n\n\n\n\n\n\n")
 		elif(choice == "6"):
+			print("\033[2J")
 			lang.test_automates_equivalents(list_automate, automate_selected)  ###### ERREURS ######
+			print("\n\n\n\n\n\n\n\n\n\n\n")
 		elif(choice == "7" or choice == ""):
 			test=0
+			print("\033[2J")
 		else:
+			print("\033[2J")
 			print("Veuillez entrer l'une des options proposées\n")
+			print("\n\n\n\n\n\n\n\n\n\n\n")
 
 def menu_generer(list_automate, automate_selected):
 	test=1
@@ -110,21 +123,36 @@ def menu_generer(list_automate, automate_selected):
 		choice = input("Choisissez une action : ")
 		choice = choice.strip()
 		if(choice == "1"):
+			print("\033[2J")
 			regex.regex(list_automate[automate_selected]) # calls the function regex
+			print("\n\n\n\n\n\n\n\n\n\n\n")
 		elif(choice == "2"):
+			print("\033[2J")
 			lang.generer_langage(list_automate[automate_selected])  ###### ERREURS ######
+			print("\n\n\n\n\n\n\n\n\n\n\n")
 		elif(choice == "3"):
+			print("\033[2J")
 			list_automate, automate_selected = complt.complement(list_automate, automate_selected) # calls the function complement
+			print("Complément généré et séléctionné\n\n\n\n\n\n\n\n\n\n\n")
 		elif(choice == "4"):
-			list_automate, automate_selected = mir.miroirf(list_automate, automate_selected) # calls the function complement
+			print("\033[2J")
+			list_automate, automate_selected = mir.miroirf(list_automate, automate_selected) # calls the function miroir
+			print("miroir généré et séléctionné\n\n\n\n\n\n\n\n\n\n\n")
 		elif(choice == "5"):
-			print("non disponible") ###### A FAIRE ######
+			print("\033[2J")
+			print("option non disponible") ###### A FAIRE ######
+			print("\n\n\n\n\n\n\n\n\n\n\n")
 		elif(choice == "6"):
-			list_automate, automate_selected = concat.concatener(list_automate, automate_selected)
+			print("\033[2J")
+			list_automate, automate_selected = concat.concatener(list_automate, automate_selected) # calls the function concatener
+			print("concaténation générée et séléctionnée\n\n\n\n\n\n\n\n\n\n\n")  ###### ERREURS ######
 		elif(choice == "7" or choice == ""):
 			test=0
+			print("\033[2J")
 		else:
+			print("\033[2J")
 			print("Veuillez entrer l'une des options proposées\n")
+			print("\n\n\n\n\n\n\n\n\n\n\n")
 	return list_automate, automate_selected
 
 def menu_modif():
@@ -134,24 +162,37 @@ def menu_modif():
 		choice = input("Choisissez une action : ")
 		choice = choice.strip()
 		if(choice == "1"):
+			print("\033[2J")
 			list_automate[automate_selected] = comp.rendrecomplet(list_automate[automate_selected]) # calls the function rendrecomplet
+			print("\n\n\n\n\n\n\n\n\n\n\n")
 		elif(choice == "2"):
-			print("non disponible") ###### A FAIRE ######
+			print("\033[2J")
+			print("option non disponible") ###### A FAIRE ######
+			print("\n\n\n\n\n\n\n\n\n\n\n")
 		elif(choice == "3"):
-			print("non disponible") ###### A FAIRE ######
+			print("\033[2J")
+			print("option non disponible") ###### A FAIRE ######
+			print("\n\n\n\n\n\n\n\n\n\n\n")
 		elif(choice == "4"):
+			print("\033[2J")
 			list_automate[automate_selected] = mini.toMinimal(list_automate[automate_selected])
+			print("\n\n\n\n\n\n\n\n\n\n\n")
 		elif(choice == "5" or choice == ""):
 			test=0
+			print("\033[2J")
 		else:
+			print("\033[2J")
 			print("Veuillez entrer l'une des options proposées\n")
+			print("\n\n\n\n\n\n\n\n\n\n\n")
 
 
 
-print("\n\n")
+
+
+
 
 def main(): # in a function so it can be called by tests.py
-
+	
 	global list_automate
 	list_automate = []
 	global automate_selected
@@ -161,38 +202,50 @@ def main(): # in a function so it can be called by tests.py
 
 	test2=1
 	while test2:
+		
 		afficher_menu()
 		choice = input("Choisissez une action : ")
 		choice = choice.strip()
 		if(choice == "1"):
+			print("\033[2J")
 			list_automate, automate_selected = dfile.loadAutomate(list_automate, automate_selected)
 		elif(choice == "2"):
+			print("\033[2J")
 			dis.displayAEF(list_automate[automate_selected])
 		elif(choice == "3"):
 			im.image(list_automate, automate_selected)
 		elif(choice == "4"):
+			print("\033[2J")
 			list_automate, automate_selected = dis.editAEF(list_automate, automate_selected)
 		elif(choice == "5"):
+			print("\033[2J")
 			dfile.saveAEF(list_automate[automate_selected])
 		elif(choice == "6"):
+			print("\033[2J")
 			menu_test()
 		elif(choice == "7"):
+			print("\033[2J")
 			menu_modif()
 		elif(choice == "8"):
+			print("\033[2J")
 			list_automate, automate_selected = menu_generer(list_automate, automate_selected)
 		elif(choice == "9"):
+			print("\033[2J")
 			list_automate.append(deepcopy(list_automate[automate_selected]))
 			automate_selected = len(list_automate)-1
 			list_automate[automate_selected]["Nom"] += "_copie"
+			print("Copie effectuée et séléctionnée\n\n\n\n\n\n\n\n\n\n\n")
 		elif(choice == "10"):
 			list_automate, automate_selected = md.demandDelete(list_automate, automate_selected)
 		elif(choice == "11"):
 			test2 = 0
 			return 0
 		else:
+			print("\033[2J")
 			print("Veuillez entrer l'une des options proposées\n")
 
 
 
 if __name__ == '__main__': # call the main function only if run by main.py, if called by tests.py, then do not call it
+	print("\033[2J")
 	main()
