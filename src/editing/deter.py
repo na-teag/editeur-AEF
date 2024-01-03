@@ -147,12 +147,32 @@ def rendredeterministe2(automate):
                         print(automate0["Etats"]["1,3"])
                         print(etat_rechercherc)
                         print(etat_rechercherl)
+                        print(etat_rechercherc[0])
+                        print("\nAutomate converti :")
+                        print(automate0)
                         if etat_rechercherc[0] in automate0["Etats"]:
-                            print("OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO")
+                            print("l'etat existe")
                             if transi not in automate0["Etats"][etat_rechercherc[0]]:
-                                print("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa")
+                                print("mais pas la transi")
+                                print(etatfin)
+                                if len(etatfin) > 1:
+                                    automate0["Etats"][etat_rechercherc[0]][transi] = etatfinl
+                                    
+                                    if etatfinc not in automate0["Etats"]:
+                                        automate0["Etats"][etatfinc] = {}
+                                        nouvetat.append(etatfinc)
+                                        print(nouvetat)
+                                else :
+                                    automate0["Etats"][etat_rechercherc[0]][transi] = etatfin
+                                    if etatfinc not in automate0["Etats"]:
+                                        automate0["Etats"][etatfinc] = {}
+                                        nouvetat.append(etatfin)
+                                        print(nouvetat)
+                                    print("BOUCLE EFFECTUE")
+                            
+                            
                         else :
-                            print("ntm")
+                            print("l'etat existe pas")
             #nouvetat.pop(0)
 
 # rendredeterministe2(automate)
@@ -164,3 +184,7 @@ def rendredeterministe2(automate):
 
 #etatfin = etatfin.split(',')
 #list(map(str, etatfin[0].split(',')))
+#list_a = ["1", "2", "3"]
+#list_b = ["4,5,6"]
+
+#list_c = ",".join(list_a + list_b)
