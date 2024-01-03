@@ -13,6 +13,7 @@ import editing.minimal as mini
 import editing.langage as lang
 import editing.emonde as emon
 import editing.regex as regex
+import editing.concat as concat
 from copy import deepcopy
 
 
@@ -119,7 +120,7 @@ def menu_generer(list_automate, automate_selected):
 		elif(choice == "5"):
 			print("non disponible") ###### A FAIRE ######
 		elif(choice == "6"):
-			print("non disponible") ###### A FAIRE ######
+			list_automate, automate_selected = concat.concatener(list_automate, automate_selected)
 		elif(choice == "7" or choice == ""):
 			test=0
 		else:
