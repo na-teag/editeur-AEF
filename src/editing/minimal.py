@@ -10,9 +10,16 @@ def isMinimal(automate):
 
 
 def MooreMinimal (startBilan, automate) : 
-    """  this function is an adaption of the Moore algorithm : it calculates a new bilan from a starting bilan. 
+    """  
+    ### DESCRIPTION : 
+    this function is an adaption of the Moore algorithm : it calculates a new bilan from a starting bilan. 
+    It recurcively calls itself until the starting bilan is the same as the new one.  
+     
+    
 
-    It recurcively calls itself until the starting bilan is the same as the new one.   """
+    ### Return :
+        Dictionnary for wich each state as for a key in the alphabet the id referening the state it transtion to with the key.   
+    """
     result= {}
 
     automate = {
@@ -51,8 +58,16 @@ def MooreMinimal (startBilan, automate) :
 
 
 def toMinimal(automate):
-    """ Create an automate being the minimalistic version of the input automate  """
+    """ 
 
+    ### Description
+    Create an Automate being the minimalistic version of the input automate.
+
+
+    ### Return:
+        New minimal automate.
+    
+    """
     #Create the bilan 
     startBilan={}
     for state in automate["Etats"] : 
