@@ -2,6 +2,7 @@
 
 
 from data.structure import alphabet
+from copy import deepcopy
 
 def est_complet(automate):
     Alphabet=alphabet(automate) # calculate the alphabet and put it in a variable
@@ -13,7 +14,6 @@ def est_complet(automate):
                 return False
     print("L'automate est complet.")
     return True
-
 
 
 def rendrecomplet(automate):
@@ -28,3 +28,11 @@ def rendrecomplet(automate):
                     automate["Etats"][etat][symbole] = [etat] # Add the missing transition
         print("L'automate est maintenant complet.")
         return automate
+
+def autocomp(liste, num_automate):
+    automate = liste[num_automate]
+    automatec = rendrecomplet(deepcopy(automate))
+    automatec["Nom"] += "_complet"
+    num_automate = len(liste)
+    liste.append(automatec)
+    return liste, num_automate  

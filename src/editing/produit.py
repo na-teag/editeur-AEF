@@ -3,6 +3,8 @@
         https://www.desmontils.net/emiage/Module209EMiage/c5/Ch5_10.htm (section 10.4)
 """
 import data.structure as strct
+import data.file as file
+from copy import deepcopy
 
 """" 
     automate={	
@@ -123,3 +125,16 @@ def product (automate1: dict, automate2: dict):
         i += 1
     
     return newAutomate
+
+
+
+def produit(liste, num_automate): # Choose the 2nd automaton, run the product() function, and add the result to the list
+	num_automate2 = -1
+	print("\n\n\n\n\n\n\n\n\n\n\n")
+	print("Séléctionnez un deuxième AEF à comparer")
+	liste, num_automate2 = file.loadAutomate(liste, num_automate2)
+	automate = product(deepcopy(liste[num_automate]), deepcopy(liste[num_automate2]))
+	automate["Nom"] = liste[num_automate]["Nom"] + "_*_" + liste[num_automate2]["Nom"]
+	num_automate = len(liste)
+	liste.append(automate)
+	return liste, num_automate
