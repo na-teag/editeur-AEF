@@ -210,7 +210,7 @@ class Testmiroir(unittest.TestCase):  # test of function Miroir
 		result = mir.miroirf(automate)
 		result2 = {
 			"Etats": {
-				"qo": {"a": ["q0", "q2"], "c": ["q1"]},
+				"q0": {"a": ["q0", "q2"], "c": ["q1"]},
 				"q1": {"a": ["q0"], "b": ["q2"], "d": ["q1"]},
 				"q2": {"b": ["q3"], "c": ["q1"]},
 				"q3": {}
