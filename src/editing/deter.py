@@ -97,7 +97,7 @@ def rendredeterministe(automate):
                             automate0["Etats"][etat][transi] = etatfin
                             if etatfinc not in automate0["Etats"]:
                                 automate0["Etats"][etatfinc] = {}
-                                nouvetat.append(etatfin)
+                                nouvetat.append(etatfinc)
         else :
             for etat, transitions in etats.items():
                 if etat in etat_rechercherl:
