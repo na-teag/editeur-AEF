@@ -155,7 +155,7 @@ def menu_generer(list_automate, automate_selected):
 			print("\n\n\n\n\n\n\n\n\n\n\n")
 	return list_automate, automate_selected
 
-def menu_modif():
+def menu_modif(list_automate, automate_selected):
 	test=1
 	while test:
 		afficher_menu_modif()
@@ -184,6 +184,7 @@ def menu_modif():
 			print("\033[2J") # clear the screen
 			print("Veuillez entrer l'une des options proposées\n")
 			print("\n\n\n\n\n\n\n\n\n\n\n")
+	return list_automate, automate_selected
 
 
 
@@ -224,7 +225,7 @@ def main(): # in a function so it can be called by tests.py
 			menu_test()
 		elif(choice == "7"):
 			print("\033[2J") # clear the screen
-			menu_modif()
+			list_automate, automate_selected = menu_modif(list_automate, automate_selected)
 		elif(choice == "8"):
 			print("\033[2J") # clear the screen
 			list_automate, automate_selected = menu_generer(list_automate, automate_selected)
