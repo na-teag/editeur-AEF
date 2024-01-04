@@ -1,99 +1,125 @@
 # this file contains all funcions to change an automate into a minimal one 
 
 import data.structure as strct 
+from copy import deepcopy
 
-def isMinimal(automate):
-    
-    
-    
-    return True
-
-
-def MooreMinimal (startBilan, automate) : 
-    """  
-    ### DESCRIPTION : 
-    this function is an adaption of the Moore algorithm : it calculates a new bilan from a starting bilan. 
-    It recurcively calls itself until the starting bilan is the same as the new one.  
-     
-    
-
-    ### Return :
-        Dictionnary for wich each state as for a key in the alphabet the id referening the state it transtion to with the key.   
+def MooreMinimal(startBilan: dict, automate: dict) -> dict:
     """
-    result= {}
+    ### Description
+    Calulate an new bilan from a starting bilan. Recurcively call until the starting bilna is the same as the new one.
+    
+    ### Return:
+        Dictionnary for wich each state as for a key in the alphabet the id referening the state it transtion to with the key.
+    
+    """
+    alphabet =  strct.alphabet(automate)
+    outcome = {}
 
-    automate = {
-        "Alphabet": strct.alphabet(automate), 
-        "Etats":{},
-        "Etats_initiaux": [],
-        "Etats_finaux": []
-    }
-    alphabet=strct.alphabet(automate)
-    #add start bilan to the final result table
+    #add start bilan to the final outcome table
     for state in startBilan:
-        result[state]=list(startBilan[state])
+        outcome[state] = list(startBilan[state])
+    
 
-    for state in result : 
-        for i in range(0,len(alphabet)):
-            result[state].append(result[automate["Etats"][state]["Alphabet"[i][0][0]]])
+    for state in outcome:
+        for key in alphabet:
+            if key in automate["Etats"][state]:
+                outcome[state].append(outcome[automate["Etats"][state][key][0]][0])
 
-    #Count different arrangement and give them an unique ID. If already exist give it the corresponding ID
-    bilan={}
+    #count different arrangement and give them an unique ID. If already exist give it the corresponding ID
+    bilan = {}
     alreadyAddedArrangement = []
     i=0
-    for state in result:
-        if result[state] not in alreadyAddedArrangement:
+    for state in outcome:
+        if outcome[state] not in alreadyAddedArrangement:
             bilan[state] = [i]
-            alreadyAddedArrangement.append(result[state])
+            alreadyAddedArrangement.append(outcome[state])
             i+=1
         else:
-            bilan[state] = [alreadyAddedArrangement.index(result[state])]
+            bilan[state] = [alreadyAddedArrangement.index(outcome[state])]
 
     if bilan == startBilan:
-        return result
+        return outcome
     else:
-        return MooreMinimal(bilan,automate)
+        return MooreMinimal(bilan, automate)
 
-
-
-
-def toMinimal(automate):
-    """ 
-
+def toMinimal(automate: dict):
+    """
     ### Description
     Create an Automate being the minimalistic version of the input automate.
-
 
     ### Return:
         New minimal automate.
     
     """
-    #Create the bilan 
-    startBilan={}
-    for state in automate["Etats"] : 
-        startBilan[state]=[int(state not in automate["Etats_finaux"])]
-    
-    minimalisedMap = MooreMinimal(startBilan,automate)
 
-    #create a table of reference between and id and a state 
-    idToState={}
+    #create the bilan
+    startBilan = {}
+    for state in automate["Etats"]:
+        startBilan[state] = [int(state in automate["Etats_finaux"])]
+
+    minimalisedMap = MooreMinimal(startBilan, automate)
+
+    #create a table of reference between an id and a state
+    idToState = {}
     for state in minimalisedMap:
         if int(minimalisedMap[state][0]) not in idToState:
             idToState[int(minimalisedMap[state][0])] = state
 
-    #creation of the new automate 
-    i=-1
-    automate["Etats"] = {}
+
+    #creation of the new Automate
+    newAutomate = {	
+        "Etats": {},
+		"Etats_initiaux": [],
+		"Etats_finaux": [],
+		"Nom": automate["Nom"]+"_minimal"
+	}
+
+    #creating states
+    for i in idToState:
+        newAutomate["Etats"][idToState[i]] = {}
+        if idToState[i] in automate["Etats_finaux"]:
+            newAutomate["Etats_finaux"].append(idToState[i])
+        if idToState[i] in automate["Etats_initiaux"]:
+            newAutomate["Etats_initiaux"].append(idToState[i])
+
+    #creating transition
+    i = -1
+    alphabet = strct.alphabet(automate)
     for state in minimalisedMap:
         if minimalisedMap[state][0] > i:
             i+=1
-            automate["Etats"][state] = {}
-            for key in range(0, len(automate["Alphabet"])):
-                automate["Etats"][state][automate["Alphabet"][key]] = [idToState[minimalisedMap[state][key+1]]]
-        else:
-            if state in automate["Etats_initiaux"]: automate["Etats_initiaux"].remove(state)
-            if state in automate["Etats_finaux"]: automate["Etats_finaux"].remove(state)
+            for key in range(0, len(alphabet)):
+                newAutomate["Etats"][state][alphabet[key]] = idToState[minimalisedMap[state][key+1]]
+    
+    return newAutomate
 
 
-    return automate
+autommate = {
+	"Etats": {
+		"q0": {"a": ["q2"], "b": ["q1"]},
+		"q1": {"a": ["q2"], "b": ["q1"]},
+		"q2": {"a": ["q3"], "b": ["q2"]},
+		"q3": {"a": ["q5"], "b": ["q4"]},
+        "q4": {"a": ["q5"], "b": ["q4"]},
+		"q5": {"a": ["q6"], "b": ["q5"]},
+		"q6": {"a": ["q5"], "b": ["q7"]},
+		"q7": {"a": ["q5"], "b": ["q7"]}
+	},
+	"Etats_initiaux": ["q0"],
+	"Etats_finaux": ["q0","q3", "q4", "q6", "q7"],
+	"Nom" : "test"
+}
+print(toMinimal(autommate))
 
+
+
+
+
+
+def minimal(liste, num_automate):
+    automate = liste[num_automate]
+    automatee = toMinimal(deepcopy(automate))
+    automatee["Nom"] += "_minimal"
+    num_automate = len(liste)
+    liste.append(automatee)
+    return liste, num_automate

@@ -15,13 +15,12 @@ def concat (automate1, automate2) :
 	"""
 
 	# create new automate 
-	automateFinal=strct.createAutomate()
 	automateFinal = {
-        "Alphabet": list(set(automate1["Alphabet"]+automate2["Alphabet"])), 
-        "Etats":{},
-        "Etats_initiaux": [],
-        "Etats_finaux": []
-    }
+		"Etats": {},
+		"Etats_initiaux": [],
+		"Etats_finaux": [],
+		"Nom": ""
+	}
   
 	i=0
 	#link the old state name (automate1) to the one in the new automate
@@ -104,8 +103,8 @@ def concatener(liste, num_automate): # Choose the 2nd automaton, run the concat(
 	print("\n\n\n\n\n\n\n\n\n\n\n")
 	print("Séléctionnez un deuxième AEF à comparer")
 	liste, num_automate2 = file.loadAutomate(liste, num_automate2)
-	automate = deepcopy(concat(liste[num_automate], liste[num_automate2]))
-	automate["Nom"] = liste[num_automate]["Nom"] + liste[num_automate2]["Nom"]
+	automate = concat(deepcopy(liste[num_automate]), deepcopy(liste[num_automate2]))
+	automate["Nom"] = liste[num_automate]["Nom"] + "_" + liste[num_automate2]["Nom"]
 	num_automate = len(liste)
 	liste.append(automate)
 	return liste, num_automate

@@ -1,3 +1,5 @@
+from copy import deepcopy 
+
 def est_emonde(automate): # verify if the automate is pruned
     reachable_states = set()
 
@@ -47,3 +49,13 @@ def rendre_emonde(automate): # Prunes the automaton by removing unreachable stat
     automate["Etats_finaux"] = list(set(automate["Etats_finaux"]).intersection(etats_accessibles))
 
     return automate
+
+
+
+def emonde(liste, num_automate):
+    automate = liste[num_automate]
+    automatee = rendre_emonde(deepcopy(automate))
+    automatee["Nom"] += "_emonde"
+    num_automate = len(liste)
+    liste.append(automatee)
+    return liste, num_automate
