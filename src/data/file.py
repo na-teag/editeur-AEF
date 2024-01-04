@@ -4,7 +4,7 @@ import data.structure as strct
 import editing.modif as md
 import json
 import re  # regex to test files names
-import glob
+import glob # to list available files
 
 def loadAutomate(list_automate, automate_selected): # function to create, import or select an existing FA
 	nbr = 3 # nbr of additional option other than existing FA

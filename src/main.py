@@ -107,7 +107,7 @@ def menu_test():
 			print("\n\n\n\n\n\n\n\n\n\n\n")
 		elif(choice == "6"):
 			print("\033[2J") # clear the screen
-			lang.test_automates_equivalents(list_automate, automate_selected)  ###### ERREURS ######
+			#lang.test_automates_equivalents(list_automate, automate_selected)  ###### ERREURS ######
 			print("\n\n\n\n\n\n\n\n\n\n\n")
 		elif(choice == "7" or choice == ""):
 			test=0
@@ -129,7 +129,7 @@ def menu_generer(list_automate, automate_selected):
 			print("\n\n\n\n\n\n\n\n\n\n\n")
 		elif(choice == "2"):
 			print("\033[2J") # clear the screen
-			lang.generer_langage(list_automate[automate_selected])  ###### ERREURS ######
+			#lang.generer_langage(list_automate[automate_selected])  ###### ERREURS ######
 			print("\n\n\n\n\n\n\n\n\n\n\n")
 		elif(choice == "3"):
 			print("\033[2J") # clear the screen
@@ -168,7 +168,7 @@ def menu_modif(list_automate, automate_selected):
 			print("\n\n\n\n\n\n\n\n\n\n\n")
 		elif(choice == "2"):
 			print("\033[2J") # clear the screen
-			list_automate, automate_selected = det.autodeter(list_automate, automate_selected) # calls the function autodeter  ###### ERREURS ######
+			list_automate, automate_selected = det.autodeter(list_automate, automate_selected) # calls the function autodeter
 			print("\n\n\n\n\n\n\n\n\n\n\n")
 		elif(choice == "3"):
 			print("\033[2J") # clear the screen
@@ -176,7 +176,7 @@ def menu_modif(list_automate, automate_selected):
 			print("\n\n\n\n\n\n\n\n\n\n\n")
 		elif(choice == "4"):
 			print("\033[2J") # clear the screen
-			list_automate, automate_selected = mini.minimal(list_automate, automate_selected) # calls the function minimal   ###### ERREURS ######
+			#list_automate, automate_selected = mini.minimal(list_automate, automate_selected) # calls the function minimal   ###### ERREURS ######
 			print("\n\n\n\n\n\n\n\n\n\n\n")
 		elif(choice == "5" or choice == ""):
 			test=0
