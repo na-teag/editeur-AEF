@@ -98,6 +98,7 @@ def image(list_automate, automate_selected):
 	print("\033[2J") # clear the screen
 	print("\n\nL'image à été générée")
 	
+	
 	if(platform.system() == 'Windows'):
 		import os
 		chemin = os.path.abspath("../file/image_automate.png")

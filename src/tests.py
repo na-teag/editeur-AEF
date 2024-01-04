@@ -12,6 +12,9 @@ import data.structure as strct
 import editing.modif as md
 import editing.testermot as testermot
 import main
+import unitTest.testminimal as min
+import unitTest.testconcat as concat
+import unitTest.testproduit as prod
 
 MAGENTA = '\033[95m'
 ENDC = '\033[0m'
@@ -70,13 +73,12 @@ class testEditStates(unittest.TestCase):  # test of function editeStates
 class testTestTransition(unittest.TestCase):  # test of function testTransition
 	@patch('builtins.input', side_effect=[])
 	def testTestTransition(self, mock_inputs):
-		liste = []
-		liste.append(copy.deepcopy(automate))
-		result = md.testTransition(liste, 0, "q0")
+		automate1 = copy.deepcopy(automate)
+		result = md.testTransition(automate1, "q0")
 		self.assertEqual(result, 1)
-		result = md.testTransition(liste, 0, "q3")
+		result = md.testTransition(automate1, "q3")
 		self.assertEqual(result, 0)
-		result = md.testTransition(liste, 0, "q4")
+		result = md.testTransition(automate1, "q4")
 		self.assertEqual(result, 0)
 
 
@@ -179,20 +181,27 @@ class testDemandDelete(unittest.TestCase):  # test of function demandDelete, and
 		}
 		self.assertEqual(liste[indice], automate2)
 
-##########################################################################  functions from minimal.py ##########################################################################
-
-print(MAGENTA+"TEST minimal"+ENDC)
-import unitTest.testminimal
 ##########################################################################  functions from concat.py ##########################################################################
 
-print(MAGENTA+"TEST concaténation de 2 automates"+ENDC)
-import unitTest.testconcat
+class Test_concat(unittest.TestCase): # test of function test_conc
+	@patch('builtins.input', side_effect=[])
+	def test_concat(self, mock_inputs):
+		print(MAGENTA+"TEST concaténation de 2 automates"+ENDC)
+		self.assertEqual(concat.test_conc(), True)
+##########################################################################  functions from minimal.py ##########################################################################
+
+class Test_minimal(unittest.TestCase): # test of function test_minimal
+	@patch('builtins.input', side_effect=[])
+	def test_minimal(self, mock_inputs):
+		print(MAGENTA+"TEST minimal"+ENDC)
+		self.assertEqual(min.test_min(), True)
 ##########################################################################  functions from produit.py ##########################################################################
 
-print(MAGENTA+"TEST produits de 2 automates"+ENDC)
-import unitTest.testproduit
-
-
+class Test_produit(unittest.TestCase): # test of function test_minimal
+	@patch('builtins.input', side_effect=[])
+	def test_produit(self, mock_inputs):
+		print(MAGENTA+"TEST produits de 2 automates"+ENDC)
+		self.assertEqual(prod.test_prod(), True)
 ##########################################################################  functions from testermot.py ##########################################################################
 
 class Test_tester(unittest.TestCase):  # test of function tester, and thus function tester_mot, with a valid word
@@ -222,8 +231,8 @@ class Test_tester4(unittest.TestCase):  # test of function tester, and thus func
 
 ##################################################################  test of functions interractions  ##############################################################
 
-class Test_main(unittest.TestCase):																																																																																																		# ici, mettre les générations d'AEF complément, miroir, produit, et concaténation
-	@patch('builtins.input', side_effect=['2', 'test', 'q0,a,q1', 'q0,a,q0', 'q1,b,q2', 'q2,c,q1', '', 'q0', '', 'q2', '', '1', '3', '2', '3', '4', '1', 'test1', '2', '1', 'q2,c,q3', 'q3,a,q0', '', '2', 'q3', 'q2', '1', '3', 'q0', '1', 'q1', '', '4', '3', 'q1', '', 'q1', '', '4', 'q2', 'q2', '', '5', '5', 'test_unitaire', '6', '1', 'b', 'c', 'c', 'b', 'c', '', '2', '3', '4', '5', '6', '7', '7', '1', '2', '3', '4', '5', '8', '1',                                                                                  '6', '9', '1', '1', 'test_unitaire', '10'])
+class Test_main(unittest.TestCase):
+	@patch('builtins.input', side_effect=['2', 'test', 'q0,a,q1', 'q0,a,q0', 'q1,b,q2', 'q2,c,q1', '', 'q0', '', 'q2', '', '1', '3', '2', '3', '4', '1', 'test1', '2', '1', 'q2,c,q3', 'q3,a,q0', '', '2', 'q3', 'q2', '1', '3', 'q0', '1', 'q1', '', '4', '3', 'q1', '', 'q1', '', '4', 'q2', 'q2', '', '5', '5', 'test_unitaire', '6', '1', 'b', 'c', 'c', 'b', 'c', '', '2', '3', '4', '5', '6', '7', '7', '1', '2', '3', '4', '5', '8', '2', '3', '4', '5', '6', '7', '9', '10', '1', '1', 'test_unitaire', '11'])
 	def test_main(self, mock_inputs):
 		result = main.main()
 		if(platform.system() == 'Linux'):
@@ -249,5 +258,4 @@ automate = {
 	"Nom" : "test"
 }
 
-#testermot.tester(automate)
 unittest.main()
