@@ -32,13 +32,14 @@ def loadAutomate(list_automate, automate_selected): # function to create, import
 		elif(choix == 2):
 			automate_selected = len(list_automate) # the index of the FA is the lenght of the list before it's added to it : empty list -> first FA at index 0
 			list_automate.append(strct.createAutomate())
+			print("\033[2J") # clear the screen
 			list_automate, automate_selected = md.editStates(list_automate, automate_selected)
 			test=0
-			print("\033[2J")
+			print("\033[2J") # clear the screen
 		elif(2 < choix and choix < len(list_automate)+3):
 			automate_selected = choix-3 # 2 options added in the list begging at 1 -> the index is shifted by 3
 			test=0
-			print("\033[2J")
+			print("\033[2J") # clear the screen
 		else:
 			print("\n\nVeuillez choisir une des options proposées")
 	return list_automate, automate_selected
@@ -63,14 +64,14 @@ def openjson(list_automate, automate_selected): # list_automate needed, do not r
 				automate_selected = len(list_automate)
 				list_automate.append(automate)
 				print(f"AEF chargé à partir de {nom_fichier} depuis le dossier \"file\"")
-				print("\033[2J")
+				print("\033[2J") # clear the screen
 		except FileNotFoundError:
-			print("\033[2J")
+			print("\033[2J") # clear the screen
 			print(f"Le fichier {nom_fichier} n'existe pas dans le dossier \"file\". Veuillez vérifier le nom du fichier.")
 			list_automate, automate_selected = openjson(list_automate, automate_selected) 
 		return list_automate, automate_selected
 	else:
-		print("\033[2J")
+		print("\033[2J") # clear the screen
 		return loadAutomate(list_automate, automate_selected) # if the name is empty, back to the last menu
 
 
@@ -97,14 +98,14 @@ def saveAEF(automate):
 				with open(nom_fichier2, 'w') as file:
 					json.dump(automate, file, indent=4)
 				test=0
-				print("\033[2J")
+				print("\033[2J") # clear the screen
 				print(f"AEF sauvegardé dans le dossier \"file\" en tant que {nom_fichier}")
 				print("\n\n\n\n\n\n\n\n\n\n\n")
 			else:
-				print("\033[2J")
+				print("\033[2J") # clear the screen
 				print("un fichier ne peut pas contenir de caractères spéciaux\n")
 		else:
-			print("\033[2J")
+			print("\033[2J") # clear the screen
 			print("fichier non sauvegardé")
 			print("\n\n\n\n\n\n\n\n\n\n\n")
 			test=0

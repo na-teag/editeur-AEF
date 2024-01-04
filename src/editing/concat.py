@@ -104,7 +104,7 @@ def concatener(liste, num_automate): # Choose the 2nd automaton, run the concat(
 	print("Séléctionnez un deuxième AEF à comparer")
 	liste, num_automate2 = file.loadAutomate(liste, num_automate2)
 	automate = deepcopy(concat(liste[num_automate], liste[num_automate2]))
-	automate["Nom"] = liste[num_automate]["Nom"] + liste[num_automate2]["Nom"]
+	automate["Nom"] = liste[num_automate]["Nom"] + "_" + liste[num_automate2]["Nom"]
 	num_automate = len(liste)
 	liste.append(automate)
 	return liste, num_automate

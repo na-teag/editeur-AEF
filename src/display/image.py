@@ -95,7 +95,7 @@ def image(list_automate, automate_selected):
 	graph = graphviz.Source.from_file("../file/image_automate.dot")
 	graph.render("../file/image_automate", format='png', cleanup=True)
 
-	print("\033[2J")
+	print("\033[2J") # clear the screen
 	print("\n\nL'image à été générée")
 	
 	if(platform.system() == 'Windows'):
