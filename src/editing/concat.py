@@ -7,11 +7,11 @@ from copy import deepcopy
 
 def concat (automate1, automate2) :
 	"""
+	### Description : 
 		This function returns a new automate being the concatenation of two automates
 
-		This algortihm is an adaption of the one explained here : 
-		https://www.desmontils.net/emiage/Module209EMiage/c5/Ch5_10.htm (section 10.2)
-
+	### Return : 
+		automate1.automate2
 	"""
 
 	# create new automate 
