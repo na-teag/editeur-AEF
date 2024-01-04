@@ -163,11 +163,11 @@ def menu_modif(list_automate, automate_selected):
 		choice = choice.strip()
 		if(choice == "1"):
 			print("\033[2J") # clear the screen
-			list_automate[automate_selected] = comp.rendrecomplet(list_automate[automate_selected]) # calls the function rendrecomplet
+			list_automate, automate_selected = comp.autocomp(list_automate, automate_selected) # calls the function autocomp
 			print("\n\n\n\n\n\n\n\n\n\n\n")
 		elif(choice == "2"):
 			print("\033[2J") # clear the screen
-			list_automate, automate_selected = det.autodeter(list_automate, automate_selected)
+			list_automate, automate_selected = det.autodeter(list_automate, automate_selected) # calls the function autodeter
 			print("\n\n\n\n\n\n\n\n\n\n\n")
 		elif(choice == "3"):
 			print("\033[2J") # clear the screen
