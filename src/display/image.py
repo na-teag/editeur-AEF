@@ -103,5 +103,6 @@ def image(list_automate, automate_selected):
 	elif(platform.system() == 'Linux'):
 		subprocess.run(["xdg-open", "../file/image_automate.png"])
 	else:
-		print("\nveuillez ouvrir l'image du dossier \"file\" manuellement")
+		print("\n\nveuillez ouvrir l'image du dossier \"file\" manuellement")
+	print("\n\n\n\n\n\n\n\n\n\n\n")
 			

@@ -14,6 +14,7 @@ import editing.langage as lang
 import editing.emonde as emon
 import editing.regex as regex
 import editing.concat as concat
+import editing.produit as prod
 from copy import deepcopy
 
 
@@ -140,12 +141,12 @@ def menu_generer(list_automate, automate_selected):
 			print("miroir généré et séléctionné\n\n\n\n\n\n\n\n\n\n\n")
 		elif(choice == "5"):
 			print("\033[2J") # clear the screen
-			print("option non disponible") ###### A FAIRE ######
+			list_automate, automate_selected = prod.produit(list_automate, automate_selected) # calls the function miroir
 			print("\n\n\n\n\n\n\n\n\n\n\n")
 		elif(choice == "6"):
 			print("\033[2J") # clear the screen
 			list_automate, automate_selected = concat.concatener(list_automate, automate_selected) # calls the function concatener
-			print("concaténation générée et séléctionnée\n\n\n\n\n\n\n\n\n\n\n")  ###### ERREURS ######
+			print("concaténation générée et séléctionnée\n\n\n\n\n\n\n\n\n\n\n")
 		elif(choice == "7" or choice == ""):
 			test=0
 			print("\033[2J") # clear the screen
@@ -171,11 +172,11 @@ def menu_modif(list_automate, automate_selected):
 			print("\n\n\n\n\n\n\n\n\n\n\n")
 		elif(choice == "3"):
 			print("\033[2J") # clear the screen
-			print("option non disponible") ###### A FAIRE ######
+			list_automate, automate_selected = emon.emonde(list_automate, automate_selected) # calls the function emonde
 			print("\n\n\n\n\n\n\n\n\n\n\n")
 		elif(choice == "4"):
 			print("\033[2J") # clear the screen
-			list_automate[automate_selected] = mini.toMinimal(list_automate[automate_selected])
+			list_automate, automate_selected = mini.minimal(list_automate, automate_selected) # calls the function minimal
 			print("\n\n\n\n\n\n\n\n\n\n\n")
 		elif(choice == "5" or choice == ""):
 			test=0

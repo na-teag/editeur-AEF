@@ -49,6 +49,11 @@ def loadAutomate(list_automate, automate_selected): # function to create, import
 def openjson(list_automate, automate_selected): # list_automate needed, do not remove it
 	print("\n\n\n\nFichiers disponibles : ")
 	fichiers_json = glob.glob('../file/' + "*.json")
+	if(len(fichiers_json) == 0):
+		print("\033[2J") # clear the screen
+		print("Aucun fichier json n'a été trouvé dans le dossier \"file\"")
+		print("\n\n\n\n\n\n\n\n\n\n\n")
+		return loadAutomate(list_automate, automate_selected) # if there isn't any FA, back to the last menu
 	for fichier in fichiers_json:
 		fichier = fichier.rsplit('/', 1)[-1]
 		print(fichier, end='\t\t')

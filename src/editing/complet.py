@@ -31,8 +31,8 @@ def rendrecomplet(automate):
 
 def autocomp(liste, num_automate):
     automate = liste[num_automate]
-    automatec = rendrecomplet(automate)
+    automatec = rendrecomplet(deepcopy(automate))
     automatec["Nom"] += "_complet"
     num_automate = len(liste)
-    liste.append(deepcopy(automatec))
+    liste.append(automatec)
     return liste, num_automate  

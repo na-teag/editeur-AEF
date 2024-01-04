@@ -1,6 +1,7 @@
 # this file contains all funcions to change an automate into a minimal one 
 
 import data.structure as strct 
+from copy import deepcopy
 
 def isMinimal(automate):
     
@@ -97,3 +98,12 @@ def toMinimal(automate):
 
     return automate
 
+
+
+def minimal(liste, num_automate):
+    automate = liste[num_automate]
+    automatee = toMinimal(deepcopy(automate))
+    automatee["Nom"] += "_minimal"
+    num_automate = len(liste)
+    liste.append(automatee)
+    return liste, num_automate
