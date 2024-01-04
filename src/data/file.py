@@ -5,6 +5,8 @@ import editing.modif as md
 import json
 import re  # regex to test files names
 import glob # to list available files
+import os
+
 
 def loadAutomate(list_automate, automate_selected): # function to create, import or select an existing FA
 	nbr = 3 # nbr of additional option other than existing FA
@@ -48,14 +50,22 @@ def loadAutomate(list_automate, automate_selected): # function to create, import
 
 def openjson(list_automate, automate_selected): # list_automate needed, do not remove it
 	print("\n\n\n\nFichiers disponibles : ")
-	fichiers_json = glob.glob('../file/' + "*.json")
-	if(len(fichiers_json) == 0):
+	chemin = os.path.abspath("../file/*.json") # change the relative path in absolute path
+	fichiers_json = glob.glob(chemin) # get the json files
+	if(len(fichiers_json) == 0): # if there is no file
 		print("\033[2J") # clear the screen
 		print("Aucun fichier json n'a été trouvé dans le dossier \"file\"")
 		print("\n\n\n\n\n\n\n\n\n\n\n")
 		return loadAutomate(list_automate, automate_selected) # if there isn't any FA, back to the last menu
 	for fichier in fichiers_json:
-		fichier = fichier[8:]
+		index = fichier.rfind('/') # find the last /
+		if index != -1: # check if there is one
+			index += 1
+			fichier = fichier[index:]
+		index = fichier.rfind('\\') # find the last \
+		if index != -1: # check if there is one
+			index += 1
+			fichier = fichier[index:]
 		print(fichier, end='\t\t')
 	print("\n")
 	nom_fichier = input("\nentrez le nom du fichier .json : ")
