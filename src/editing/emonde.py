@@ -27,7 +27,6 @@ def est_emonde(automate): # verify if the automate is pruned
 
 
 
-
 def rendre_emonde(automate): # Prunes the automaton by removing unreachable states.
 
     def dfs(etat): # explores accessible states
