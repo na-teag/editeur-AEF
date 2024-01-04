@@ -6,28 +6,6 @@ import data.structure as strct
 import data.file as file
 from copy import deepcopy
 
-"""" 
-    automate={	
-        "Etats": {},
-		"Etats_initiaux": [],
-		"Etats_finaux": [],
-		"Nom": ""
-	}
-
-automate1 = {
-	"Etats": {
-		"q0": {"a": ["q0","q1"]},
-		"q1": {"c": ["q0","q2"], "d": ["q1"]},
-		"q2": {"a": ["q0"], "b": ["q1"]},
-		"q3": {"b": ["q2"]}
-	},
-	"Etats_initiaux": ["q0"],
-	"Etats_finaux": ["q2"],
-	"Nom" : "test"
-}
-
-
-"""
 def calculLineProduct(stateList: list, alphabet: list, automate1: dict, automate2: dict):
     line = {}
     for key in alphabet:
