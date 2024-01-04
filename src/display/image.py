@@ -99,7 +99,9 @@ def image(list_automate, automate_selected):
 	print("\n\nL'image à été générée")
 	
 	if(platform.system() == 'Windows'):
-		subprocess.run(["explorer", "../file/image_automate.png"])
+		import os
+		chemin = os.path.abspath("../file/image_automate.png")
+		subprocess.run(["explorer", chemin])
 	elif(platform.system() == 'Linux'):
 		subprocess.run(["xdg-open", "../file/image_automate.png"])
 	else:

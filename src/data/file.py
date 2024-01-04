@@ -55,7 +55,7 @@ def openjson(list_automate, automate_selected): # list_automate needed, do not r
 		print("\n\n\n\n\n\n\n\n\n\n\n")
 		return loadAutomate(list_automate, automate_selected) # if there isn't any FA, back to the last menu
 	for fichier in fichiers_json:
-		fichier = fichier.rsplit('/', 1)[-1]
+		fichier = fichier[8:]
 		print(fichier, end='\t\t')
 	print("\n")
 	nom_fichier = input("\nentrez le nom du fichier .json : ")
