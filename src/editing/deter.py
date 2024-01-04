@@ -114,7 +114,7 @@ def rendredeterministe(automate):
                                 automate0["Etats"][etat_rechercherc[0]][transi] = etatfin
                                 if etatfinc not in automate0["Etats"]:
                                     automate0["Etats"][etatfinc] = {}
-                                    nouvetat.append(etatfin)
+                                    nouvetat.append(etatfinc)
                         else :
                             temp = ','.join(automate0["Etats"][etat_rechercherc[0]][transi])
                             etatcreer = list(map(str, temp.split(',')))
