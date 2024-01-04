@@ -9,6 +9,8 @@ import subprocess
 
 import data.file as file
 import data.structure as strct
+import editing.complement as complt
+import editing.miroir as mir
 import editing.modif as md
 import editing.testermot as testermot
 import main
@@ -180,6 +182,45 @@ class testDemandDelete(unittest.TestCase):  # test of function demandDelete, and
 			"Nom" : "test"
 		}
 		self.assertEqual(liste[indice], automate2)
+##########################################################################  functions from complement.py ##########################################################################
+
+class Testcomplement(unittest.TestCase):  # test of function Complement
+	@patch('builtins.input', side_effect=[])
+	def Testcomplement(self, mock_inputs):
+		result = complt.complement(automate)
+		result2 = {
+			"Etats": {
+				"q0": {"a": ["q0", "q1"]},
+				"q1": {"c": ["q0", "q2"], "d": ["q1"]},
+				"q2": {"a": ["q0"], "b": ["q1"]},
+				"q3": {"b": ["q2"]}
+			},
+			"Etats_initiaux": ["q0"],
+			"Etats_finaux": ["q0,q1,q3"],
+			"Nom": "test"
+		}
+		self.assertEqual(result, result2)
+
+##########################################################################  functions from miroir.py ##########################################################################
+
+
+class Testmiroir(unittest.TestCase):  # test of function Miroir
+	@patch('builtins.input', side_effect=[])
+	def Testmiroir(self, mock_inputs):
+		result = mir.miroirf(automate)
+		result2 = {
+			"Etats": {
+				"qo": {"a": ["qo", "q2"], "c": ["q1"]},
+				"q1": {"a": ["q0"], "b": ["q2"], "d": ["q1"]},
+				"q2": {"b": ["q3"], "c": ["q1"]},
+				"q3": {}
+			},
+			"Etats_initiaux": ["q2"],
+			"Etats_finaux": ["q0"],
+			"Nom": "test"
+		}
+		self.assertEqual(result, result2)
+
 
 ##########################################################################  functions from concat.py ##########################################################################
 
