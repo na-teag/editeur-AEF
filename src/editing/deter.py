@@ -1,6 +1,8 @@
 # This file contains all functions to verify if an automate is determinist and to change it into a determinist one 
 
 from data.structure import createAutomate
+from copy import deepcopy
+from display.display import displayAEF
 
 def est_deterministe(automate):
     if len(automate["Etats_initiaux"])>1: # check that there is only one entry
@@ -26,6 +28,7 @@ automate ={
    },
    "Etats_initiaux": ["1"],
    "Etats_finaux": ["2"],
+   "Nom" : "automate"
 }
 
 automate0 ={
@@ -33,6 +36,7 @@ automate0 ={
    },
    "Etats_initiaux": [],
    "Etats_finaux": [],
+   "Nom" : ""
 }
 
 automatevoulu ={
@@ -52,6 +56,8 @@ def rendredeterministe(automate):
     nouvetat = []
     automate0["Etats_initiaux"] = automate["Etats_initiaux"]
     automate0["Etats_finaux"] = automate["Etats_finaux"]
+    automate0["Nom"] = automate["Nom"]
+    automate0["Nom"] += "_deterministe"
     i = automate0["Etats_initiaux"]
     etats = automate["Etats"]
     for etat, transitions in etats.items(): # loops for each etat
@@ -129,7 +135,15 @@ def rendredeterministe(automate):
             nouvetat.append(listechgmt[0])
             listechgmt.pop(0)
     print("\nAutomate converti :")
-    print(automate0)                           
+    displayAEF(automate0)
+    return automate0
+
+def autodeter(liste, num_automate):
+	automate = liste[num_automate]
+	automated = rendredeterministe(automate)
+	num_automate = len(liste)
+	liste.append(deepcopy(automated))
+	return liste, num_automate                       
 
                         
                         

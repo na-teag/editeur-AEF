@@ -167,7 +167,7 @@ def menu_modif():
 			print("\n\n\n\n\n\n\n\n\n\n\n")
 		elif(choice == "2"):
 			print("\033[2J") # clear the screen
-			print("option non disponible") ###### A FAIRE ######
+			list_automate, automate_selected = det.autodeter(list_automate, automate_selected)
 			print("\n\n\n\n\n\n\n\n\n\n\n")
 		elif(choice == "3"):
 			print("\033[2J") # clear the screen
