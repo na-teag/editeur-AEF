@@ -44,7 +44,8 @@ def rendre_emonde(automate): # Prunes the automaton by removing unreachable stat
     for etat_initial in etats_initiaux:
         dfs(etat_initial)
 
-    automate["Etats"] = {etat: transitions for etat, transitions in automate["Etats"].items() if etat in etats_accessibles}
+    etats_a_supprimer = set(automate["Etats"].keys()) - etats_accessibles - set(automate["Etats_finaux"])
+    automate["Etats"] = {etat: transitions for etat, transitions in automate["Etats"].items() if etat not in etats_a_supprimer}
     automate["Etats_initiaux"] = list(etats_initiaux.intersection(etats_accessibles))
     automate["Etats_finaux"] = list(set(automate["Etats_finaux"]).intersection(etats_accessibles))
 
