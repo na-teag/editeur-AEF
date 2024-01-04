@@ -51,3 +51,90 @@ The **graphviz** library is used to generate an image of the FA, by generating a
 
 ## Unit tests
 The project contain a file named *tests.py* that execute all the functions of the program and check the result to detect any inconsistency.
+
+
+# Editing functions : details 
+## Minimalize an FA 
+The functions to change an automate into a minimal one are in the file minimal.py
+The functions are an adaption an adaption of Moore's algorithme explain here: https://home.mis.u-picardie.fr/~leve/Enseign/LF1415/chapitre5_LF.pdf (page 28)
+### Function isMinimal : 
+This function allows the user to check if the automate is a minimalized one or not. It returns True or False 
+### Function  MooreMinimal :
+
+This function calculates a new bilan (partition) using the Moore minimization algorithm.
+1. The function initializes the alphabet and an outcome dictionary based on the provided starting bilan.
+
+2. Update Outcome with Transitions
+
+3. Count Different Arrangements
+
+4. Recursively Call the Function: If the new bilan is the same as the starting bilan, return the final outcome.
+Otherwise, recursively call the function with the new bilan.
+
+### Function toMinimal : 
+
+This function creates a minimalistic version of the input automate using the Moore minimization algorithm.
+1. Create Start Bilan where each state is represented as a list with the first element being 1 if the state is a final state, and 0 otherwise.
+
+2. Use the MooreMinimal function to calculate the minimalized map.
+
+3. Create a table to map unique IDs to state names.
+
+4. Initialize the new automate structure. Iterate over IDs and create states in the new automate. Mark initial and final states accordingly.
+
+5. Iterate over the minimalized map and create transitions in the new automaton.
+
+### Function minimal : 
+
+
+## Concatenation of two FAs
+The functions in this file create a new automate as the outcome of the concatenation of two automates. This algorithme is an adapation of the one explain here: https://www.desmontils.net/emiage/Module209EMiage/c5/Ch5_10.htm (section 10.2)
+### Function concat 
+- this automate has a new structure which includes : 
+    - "Alphabet": Union of the alphabets of automate1 and automate2.
+    - "Etats": A dictionary representing states in the new automaton.
+    - "Etats_initiaux": An empty list for initial states.
+    - "Etats_finaux": An empty list for final states.
+
+2. Create State Mappings (oldToNew1 and oldToNew2):
+
+- These two dictionaries (oldToNew1 and oldToNew2) will store mappings from the old state names to the corresponding new state names in automateFinal. This is necessary because when combining two automates, we need to ensure that the state names are unique across both automate.
+* For each state in automate1, a new state is created in automateFinal with a unique name (e.g., "e0", "e1", etc.).
+The transitions and properties of the state are copied to the new state in automateFinal.
+The mapping (oldToNew1) is updated to link the old state name to the new state name.
+
+* Similarly, for each state in automate2, a new state is created in automateFinal with a unique name.
+The transitions and properties of the state are copied to the new state in automateFinal.
+The mapping (oldToNew2) is updated to link the old state name to the new state name.
+
+3. Update the transitions in automateFinal by replacing old state names with the new state names.
+4. Copy transitions from the initial state of automate2 to the final state of automate1.
+5. Update the initial states and final states lists in automateFinal based on the mappings.
+6. Remove the initial states of automate2 from automateFinal and replace them with the final states of automate1.
+
+### Function concatener 
+
+## Product of two FAs 
+The functions in this file create a new automate as the outcome of the product of two automates. This algorithme is an adapation of the one explain here: https://www.desmontils.net/emiage/Module209EMiage/c5/Ch5_10.htm (section 10.4)
+
+### Function calculLineProduct
+
+This function calculates a line (a set of transitions) for the product of two automates.
+
+The function initializes an empty dictionary line where each key represents a symbol in the alphabet, and each value is a list of two lists. The first list corresponds to transitions from automate1, and the second list corresponds to transitions from the second automate2. If a symbol is present in the transition set of the current state for the respective automaton, add the transitions to the corresponding list in the line dictionary.
+The resulting line dictionary contains information about the transitions for each symbol in the alphabet from the states in stateList.
+
+### Function product
+This function performs the product of two automates. The function initializes the alphabet as the union of alphabets from automate1 and automate2. Lists existingSet and newAutomateBP are initialized to keep track of existing sets of states and the blueprint for the new automaton.
+
+1. Collect the initial states of each automate (automate1 and automate2).
+
+2. Initialize the existingSet list with the starting state of each automate as the first set.
+
+3. For each existing set, calculate transitions using calculLineProduct and add it to the newAutomateBP list.
+
+4. Check for new sets generated during the process.
+
+5. Create a new automate based on the collected information.States are created based on the sets in newAutomateBP, and transitions are added accordingly.
+
+### Function produit : 

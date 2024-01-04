@@ -7,18 +7,7 @@ def MooreMinimal(startBilan: dict, automate: dict) -> dict:
     """
     ### Description
     Calulate an new bilan from a starting bilan. Recurcively call until the starting bilna is the same as the new one.
-
-    This algorithme is an adapation of Moore's algorithme explain here:
-    https://home.mis.u-picardie.fr/~leve/Enseign/LF1415/chapitre5_LF.pdf (page 28)
     
-    ---
-
-    ### Argument(s):
-        - `automate` input automate
-        - `startBilan` starting bilan
-
-    ---
-
     ### Return:
         Dictionnary for wich each state as for a key in the alphabet the id referening the state it transtion to with the key.
     
@@ -57,16 +46,6 @@ def toMinimal(automate: dict):
     """
     ### Description
     Create an Automate being the minimalistic version of the input automate.
-
-    This algorithme is an adapation of Moore's algorithme explain here:
-    https://home.mis.u-picardie.fr/~leve/Enseign/LF1415/chapitre5_LF.pdf (page 22)
-
-    ---
-
-    ### Argument(s):
-        - `automate` input automate
-
-    ---
 
     ### Return:
         New minimal automate.
