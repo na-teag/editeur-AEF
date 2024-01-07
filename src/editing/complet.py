@@ -17,8 +17,8 @@ def est_complet(automate):
 
 
 def rendrecomplet(automate):
-    if est_complet(automate):
-        print("L'automate est déjà complet.")
+    if est_complet(automate): # checks if the automaton is already complete
+        print("il n'y a pas besoin de modification.")
     else:
         Alphabet=alphabet(automate) # calculate the alphabet and put it in a variable
         etats = automate['Etats']
@@ -30,9 +30,9 @@ def rendrecomplet(automate):
         return automate
 
 def autocomp(liste, num_automate):
-    automate = liste[num_automate]
-    automatec = rendrecomplet(deepcopy(automate))
-    automatec["Nom"] += "_complet"
-    num_automate = len(liste)
-    liste.append(automatec)
+    automate = liste[num_automate] # stock the automaton
+    automatec = rendrecomplet(deepcopy(automate)) # call rendrecomplet
+    automatec["Nom"] += "_complet" # adds complete to the name of the automaton
+    num_automate = len(liste) # calculates the number associated with the automaton
+    liste.append(automatec) # add the number associated with the automaton
     return liste, num_automate  
