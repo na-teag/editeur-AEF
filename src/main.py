@@ -54,9 +54,8 @@ def afficher_menu_test():
 	print("2 : tester si l'AEF est complet")
 	print("3 : tester si l'AEF est déterministe")
 	print("4 : tester si l'AEF est émondé")
-	print("5 : tester si l'AEF est minimal")
-	print("6 : tester si cet AEF et un autre sont équivalents")
-	print("7 : retour")
+	print("5 : tester si cet AEF et un autre sont équivalents")
+	print("6 : retour")
 	print("\n\n\n")
 
 def afficher_menu_modif():
@@ -103,13 +102,9 @@ def menu_test():
 			print("\n\n\n\n\n\n\n\n\n\n\n")
 		elif(choice == "5"):
 			print("\033[2J") # clear the screen
-			print("option non disponible") ###### A FAIRE ######
-			print("\n\n\n\n\n\n\n\n\n\n\n")
-		elif(choice == "6"):
-			print("\033[2J") # clear the screen
 			#lang.test_automates_equivalents(list_automate, automate_selected)  ###### ERREURS ######
 			print("\n\n\n\n\n\n\n\n\n\n\n")
-		elif(choice == "7" or choice == ""):
+		elif(choice == "6" or choice == ""):
 			test=0
 			print("\033[2J") # clear the screen
 		else:
