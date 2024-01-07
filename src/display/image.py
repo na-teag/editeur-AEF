@@ -19,7 +19,7 @@ def image(list_automate, automate_selected):
 					elif(platform.system() == 'Windows'):
 						result = subprocess.run(['winget', 'install', 'graphviz'])
 					else:
-						print("Veuillez ajouter graphviz dans le PATH")
+						print(f"Graphviz installé, pour l'utiliser, ajoutez le chemin d'accès de graphviz dans le PATH (probablement {dossier})")
 						return 1
 					if result.stderr:
 						print("Erreur lors de l'installation de graphviz :")
@@ -29,13 +29,13 @@ def image(list_automate, automate_selected):
 					else:
 						print(result.stdout)
 
-					print("\n\nInstallation de graphviz réussie")
+					print("\n\nInstallation de graphviz réussie.\n\n\nPour utiliser Graphviz, cette interface doit être relancée, veuillez sauvegarder vos fichiers puis fermer la fenêtre avant de relancer le programme")
 					return image(list_automate, automate_selected)
 			elif(platform.system() == 'Windows' and "File Not Found" not in resultat2.stdout): # if the OS is Windows, the program must be added to the PATH with admin rights
 				print(f"\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nimpossible d'ajouter {dossier} au path, les droits d'administrateurs sont nécéssaires")
 				print(f'\n\npour ajouter le programme au path, ouvrer l\'invité de commande en tant qu\'administrateur et lancer la commande : setx /M PATH "%PATH%;{dossier}"')
 				print(f'\nSinon, pour le faire manuellement, tapez dans les réglages "modifier les variables d\'environnement système" puis séléctionnez "variables d\'environnement système" puis dans les variables système (fenêtre du bas) double cliquez sur "path" et ajoutez {dossier} avant d\'appuyer sur "ok" dans toute les fenêtres ouvertes')
-				print(f"\nensuite, fermer cette console, puis réouvrez là et relancez ce programme")
+				print(f"\nensuite, fermer cette console, puis réouvrez là et relancez ce programme (n'oubliez pas de sauvegarder vos fichiers)")
 				return 0
 			else:
 				print("\n\n\n\nVeuillez installer graphviz et ajoutez le programme aux variables d\'environnement système (PATH)")
