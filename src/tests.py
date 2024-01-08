@@ -17,8 +17,9 @@ import main
 import unitTest.testminimal as min
 import unitTest.testconcat as concat
 import unitTest.testproduit as prod
-import unitTest.testcomplet as comp
-import unitTest.testdeter as deter
+import unittest.testcomplet as comp
+import unittest.testdeter as deter
+
 
 MAGENTA = '\033[95m'
 ENDC = '\033[0m'
@@ -290,7 +291,7 @@ class Test_main(unittest.TestCase):
 
 class Test_complet(unittest.TestCase): # test of function complet.py
 	@patch('builtins.input', side_effect=[])
-	def test_deter(self, mock_inputs):
+	def testcomplet(self, mock_inputs):
 		print("TEST de completion d'un automate")
 		self.assertEqual(comp.test_complet(), True)
 
@@ -298,7 +299,7 @@ class Test_complet(unittest.TestCase): # test of function complet.py
 
 class Test_deter(unittest.TestCase): # test of function deter.py
 	@patch('builtins.input', side_effect=[])
-	def test_deter(self, mock_inputs):
+	def testdeter(self, mock_inputs):
 		print("TEST de determinisation d'un automate")
 		self.assertEqual(deter.test_deter(), True)
 
