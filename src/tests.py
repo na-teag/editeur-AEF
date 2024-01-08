@@ -17,8 +17,8 @@ import main
 import unitTest.testminimal as min
 import unitTest.testconcat as concat
 import unitTest.testproduit as prod
-import unittest.testcomplet as comp
-import unittest.testdeter as deter
+import unitTest.testcomplet as comp
+import unitTest.testdeter as deter
 
 
 MAGENTA = '\033[95m'
@@ -63,7 +63,7 @@ class Test_alphabet(unittest.TestCase): # test of function alphabet
 		self.assertEqual(result.sort(), result2.sort())
 
 
-##########################################################################  functions from modif.py ##########################################################################
+##########################################################################  functions from modif.py ###############################################################################
 
 class testEditStates(unittest.TestCase):  # test of function editeStates
 	@patch('builtins.input', side_effect=['test', 'q0,a,q0', 'q0,a,q1', 'q1,c,q0', 'q1,c,q2', 'q1,d,q1', 'q2,a,q0', 'q2,b,q1', 'q3,b,q2', '', 'q0', '', 'q2', ''])
@@ -204,7 +204,7 @@ class Testcomplement(unittest.TestCase):  # test of function Complement
 		}
 		self.assertEqual(result, result2)
 
-##########################################################################  functions from miroir.py ##########################################################################
+##########################################################################  functions from miroir.py ##############################################################################
 
 
 class Testmiroir(unittest.TestCase):  # test of function Miroir
@@ -225,28 +225,28 @@ class Testmiroir(unittest.TestCase):  # test of function Miroir
 		self.assertEqual(result, result2)
 
 
-##########################################################################  functions from concat.py ##########################################################################
+###########################################################################  functions from concat.py #############################################################################
 
 class Test_concat(unittest.TestCase): # test of function test_conc
 	@patch('builtins.input', side_effect=[])
 	def test_concat(self, mock_inputs):
 		print(MAGENTA+"TEST concaténation de 2 automates"+ENDC)
 		self.assertEqual(concat.test_conc(), True)
-##########################################################################  functions from minimal.py ##########################################################################
+###########################################################################  functions from minimal.py ############################################################################
 
 class Test_minimal(unittest.TestCase): # test of function test_minimal
 	@patch('builtins.input', side_effect=[])
 	def test_minimal(self, mock_inputs):
 		print(MAGENTA+"TEST minimal"+ENDC)
 		self.assertEqual(min.test_min(), True)
-##########################################################################  functions from produit.py ##########################################################################
+###########################################################################  functions from produit.py ############################################################################
 
 class Test_produit(unittest.TestCase): # test of function test_minimal
 	@patch('builtins.input', side_effect=[])
 	def test_produit(self, mock_inputs):
 		print(MAGENTA+"TEST produits de 2 automates"+ENDC)
 		self.assertEqual(prod.test_prod(), True)
-##########################################################################  functions from testermot.py ##########################################################################
+##########################################################################  functions from testermot.py ###########################################################################
 
 class Test_tester(unittest.TestCase):  # test of function tester, and thus function tester_mot, with a valid word
 	@patch('builtins.input', side_effect=['a', 'a', 'd', 'd', 'c', 'a', 'a', 'd', 'c', 'b', 'c', ''])
@@ -272,8 +272,23 @@ class Test_tester4(unittest.TestCase):  # test of function tester, and thus func
 		result = testermot.tester(automate)
 		self.assertEqual(result, False)
 
+##########################################################################  test of functions complet.py  #########################################################################
 
-##################################################################  test of functions interractions  ##############################################################
+class Test_complet(unittest.TestCase): # test of function complet.py
+	@patch('builtins.input', side_effect=[])
+	def testcomplet(self, mock_inputs):
+		print("TEST de completion d'un automate")
+		self.assertEqual(comp.test_complet(), True)
+
+###########################################################################  test of functions deter.py  ##########################################################################
+
+class Test_deter(unittest.TestCase): # test of function deter.py
+	@patch('builtins.input', side_effect=[])
+	def testdeter(self, mock_inputs):
+		print("TEST de determinisation d'un automate")
+		self.assertEqual(deter.test_deter(), True)
+
+#########################################################################  test of functions interractions  #######################################################################
 
 class Test_main(unittest.TestCase):
 	@patch('builtins.input', side_effect=['2', 'test', 'q0,a,q1', 'q0,a,q0', 'q1,b,q2', 'q2,c,q1', '', 'q0', '', 'q2', '', '1', '3', '2', '3', '4', '1', 'test1', '2', '1', 'q2,c,q3', 'q3,a,q0', '', '2', 'q3', 'q2', '1', '3', 'q0', '1', 'q1', '', '4', '3', 'q1', '', 'q1', '', '4', 'q2', 'q2', '', '5', '5', 'test_unitaire', '6', '1', 'b', 'c', 'c', 'b', 'c', '', '2', '3', '4', '5', '6', '7', '1', '2', '3', '4', '5', '8', '2', '3', '4', '5', '6', '7', '9', '10', '1', '1', 'test_unitaire', '11'])
@@ -287,23 +302,8 @@ class Test_main(unittest.TestCase):
 			subprocess.run(['del', '../file/test_unitaire.json', '../file/image_automate.dot', '../file/image_automate.png'], shell=True)
 		self.assertEqual(result, 0)
 
-##################################################################  test of functions complet.py  ##############################################################
 
-class Test_complet(unittest.TestCase): # test of function complet.py
-	@patch('builtins.input', side_effect=[])
-	def testcomplet(self, mock_inputs):
-		print("TEST de completion d'un automate")
-		self.assertEqual(comp.test_complet(), True)
-
-##################################################################  test of functions deter.py  ##############################################################
-
-class Test_deter(unittest.TestCase): # test of function deter.py
-	@patch('builtins.input', side_effect=[])
-	def testdeter(self, mock_inputs):
-		print("TEST de determinisation d'un automate")
-		self.assertEqual(deter.test_deter(), True)
-
-##########################################################################  end of tests ##########################################################################
+################################################################################  end of tests ####################################################################################
 
 global automate
 automate = {
