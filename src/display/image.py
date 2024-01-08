@@ -60,7 +60,7 @@ def image(list_automate, automate_selected):
 					except:
 						print("Erreur lors de l'installation de graphviz :")
 						print(result.stderr)
-						print("\n\nEssayez d'installer la bibliothèque graphviz manuellement, ou vérifiez que pip est bien installé et réessayez")
+						print("\n\nVérifiez que vous êtes connecté à internet et que pip est bien installé et réessayez, ou essayez d'installer la bibliothèque graphviz manuellement")
 						return 1
 					print(result.stdout)
 					return image(list_automate, automate_selected)
