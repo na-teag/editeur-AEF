@@ -1,12 +1,12 @@
 def image(list_automate, automate_selected):
 
-	message_erreur = "Veuillez installer la bibliothèque graphviz" # check all the conditions for using graphviz, and help to install it
+	message_erreur = "Le programme ne parvient pas à faire l'installation, veuillez installer la graphviz et sa bibliothèque python manuellemnt" # check all the conditions for using graphviz, and help to install it
 	try:
 		import graphviz
 		import shutil
 		import subprocess
 		import platform
-		if shutil.which('dot') is None:
+		if shutil.which('dot') is None: # vérifier que graphviz est installé
 			dossier = r'C:\Program Files\Graphviz\bin'
 			resultat2 = subprocess.run(f'dir "{dossier}"', shell=True, capture_output=True, text=True)
 			if(platform.system() == 'Linux' or (platform.system() == 'Windows' and resultat2.stderr != "")):
@@ -19,7 +19,7 @@ def image(list_automate, automate_selected):
 					elif(platform.system() == 'Windows'):
 						result = subprocess.run(['winget', 'install', 'graphviz'])
 					else:
-						print(f"Graphviz installé, pour l'utiliser, ajoutez le chemin d'accès de graphviz dans le PATH (probablement {dossier})")
+						print(message_erreur)
 						return 1
 					if result.stderr:
 						print("Erreur lors de l'installation de graphviz :")
@@ -30,10 +30,11 @@ def image(list_automate, automate_selected):
 						print(result.stdout)
 
 					print("\n\nInstallation de graphviz réussie.\n\n\nPour utiliser Graphviz, cette interface doit être relancée, veuillez sauvegarder vos fichiers puis fermer la fenêtre avant de relancer le programme")
-					return image(list_automate, automate_selected)
+					print("\n\n\n\n\n\n\n\n\n\n\n")
+					return 0
 			elif(platform.system() == 'Windows' and "File Not Found" not in resultat2.stdout): # if the OS is Windows, the program must be added to the PATH with admin rights
 				print(f"\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nimpossible d'ajouter {dossier} au path, les droits d'administrateurs sont nécéssaires")
-				print(f'\n\npour ajouter le programme au path, ouvrer l\'invité de commande en tant qu\'administrateur et lancer la commande : setx /M PATH "%PATH%;{dossier}"')
+				print(f'\n\npour ajouter le programme au path, ouvrer l\'invité de commande (cmd) en tant qu\'administrateur et lancer la commande : setx /M PATH "%PATH%;{dossier}"')
 				print(f'\nSinon, pour le faire manuellement, tapez dans les réglages "modifier les variables d\'environnement système" puis séléctionnez "variables d\'environnement système" puis dans les variables système (fenêtre du bas) double cliquez sur "path" et ajoutez {dossier} avant d\'appuyer sur "ok" dans toute les fenêtres ouvertes')
 				print(f"\nensuite, fermer cette console, puis réouvrez là et relancez ce programme (n'oubliez pas de sauvegarder vos fichiers)")
 				return 0
@@ -50,15 +51,19 @@ def image(list_automate, automate_selected):
 				choix = input("\n\nVeuillez installer la bibliothèque graphviz, voulez vous essayer de lancer l'installation ?\n1 : oui\n2 : non\n\n")
 				if(choix == "1"):
 					print("Installation de la bibliothèque python graphviz en cours...")
-					result = subprocess.run(['pip', 'install', 'graphviz'])
-					if result.stderr:
+					try:
+						result2 = subprocess.run(['python', '-m', 'ensurepip', '--upgrade'], check=True)
+					except:
+						print("", end='')
+					try:
+						result = subprocess.run(['pip', 'install', 'graphviz'])
+					except:
 						print("Erreur lors de l'installation de graphviz :")
 						print(result.stderr)
-						print("\n\nEssayez d'installer la bibliothèque graphviz manuellement")
+						print("\n\nEssayez d'installer la bibliothèque graphviz manuellement, ou vérifiez que pip est bien installé et réessayez")
 						return 1
-					else:
-						print(result.stdout)
-						return image(list_automate, automate_selected)
+					print(result.stdout)
+					return image(list_automate, automate_selected)
 				else:
 					print(message_erreur)
 					return 1
