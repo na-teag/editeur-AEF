@@ -17,6 +17,8 @@ import main
 import unitTest.testminimal as min
 import unitTest.testconcat as concat
 import unitTest.testproduit as prod
+import unitTest.testcomplet as comp
+import unitTest.testdeter as deter
 
 MAGENTA = '\033[95m'
 ENDC = '\033[0m'
@@ -283,6 +285,22 @@ class Test_main(unittest.TestCase):
 			sleep(0.5)
 			subprocess.run(['del', '../file/test_unitaire.json', '../file/image_automate.dot', '../file/image_automate.png'], shell=True)
 		self.assertEqual(result, 0)
+
+##################################################################  test of functions complet.py  ##############################################################
+
+class Test_complet(unittest.TestCase): # test of function complet.py
+	@patch('builtins.input', side_effect=[])
+	def test_deter(self, mock_inputs):
+		print("TEST de completion d'un automate")
+		self.assertEqual(comp.test_complet(), True)
+
+##################################################################  test of functions deter.py  ##############################################################
+
+class Test_deter(unittest.TestCase): # test of function deter.py
+	@patch('builtins.input', side_effect=[])
+	def test_deter(self, mock_inputs):
+		print("TEST de determinisation d'un automate")
+		self.assertEqual(deter.test_deter(), True)
 
 ##########################################################################  end of tests ##########################################################################
 
