@@ -232,6 +232,7 @@ class Test_concat(unittest.TestCase): # test of function test_conc
 	def test_concat(self, mock_inputs):
 		print(MAGENTA+"TEST concaténation de 2 automates"+ENDC)
 		self.assertEqual(concat.test_conc(), True)
+
 ###########################################################################  functions from minimal.py ############################################################################
 
 class Test_minimal(unittest.TestCase): # test of function test_minimal
@@ -239,6 +240,7 @@ class Test_minimal(unittest.TestCase): # test of function test_minimal
 	def test_minimal(self, mock_inputs):
 		print(MAGENTA+"TEST minimal"+ENDC)
 		self.assertEqual(min.test_min(), True)
+
 ###########################################################################  functions from produit.py ############################################################################
 
 class Test_produit(unittest.TestCase): # test of function test_minimal
@@ -246,6 +248,7 @@ class Test_produit(unittest.TestCase): # test of function test_minimal
 	def test_produit(self, mock_inputs):
 		print(MAGENTA+"TEST produits de 2 automates"+ENDC)
 		self.assertEqual(prod.test_prod(), True)
+
 ##########################################################################  functions from testermot.py ###########################################################################
 
 class Test_tester(unittest.TestCase):  # test of function tester, and thus function tester_mot, with a valid word
@@ -274,7 +277,13 @@ class Test_tester4(unittest.TestCase):  # test of function tester, and thus func
 
 ##########################################################################  test of functions complet.py  #########################################################################
 
-class Test_complet(unittest.TestCase): # test of function complet.py
+class Test_verifcomplet(unittest.TestCase): # test of function complet.py : est_complet
+	@patch('builtins.input', side_effect=[])
+	def testcomplet(self, mock_inputs):
+		print("TEST de verification de l'etat complet d'un automate")
+		self.assertEqual(comp.test_verifcomplet(), True)
+
+class Test_complet(unittest.TestCase): # test of function complet.py : rendrecomplet
 	@patch('builtins.input', side_effect=[])
 	def testcomplet(self, mock_inputs):
 		print("TEST de completion d'un automate")
@@ -282,7 +291,13 @@ class Test_complet(unittest.TestCase): # test of function complet.py
 
 ###########################################################################  test of functions deter.py  ##########################################################################
 
-class Test_deter(unittest.TestCase): # test of function deter.py
+class Test_verifdeter(unittest.TestCase): # test of function deter.py : est_deterministe
+	@patch('builtins.input', side_effect=[])
+	def testdeter(self, mock_inputs):
+		print("TEST de verification de l'etat determiner d'un automate")
+		self.assertEqual(deter.test_verifdeter(), True)
+
+class Test_deter(unittest.TestCase): # test of function deter.py : rendredeterministe
 	@patch('builtins.input', side_effect=[])
 	def testdeter(self, mock_inputs):
 		print("TEST de determinisation d'un automate")
@@ -301,6 +316,7 @@ class Test_main(unittest.TestCase):
 			sleep(0.5)
 			subprocess.run(['del', '../file/test_unitaire.json', '../file/image_automate.dot', '../file/image_automate.png'], shell=True)
 		self.assertEqual(result, 0)
+
 
 
 ################################################################################  end of tests ####################################################################################
