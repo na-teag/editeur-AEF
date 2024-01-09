@@ -4,6 +4,8 @@ from data.structure import createAutomate
 from copy import deepcopy
 from display.display import displayAEF
 
+################################################################ Function for checking the deterministic state of the automaton ############################################
+
 def est_deterministe(automate):
     if len(automate["Etats_initiaux"])>1: # check that there is only one entry
         print("L'automate n'est pas déterministe.")
@@ -11,12 +13,13 @@ def est_deterministe(automate):
     etats = automate["Etats"]
     for etat, transitions in etats.items(): # loops for each etat
         for transi, etatfin in transitions.items(): # checks that there is only one arrival state for each transition
-            if len(etatfin)>1:
+            if len(etatfin)>1: 
                 print("L'automate n'est pas déterministe.")
                 return False
     print("L'automate est déterministe.")
     return True
 
+################################################################ Function for determining an automaton ####################################################################
 
 automate0 ={ # initializes the deterministic automaton
    "Etats": {
@@ -25,7 +28,6 @@ automate0 ={ # initializes the deterministic automaton
    "Etats_finaux": [],
    "Nom" : ""
 }
-
 
 def rendredeterministe(automate):
     if est_deterministe(automate): # checks if the automaton is already determinist
@@ -39,59 +41,59 @@ def rendredeterministe(automate):
         automate0["Nom"] += "_deterministe"
         i = automate0["Etats_initiaux"] # initialize variables for loops
         etats = automate["Etats"]
-        for etat, transitions in etats.items(): # loops for each etat
+        for etat, transitions in etats.items(): # loops for each etat --------------------------------------- FIRST LOOP - initialize the initial state
             if etat in i: # checks that the state corresponds to the desired state
                 automate0["Etats"][etat] = {}
                 for transi, etatfin in transitions.items():
-                    if len(etatfin) > 1:
-                        etatfinc = ','.join(etatfin)
+                    if len(etatfin) > 1: # checks if the transition can lead to several states
+                        etatfinc = ','.join(etatfin) # converts the state into a format expected in the automaton : a string element
                         automate0["Etats"][etatfinc] = {}
-                        nouvetat.append(etatfinc)
+                        nouvetat.append(etatfinc) # adds to nouvetat the states created
                         etatfinl = [','.join(etatfin)]
                         automate0["Etats"][etat][transi] = etatfinl
                     else:
                         automate0["Etats"][etat][transi] = etatfin
-                        etatfinc = ','.join(etatfin)
-                        nouvetat.append(etatfinc)
+                        etatfinc = ','.join(etatfin) # converts the state into a format expected in the automaton : a string element
+                        nouvetat.append(etatfinc) # adds to nouvetat the states created
                         automate0["Etats"][etatfinc] = {}
-        while len(nouvetat) > 0 : # is carried out as long as there remains unprocessed state
+        while len(nouvetat) > 0 : # is carried out as long as there remains unprocessed state ---------------- SECOND LOOP - adds the corresponding transitions for each state added to the new automaton
             etat_rechercher = nouvetat[0]
             etat_rechercherc = [nouvetat.pop(0)]
             etat_rechercherl = list(map(str, etat_rechercherc[0].split(',')))
-            if len(etat_rechercherl) == 1:
+            if len(etat_rechercherl) == 1: # adds transitions corresponding to a single state
                 for etat, transitions in etats.items():
                     if etat in etat_rechercherl: # checks that the state corresponds to the desired state
                         for transi, etatfin in transitions.items():
-                            etatfinl = [','.join(etatfin)]
-                            etatfinc = ','.join(etatfin)
-                            if len(etatfin) > 1:
+                            etatfinl = [','.join(etatfin)] # converts the state into a format expected in the automaton : a list composed of a string element
+                            etatfinc = ','.join(etatfin) # converts the state into a format expected in the automaton : a string element
+                            if len(etatfin) > 1: # checks if the transition can lead to several states
                                 automate0["Etats"][etat][transi] = etatfinl
                                 if etatfinc not in automate0["Etats"]:
                                     automate0["Etats"][etatfinc] = {}
-                                    nouvetat.append(etatfinc)
+                                    nouvetat.append(etatfinc) # adds to nouvetat the states created
                             else :
                                 automate0["Etats"][etat][transi] = etatfin
                                 if etatfinc not in automate0["Etats"]:
                                     automate0["Etats"][etatfinc] = {}
-                                    nouvetat.append(etatfinc)
-            else :
+                                    nouvetat.append(etatfinc) # adds to nouvetat the states created
+            else : # adds the transitions corresponding to a sum state of several
                 for etat, transitions in etats.items():
                     if etat in etat_rechercherl: # checks that the state corresponds to the desired state
                         for transi, etatfin in transitions.items():
-                            etatfinl = [','.join(etatfin)]
-                            etatfinc = ','.join(etatfin)
+                            etatfinl = [','.join(etatfin)] # converts the state into a format expected in the automaton : a list composed of a string element
+                            etatfinc = ','.join(etatfin) # converts the state into a format expected in the automaton : a string element
                             if transi not in automate0["Etats"][etat_rechercherc[0]]:
-                                if len(etatfin) > 1:
+                                if len(etatfin) > 1: # checks if the transition can lead to several states
                                     automate0["Etats"][etat_rechercherc[0]][transi] = etatfinl
                                     if etatfinc not in automate0["Etats"]:
                                         automate0["Etats"][etatfinc] = {}
-                                        nouvetat.append(etatfinc)
+                                        nouvetat.append(etatfinc) # adds to nouvetat the states created
                                 else :
                                     automate0["Etats"][etat_rechercherc[0]][transi] = etatfin
                                     if etatfinc not in automate0["Etats"]:
                                         automate0["Etats"][etatfinc] = {}
-                                        nouvetat.append(etatfinc)
-                            else :
+                                        nouvetat.append(etatfinc) # adds to nouvetat the states created
+                            else : # add several arrival states because appearing in several difference state transitions
                                 temp = ','.join(automate0["Etats"][etat_rechercherc[0]][transi])
                                 etatcreer = list(map(str, temp.split(',')))
                                 if etatfinc not in etatcreer:
@@ -103,63 +105,19 @@ def rendredeterministe(automate):
                 if etat in u: # checks that the state corresponds to the desired state
                     for transi, etatfin in transitions.items():
                         etatfinc = ','.join(etatfin)
-                        if etatfinc not in etats0:
+                        if etatfinc not in etats0: # check if the states created did not yet exist
                             listechgmt.append(etatfinc)
-            while listechgmt : # adds to nouvetat the states created which did not yet exist
+            while listechgmt : # adds to nouvetat the states created which did not yet exist because being the sum of several states
                 automate0["Etats"][listechgmt[0]] = {}
-                nouvetat.append(listechgmt[0])
+                nouvetat.append(listechgmt[0]) # adds to nouvetat the states created
                 listechgmt.pop(0)
         print("\nAutomate converti :")
-        displayAEF(automate0)
-        return automate0
+        displayAEF(automate0) # display the deterministic automaton
+        return automate0 # return the deterministic automaton
 
 def autodeter(liste, num_automate):
-	automate = liste[num_automate]
-	automated = rendredeterministe(automate)
-	num_automate = len(liste)
-	liste.append(deepcopy(automated))
-	return liste, num_automate                       
-
-# automate ={
-#    "Etats": {
-#        "1": {"a": ["1","3"], "b": ["2"]},
-#        "2": {"b": ["1","4"]},
-#        "3": {"a": ["4"], "b": ["2"]},
-#        "4": {"a": ["4"], "b": ["2"]}
-#    },
-#    "Etats_initiaux": ["1"],
-#    "Etats_finaux": ["2"],
-#    "Nom" : "automate"
-# }
-
-# automatevoulu ={
-#    "Etats": {
-#        "1": {"a": ["1,3"], "b": ["2"]},
-#        "2": {"b": ["1,4"]},
-#        "1,3": {"a": ["1,3,4"], "b": ["2"]},
-#        "1,3,4": {"a": ["1,3,4"], "b": ["2"]},
-#        "1,4": {"a": ["1,3,4"], "b": ["2"]}
-#    },
-#    "Etats_initiaux": ["1"],
-#    "Etats_finaux": ["2"],
-# }                       
-                        
-# rendredeterministe(automate)
-# print("\nAutomate d'origine :")
-# print(automate)
-# print("\nAutomate converti :")
-# print(automate0)
-# print("\nAutomate voulue :")
-# print(automatevoulu)
-
-#else :
-                            #print("l'etat existe pas")
-            #nouvetat.pop(0)
-
-
-#etatfin = etatfin.split(',')
-#list(map(str, etatfin[0].split(',')))
-#list_a = ["1", "2", "3"]
-#list_b = ["4,5,6"]
-
-#list_c = ",".join(list_a + list_b)
+	automate = liste[num_automate] # stock the automaton
+	automated = rendredeterministe(automate) # call rendredeterministe
+	num_automate = len(liste) # calculates the number associated with the automaton
+	liste.append(deepcopy(automated)) # copy and add the number associated with the automaton
+	return liste, num_automate

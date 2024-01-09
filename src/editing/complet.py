@@ -1,8 +1,9 @@
 # This file contains all functions to verify if an automate is complete and to change it into a complete one 
 
-
 from data.structure import alphabet
 from copy import deepcopy
+
+################################################################ Function for checking the complete status of the automaton #############################################
 
 def est_complet(automate):
     Alphabet=alphabet(automate) # calculate the alphabet and put it in a variable
@@ -15,6 +16,7 @@ def est_complet(automate):
     print("L'automate est complet.")
     return True
 
+################################################################ Completion function of an automaton #######################################################################
 
 def rendrecomplet(automate):
     if est_complet(automate): # checks if the automaton is already complete
