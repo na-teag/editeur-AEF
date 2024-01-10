@@ -26,8 +26,7 @@ def test_verifcomplet():
     if est_complet(automatevoulu):
         if est_complet(automate)==False:
             return True
-    else:
-        return False
+    return False
 
 def test_complet():
     nautomate = rendrecomplet(automate)
