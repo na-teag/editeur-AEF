@@ -27,9 +27,12 @@ automate ={
 
 def test_verifdeter():
     if est_deterministe(automatevoulu):
-        if est_deterministe(automate)==False:
+        if est_deterministe(automate):
+            return False
+        else :
             return True
-    return False
+    else:
+        return False
 
 def test_deter():
     nautomate = rendredeterministe(automate)
