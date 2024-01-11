@@ -1,29 +1,36 @@
 import data.file as file
 
-def generer_langage(automate): # Generate the language recognized by the given automaton.
+def generer_langage(automate):
     langage = set()
-    etats_initiaux = automate["Etats_initiaux"]
 
-    stack = [(etat_initial, "") for etat_initial in etats_initiaux]
+    def dfs(etat_actuel, mot_actuel, etats_visites):
+        nonlocal langage
 
-    while stack:
-        etat_actuel, mot_actuel = stack.pop()
+        if etat_actuel in automate["Etats_finaux"]:
+            langage.add(mot_actuel)
 
-        transitions = automate["Etats"][etat_actuel]
-
-        if mot_actuel == "":
-            if etat_actuel in automate["Etats_finaux"]:
-                langage.add("")
+        transitions = automate["Etats"].get(etat_actuel, {})
 
         for transition, etats_suivants in transitions.items():
             for etat_suivant in etats_suivants:
-                stack.append((etat_suivant, mot_actuel + transition))
+                if etat_suivant not in etats_visites:
+                    dfs(etat_suivant, mot_actuel + transition, etats_visites + [etat_suivant])
+
+    etats_initiaux = automate["Etats_initiaux"]
+
+    for etat_initial in etats_initiaux:
+        dfs(etat_initial, "", [])
+
+    if langage:
+        print("Le langage a été généré avec succès.")
+    else:
+        print("Le langage n'a pas été généré.")
 
     return langage
 
 
 
-def automates_equivalents(automate1, automate2): # Check if two automata are equivalent, i.e., recognize the same language.
+def automates_equivalents(automate1, automate2): # Check if two automata are equivalent, recognize the same language.
 	langage1 = generer_langage(automate1)
 	langage2 = generer_langage(automate2)
 
