@@ -351,7 +351,7 @@ class Test_test_automates_equivalents(unittest.TestCase): # test of function lan
 	@patch('builtins.input', side_effect=[])
 	def test_automates_equivalents(self, mock_inputs):
 		automate1 = copy.deepcopy(automate)
-		result = lang.test_automates_equivalents(automate1)
+		result = lang.automates_equivalents(automate1)
 		self.assertEqual(result, True)
 
 #########################################################################  test of functions interractions  #######################################################################
@@ -359,7 +359,7 @@ class Test_test_automates_equivalents(unittest.TestCase): # test of function lan
 
 
 class Test_main(unittest.TestCase):
-	@patch('builtins.input', side_effect=['2', 'test', 'q0,a,q1', 'q0,a,q0', 'q1,b,q2', 'q2,c,q1', '', 'q0', '', 'q2', '', '1', '3', '2', '3', '4', '1', 'test1', '2', '1', 'q2,c,q3', 'q3,a,q0', '', '2', 'q3', 'q2', '1', '3', 'q0', '1', 'q1', '', '4', '3', 'q1', '', 'q1', '', '4', 'q2', 'q2', '', '5', '5', 'test_unitaire', '6', '1', 'b', 'c', 'c', 'b', 'c', '', '2', '3', '4', '5', '6', '7', '1', '2', '4', '5', '8', '2', '3', '4', '5', '6', '7', '9', '10', '1', '1', 'test_unitaire', '11'])
+	@patch('builtins.input', side_effect=['2', 'test', 'q0,a,q1', 'q0,a,q0', 'q1,b,q2', 'q2,c,q1', '', 'q0', '', 'q2', '', '1', '3', '2', '3', '4', '1', 'test1', '2', '1', 'q2,c,q3', 'q3,a,q0', '', '2', 'q3', 'q2', '1', '3', 'q0', '1', 'q1', '', '4', '3', 'q1', '', 'q1', '', '4', 'q2', 'q2', '', '5', '5', 'test_unitaire', '6', '1', 'b', 'c', 'c', 'b', 'c', '', '2', '3', '4', '5', '3', '6', '7', '1', '2', '4', '5', '8', '2', '3', '4', '5', '6', '7', '9', '10', '1', '1', 'test_unitaire', '11'])
 	def test_main(self, mock_inputs):
 		result = main.main()
 		if(platform.system() == 'Linux'):
