@@ -16,9 +16,7 @@ def est_emonde(automate): # verify if the automate is pruned
         dfs(etat_initial)
 
     for etat in automate["Etats"]:
-        if etat not in automate["Etats_finaux"] and not (
-            automate["Etats"][etat] == {} and etat in automate["Etats"][etat]
-        ):
+        if etat not in automate["Etats_finaux"] and automate["Etats"][etat] == {}:
             print("L'automate n'est pas émondé")
             return False
 
@@ -27,8 +25,9 @@ def est_emonde(automate): # verify if the automate is pruned
 
 
 
-def rendre_emonde(automate): # Prunes the automaton by removing unreachable states.
-    def dfs(etat): # explores accessible states
+
+def rendre_emonde(automate):  # Prunes the automaton by removing unreachable states.
+    def dfs(etat):  # explores accessible states
         nonlocal etats_accessibles
         transitions = automate["Etats"].get(etat, {})
         for etats_suivants in transitions.values():
@@ -43,19 +42,26 @@ def rendre_emonde(automate): # Prunes the automaton by removing unreachable stat
     for etat_initial in etats_initiaux:
         dfs(etat_initial)
 
-    etats_a_supprimer = set(automate["Etats"].keys()) - etats_accessibles - set(automate["Etats_finaux"])
-    etats_a_supprimer -= {etat for etat in etats_a_supprimer if etat in automate["Etats"].get(etat, {}).get(etat, [])}
+    etats_a_supprimer = list(set(automate["Etats"].keys()) - etats_accessibles - set(automate["Etats_finaux"]))
+    etats_a_supprimer = [etat for etat in etats_a_supprimer if any(
+        transition in etats_accessibles for transitions in automate["Etats"].get(etat, {}).values() for transition in
+        transitions)]
 
-    automate["Etats"] = {etat: transitions for etat, transitions in automate["Etats"].items() if etat in etats_accessibles}
+    automate["Etats"] = {etat: transitions for etat, transitions in automate["Etats"].items() if
+                         etat in etats_accessibles}
     automate["Etats_initiaux"] = list(etats_initiaux.intersection(etats_accessibles))
     automate["Etats_finaux"] = list(set(automate["Etats_finaux"]).intersection(etats_accessibles))
 
     for etat in etats_a_supprimer:
-        del automate["Etats"][etat]
+        if etat in automate["Etats"]:
+            del automate["Etats"][etat]
+
+    if len(etats_a_supprimer) > 0:
+        print("L'automate a été rendu émondé.")
+    else:
+        print("L'automate était déjà émondé.")
 
     return automate
-
-
 
 
 def emonde(liste, num_automate):

@@ -19,6 +19,8 @@ import unitTest.testconcat as concat
 import unitTest.testproduit as prod
 import unitTest.testcomplet as comp
 import unitTest.testdeter as deter
+import editing.emonde as emd
+import editing.langage as lang
 
 
 MAGENTA = '\033[95m'
@@ -302,6 +304,54 @@ class Test_deter(unittest.TestCase): # test of function deter.py : rendredetermi
 	def testdeter(self, mock_inputs):
 		print("TEST de determinisation d'un automate")
 		self.assertEqual(deter.test_deter(), True)
+  
+#########################################################################  test of functions emonde.py  #######################################################################
+
+class Test_est_emonde(unittest.TestCase): # test of function emonde.py : est_emonde
+	@patch('builtins.input', side_effect=[])
+	def est_emonde(self, mock_inputs):
+		automate1 = copy.deepcopy(automate)
+		result = emd.est_emonde(automate1)
+		self.assertEqual(result, False)
+  
+class Test_est_emonde(unittest.TestCase): # test of function emonde.py : est_emonde
+	@patch('builtins.input', side_effect=[])
+	def est_emonde(self, mock_inputs):
+		result = {
+			"Etats": {
+				"q0": {"a": ["q1"], "b": ["q2"]},
+				"q1": {"c": ["q3"]},
+				"q2": {"d": ["q3"]},
+				"q3": {}
+			},
+			"Etats_initiaux": ["q0"],
+			"Etats_finaux": ["q3"],
+			"Nom": "Automate_Emonde"
+		}
+		self.assertEqual(result, True)
+  
+class Test_rendre_emonde(unittest.TestCase): # test of function emonde.py : rendre_emonde
+	@patch('builtins.input', side_effect=[])
+	def rendre_emonde(self, mock_inputs):
+		automate1 = copy.deepcopy(automate)
+		result = emd.rendre_emonde(automate1)
+		self.assertEqual(result, True)  
+
+#########################################################################  test of functions langage.py  #######################################################################
+
+class Test_generer_langage(unittest.TestCase): # test of function langage.py : generer_langage
+	@patch('builtins.input', side_effect=[])
+	def generer_langage(self, mock_inputs):
+		automate1 = copy.deepcopy(automate)
+		result = lang.generer_langage(automate1)
+		self.assertEqual(result, True)
+  
+class Test_test_automates_equivalents(unittest.TestCase): # test of function langage.py : test_automates_equivalents
+	@patch('builtins.input', side_effect=[])
+	def test_automates_equivalents(self, mock_inputs):
+		automate1 = copy.deepcopy(automate)
+		result = lang.test_automates_equivalents(automate1)
+		self.assertEqual(result, True)
 
 #########################################################################  test of functions interractions  #######################################################################
 
