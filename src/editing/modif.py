@@ -306,21 +306,21 @@ def changeStatesInitFinal(list_automate, automate_selected, nbr): # add or delet
 
 
 
-def demandDelete(liste_automate, automate_selected): # ask confirmation before deleting the FA
+def demandDelete(list_automate, automate_selected): # ask confirmation before deleting the FA
 	print("\033[2J") # clear the screen
-	dis.displayAEF(liste_automate[automate_selected])
+	dis.displayAEF(list_automate[automate_selected])
 	choix = input("\n\n\nEtes-vous sûr de vouloir supprimer cet AEF ?\n1 : oui\n2 : non\n\n").strip()
 	if(choix == "1"):
 		print("\033[2J") # clear the screen
-		return deleteAutomate(liste_automate, automate_selected)
+		return deleteAutomate(list_automate, automate_selected)
 	else:
 		print("\033[2J") # clear the screen
-		return liste_automate, automate_selected
+		return list_automate, automate_selected
 
 
-def deleteAutomate(liste_automate, automate_selected): # delete the FA
-	liste_automate.pop(automate_selected)
+def deleteAutomate(list_automate, automate_selected): # delete the FA
+	list_automate.pop(automate_selected)
 	automate_selected = -1
-	return file.loadAutomate(liste_automate, automate_selected)
+	return file.loadAutomate(list_automate, automate_selected)
 
 

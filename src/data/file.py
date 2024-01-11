@@ -9,6 +9,8 @@ import os
 
 
 def loadAutomate(list_automate, automate_selected): # function to create, import or select an existing FA
+	if(automate_selected > -1 and list_automate[automate_selected] == strct.createAutomate()):
+		list_automate, automate_selected = md.deleteAutomate(list_automate, automate_selected) # in case we created a new one and exited the creat function
 	nbr = 3 # nbr of additional option other than existing FA
 	if(automate_selected == -1):
 		print("\n\n\n\n\nAEF séléctionné : aucun")
