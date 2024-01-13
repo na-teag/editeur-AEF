@@ -77,8 +77,6 @@ def rendre_emonde(automate):
     etats_a_consever = set(automate["Etats"].keys()) - etats_a_supprimer
     etats_a_supprimer = list(etats_a_supprimer)
     etats_a_consever = list(etats_a_consever)
-    print("ok :",etats_a_consever)
-    print("pas ok :",etats_a_supprimer)
 
     liste_transition = []
     for etat in etats_a_supprimer:
