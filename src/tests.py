@@ -368,7 +368,7 @@ class Test_main(unittest.TestCase):
 			subprocess.run(['rm', '../file/test_unitaire.json', '../file/image_automate.dot', '../file/image_automate.png'])
 		if(platform.system() == 'Windows'):
 			sleep(0.5)
-			subprocess.run(['del', '../file/test_unitaire.json', '../file/image_automate.dot', '../file/image_automate.png'], shell=True)
+			subprocess.run(['rm', '../file/test_unitaire.json', '../file/image_automate.dot', '../file/image_automate.png'], shell=True)
 		self.assertEqual(result, 0)
 
 

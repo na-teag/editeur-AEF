@@ -99,8 +99,9 @@ def openjson(list_automate, automate_selected): # list_automate needed, do not r
 				automate = json.load(file)
 				automate_selected = len(list_automate)
 				list_automate.append(automate)
-				print(f"AEF chargé à partir de {nom_fichier} depuis le dossier \"file\"")
 				print("\033[2J") # clear the screen
+				print(f"AEF chargé à partir de {nom_fichier}.json")
+				print("\n\n\n\n\n\n\n\n\n\n\n")
 		except FileNotFoundError:
 			print("\033[2J") # clear the screen
 			print(f"Le fichier {nom_fichier}.json n'existe pas dans le dossier \"file\". Veuillez vérifier le nom du fichier.")

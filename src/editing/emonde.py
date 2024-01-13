@@ -14,14 +14,41 @@ def est_emonde(automate): # verify if the automate is pruned
 
     for etat_initial in automate["Etats_initiaux"]:
         dfs(etat_initial)
-
-    for etat in automate["Etats"]:
-        if etat not in automate["Etats_finaux"] and automate["Etats"][etat] == {}:
-            print("L'automate n'est pas émondé")
-            return False
+    etats_co_accessibles = co_accessible(automate)
+    
+    if reachable_states.intersection(etats_co_accessibles) != set(automate["Etats"].keys()):
+        print("L'automate n'est pas émondé")
+        return False
 
     print("L'automate est émondé")
     return True
+
+
+
+def path(automate, etat, chemin, co_accessibles): # traverse the automate and mark states leading to a final state
+    if etat in co_accessibles:
+        return []
+    else:
+        chemin.append(etat)
+    for transition, etats_suivants in automate["Etats"][etat].items():
+        for etat_suivant in etats_suivants:
+            if etat_suivant in co_accessibles:
+                return chemin
+            if etat_suivant not in chemin:
+                result = path(automate, etat_suivant, chemin.copy(), co_accessibles)
+                if result:
+                    return result
+    return []
+
+
+
+def co_accessible(automate):
+    co_accessibles = automate["Etats_finaux"]
+    for etat in list(set(automate["Etats"]) - set(co_accessibles)):
+        co_accessibles += path(automate, etat, [], co_accessibles)
+    return list(set(co_accessibles))
+
+
 
 
 
@@ -36,33 +63,64 @@ def rendre_emonde(automate):
                     etats_accessibles.add(etat_suivant)
                     dfs(etat_suivant)
 
+
     etats_initiaux = set(automate["Etats_initiaux"])
+    etats_finaux = set(automate["Etats_finaux"])
     etats_accessibles = set(etats_initiaux)
 
     for etat_initial in etats_initiaux:
         dfs(etat_initial)
 
-    etats_a_supprimer = list(set(automate["Etats"].keys()) - etats_accessibles - set(automate["Etats_finaux"]))
+    etats_co_accessibles = co_accessible(automate)
 
+    etats_a_supprimer = set(automate["Etats"].keys()) - etats_accessibles.intersection(etats_co_accessibles)
+    etats_a_consever = set(automate["Etats"].keys()) - etats_a_supprimer
+    etats_a_supprimer = list(etats_a_supprimer)
+    etats_a_consever = list(etats_a_consever)
+    print("ok :",etats_a_consever)
+    print("pas ok :",etats_a_supprimer)
+
+    liste_transition = []
     for etat in etats_a_supprimer:
         if etat in automate["Etats"]:
-            del automate["Etats"][etat]
+            del automate["Etats"][etat] # delete the state
+        for etat1 in automate["Etats"].keys():
+            for transitions, etats_suivants in automate["Etats"][etat1].items():
+                for transition in transitions:
+                    if etat in automate["Etats"][etat1][transition]:
+                        automate["Etats"][etat1][transition].remove(etat) # delete the transitions to the state
+                        liste_transition += transition
+            for transition in liste_transition:
+                if automate["Etats"][etat1][transition] == []:
+                    del automate["Etats"][etat1][transition]
+            liste_transition = []
 
-    automate["Etats_initiaux"] = list(etats_initiaux.intersection(etats_accessibles))
-    automate["Etats_finaux"] = list(set(automate["Etats_finaux"]).intersection(etats_accessibles))
 
-    if len(etats_a_supprimer) > 0:
-        print("L'automate a été rendu émondé.")
+    automate["Etats_initiaux"] = list(etats_initiaux.intersection(etats_a_consever))
+    automate["Etats_finaux"] = list(etats_finaux.intersection(etats_a_consever))
+
+    if automate["Etats"].keys() == {}:
+        print("L'automate émondé est un automate vide")
+        return None
     else:
-        print("L'automate était déjà émondé.")
+        if len(etats_a_supprimer) > 0:
+            print("L'automate a été rendu émondé.")
+        else:
+            print("L'automate était déjà émondé.")
 
     return automate
+
+
+
+
+
 
 
 def emonde(liste, num_automate):
     automate = liste[num_automate]
     automatee = rendre_emonde(deepcopy(automate))
-    automatee["Nom"] += "_emonde"
-    num_automate = len(liste)
-    liste.append(automatee)
+    if automatee != None:
+        automatee["Nom"] += "_emonde"
+        num_automate = len(liste)
+        liste.append(automatee)
     return liste, num_automate

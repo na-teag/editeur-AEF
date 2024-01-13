@@ -102,7 +102,7 @@ def menu_test():
 			print("\n\n\n\n\n\n\n\n\n\n\n")
 		elif(choice == "5"):
 			print("\033[2J") # clear the screen
-			lang.test_automates_equivalents(list_automate, automate_selected)  ###### ERREURS ######
+			lang.test_automates_equivalents(list_automate, automate_selected)
 			print("\n\n\n\n\n\n\n\n\n\n\n")
 		elif(choice == "6" or choice == ""):
 			test=0
@@ -124,7 +124,7 @@ def menu_generer(list_automate, automate_selected):
 			print("\n\n\n\n\n\n\n\n\n\n\n")
 		elif(choice == "2"):
 			print("\033[2J") # clear the screen
-			lang.generer_langage(list_automate[automate_selected])  ###### ERREURS ######
+			print(lang.generer_langage(list_automate[automate_selected]))
 			print("\n\n\n\n\n\n\n\n\n\n\n")
 		elif(choice == "3"):
 			print("\033[2J") # clear the screen
