@@ -26,8 +26,8 @@ def est_emonde(automate): # verify if the automate is pruned
 
 
 
-def rendre_emonde(automate):  # Prunes the automaton by removing unreachable states.
-    def dfs(etat):  # explores accessible states
+def rendre_emonde(automate):
+    def dfs(etat):
         nonlocal etats_accessibles
         transitions = automate["Etats"].get(etat, {})
         for etats_suivants in transitions.values():
@@ -43,18 +43,13 @@ def rendre_emonde(automate):  # Prunes the automaton by removing unreachable sta
         dfs(etat_initial)
 
     etats_a_supprimer = list(set(automate["Etats"].keys()) - etats_accessibles - set(automate["Etats_finaux"]))
-    etats_a_supprimer = [etat for etat in etats_a_supprimer if any(
-        transition in etats_accessibles for transitions in automate["Etats"].get(etat, {}).values() for transition in
-        transitions)]
-
-    automate["Etats"] = {etat: transitions for etat, transitions in automate["Etats"].items() if
-                         etat in etats_accessibles}
-    automate["Etats_initiaux"] = list(etats_initiaux.intersection(etats_accessibles))
-    automate["Etats_finaux"] = list(set(automate["Etats_finaux"]).intersection(etats_accessibles))
 
     for etat in etats_a_supprimer:
         if etat in automate["Etats"]:
             del automate["Etats"][etat]
+
+    automate["Etats_initiaux"] = list(etats_initiaux.intersection(etats_accessibles))
+    automate["Etats_finaux"] = list(set(automate["Etats_finaux"]).intersection(etats_accessibles))
 
     if len(etats_a_supprimer) > 0:
         print("L'automate a été rendu émondé.")

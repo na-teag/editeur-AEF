@@ -351,7 +351,8 @@ class Test_test_automates_equivalents(unittest.TestCase): # test of function lan
 	@patch('builtins.input', side_effect=[])
 	def test_automates_equivalents(self, mock_inputs):
 		automate1 = copy.deepcopy(automate)
-		result = lang.automates_equivalents(automate1)
+		automate2 = copy.deepcopy(automate)
+		result = lang.automates_equivalents(automate1, automate2)
 		self.assertEqual(result, True)
 
 #########################################################################  test of functions interractions  #######################################################################
