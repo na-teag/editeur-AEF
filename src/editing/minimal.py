@@ -96,6 +96,7 @@ def toMinimal(automate: dict):
 
 
 def minimal(liste, num_automate):
+
     automate = liste[num_automate]
     automatee = toMinimal(deepcopy(automate))
     automatee["Nom"] += "_minimal"

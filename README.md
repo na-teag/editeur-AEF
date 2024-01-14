@@ -85,7 +85,7 @@ This function creates a minimalistic version of the input automate using the Moo
 5. Iterate over the minimalized map and create transitions in the new automaton.
 
 ### Function minimal : 
-
+The minimal function provides an interface for the user to interactively minimize an automate stored in a provided list. 
 
 ## Concatenation of two FAs
 The functions in this file create a new automate as the outcome of the concatenation of two automates. This algorithme is an adapation of the one explain here: https://www.desmontils.net/emiage/Module209EMiage/c5/Ch5_10.htm (section 10.2)
@@ -113,6 +113,7 @@ The mapping (oldToNew2) is updated to link the old state name to the new state n
 6. Remove the initial states of automate2 from automateFinal and replace them with the final states of automate1.
 
 ### Function concatener 
+This function allows the user to interactively choose the second automate and do the concatenation operations on automates stored in a list.
 
 ## Product of two FAs 
 The functions in this file create a new automate as the outcome of the product of two automates. This algorithme is an adapation of the one explain here: https://www.desmontils.net/emiage/Module209EMiage/c5/Ch5_10.htm (section 10.4)
@@ -138,3 +139,4 @@ This function performs the product of two automates. The function initializes th
 5. Create a new automate based on the collected information.States are created based on the sets in newAutomateBP, and transitions are added accordingly.
 
 ### Function produit : 
+This function allows the user to interactively do the product operations on automates stored in a list.
