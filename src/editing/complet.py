@@ -31,7 +31,7 @@ def rendrecomplet(automate):
         print("L'automate est maintenant complet.")
         return automate
 
-def autocomp(liste, num_automate):
+def autocomp(liste, num_automate): # call the function, with a copy of the  automaton, then add and select the new one
     automate = liste[num_automate] # stock the automaton
     automatec = rendrecomplet(deepcopy(automate)) # call rendrecomplet
     automatec["Nom"] += "_complet" # adds complete to the name of the automaton

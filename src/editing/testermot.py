@@ -16,7 +16,7 @@ automate ={
 
 
 
-def tester(automate):
+def tester(automate): # asks each letter of word, then calls the tester_mot function from each starting state
 	test = 1
 	mot = []
 	alphabet2 = alphabet(automate)

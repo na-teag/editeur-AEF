@@ -3,7 +3,6 @@ import re
 n = 2
 liste_etat_finaux = ["2","1"]
 liste_etat_initiaux = ["1"]
-'''
 
 automate = {
 	"Etats": {
@@ -16,6 +15,7 @@ automate = {
 	"Etats_finaux": ["q2"],
 	"Nom" : "test"
 }
+'''
 
 def creer_matrice(nbr):
 	matrice = [['NULL' for _ in range(nbr)] for _ in range(nbr)]
@@ -35,7 +35,7 @@ def corriger_matrice(mat):
 			liste[i] = liste[i].replace('*+', '*') # replace "*+" by "*"
 
 
-def calculer_matrice(automate):
+def calculer_matrice(automate): # this functions calculate the matrice associated to the automaton
 	liste = list(automate["Etats"].keys())
 	mat = creer_matrice(len(automate["Etats"].keys()))
 
@@ -50,6 +50,10 @@ def calculer_matrice(automate):
 	return liste, mat
 
 
+
+'''
+The following function comes from https://fr.wikipedia.org/wiki/Algorithme_de_McNaughton_et_Yamada#Pseudo-code, but has more case by case options
+'''
 
 def result(mat, n, liste_etat_initiaux, liste_etat_finaux, liste):
 	for k in range(0, n):
@@ -93,7 +97,6 @@ def result(mat, n, liste_etat_initiaux, liste_etat_finaux, liste):
 						else:
 							mat[p][q] = "(" + mat[p][q] + " U " + mat[p][k] + " " + mat[k][k] + "* " + mat[k][q] + ")"
 				
-		#afficher(mat)
 	res = ""
 	corriger_matrice(mat)
 	for p in liste_etat_initiaux:
@@ -108,12 +111,6 @@ def result(mat, n, liste_etat_initiaux, liste_etat_finaux, liste):
 	#afficher(mat)
 	return res
 
-'''
-liste = ["1","2"]
-mat = [["a","b"],["NULL","b"]] # NULL
-res = result(mat, len(liste), liste_etat_initiaux, liste_etat_finaux, liste)
-print(res)
-'''
 
 def regex(automate):
 	liste, mat = calculer_matrice(automate)

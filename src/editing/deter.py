@@ -115,7 +115,7 @@ def rendredeterministe(automate):
         displayAEF(automate0) # display the deterministic automaton
         return automate0 # return the deterministic automaton
 
-def autodeter(liste, num_automate):
+def autodeter(liste, num_automate): # call the function, with a copy of the  automaton, then add and select the new one
 	automate = liste[num_automate] # stock the automaton
 	automated = rendredeterministe(automate) # call rendredeterministe
 	num_automate = len(liste) # calculates the number associated with the automaton

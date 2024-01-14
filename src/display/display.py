@@ -58,9 +58,9 @@ def chooseModif(list_automate, automate_selected): # choose to either edit, rena
 
 
 
-def displayAEF(automate):
+def displayAEF(automate): # write a textual version of the automaton, more legible than print(automate)
 	print("Nom :", automate["Nom"])
-	print("Alphabet:", strct.alphabet(automate))
+	print("Alphabet:", strct.alphabet(automate)) # calculates the alphabet
 	print("États: {")
 	for state, transitions in automate["Etats"].items():
 		print(f"\t{state}")

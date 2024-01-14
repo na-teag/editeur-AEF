@@ -95,7 +95,7 @@ def toMinimal(automate: dict):
 
 
 
-def minimal(liste, num_automate):
+def minimal(liste, num_automate): # call the function, with a copy of the  automaton, then add and select the new one
 
     automate = liste[num_automate]
     automatee = toMinimal(deepcopy(automate))

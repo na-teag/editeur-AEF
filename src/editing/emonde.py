@@ -42,7 +42,7 @@ def path(automate, etat, chemin, co_accessibles): # traverse the automate and ma
 
 
 
-def co_accessible(automate):
+def co_accessible(automate): # checking which states can lead to a final state
     co_accessibles = automate["Etats_finaux"]
     for etat in list(set(automate["Etats"]) - set(co_accessibles)):
         co_accessibles += path(automate, etat, [], co_accessibles)
@@ -114,7 +114,7 @@ def rendre_emonde(automate):
 
 
 
-def emonde(liste, num_automate):
+def emonde(liste, num_automate): # call the function, with a copy of the  automaton, then add and select the new one
     automate = liste[num_automate]
     automatee = rendre_emonde(deepcopy(automate))
     if automatee != None:

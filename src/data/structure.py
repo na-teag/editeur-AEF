@@ -1,6 +1,6 @@
 #   This file contains all functions for basic structure 
 
-def createAutomate():
+def createAutomate(): # creates an empty antomaton
 	return {
 		"Etats": {},
 		"Etats_initiaux": [],
@@ -10,7 +10,7 @@ def createAutomate():
 
 
 
-def alphabet(automate): # calculate the alphabet
+def alphabet(automate): # calculates the alphabet
 	transitions_liste = []
 	for transitions in automate["Etats"].values():
 		transitions_liste.extend(transitions.keys())

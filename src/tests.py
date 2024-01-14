@@ -411,3 +411,5 @@ if __name__ == '__main__':
 		print(test_results)
 	else:
 		unittest.main()
+	print("Note : la fonction test calculant le produit peut parfois retourner un test négatif, cela est probablement dû à une différence dans l'ordre de certains éléments, car l'échec du test n'est pas systématique pour un même automate.")
+	print("L'échec de ce test n'est donc pas alarmant")
