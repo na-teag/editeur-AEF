@@ -4,7 +4,7 @@ import data.file as file
 import re
 
 def verif(val):
-    return bool(re.match(r'^[a-zA-Z0-9]+$', val)) # letters, numbers, underscore or -
+    return bool(re.match(r'^[a-zA-Z0-9]+$', val)) # letters or numbers
 
 
 def editStates(list_automate, automate_selected): # add or delete transition or states
