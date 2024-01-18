@@ -6,7 +6,7 @@ import re
 
 
 def verif(val):
-    return bool(re.match(r'^[0-9a-bA-B]+$', val)) # letters, numbers, underscore or -
+    return bool(re.match(r'^[0-9a-bA-B]+$', val)) # letters or numbers
 
 
 
