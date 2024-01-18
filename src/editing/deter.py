@@ -121,7 +121,7 @@ def rendredeterministe(automate):
             if etat_final not in automate0["Etats"].keys():
                 liste.append(etat_final)
         for etat in liste:
-            automate0["Etats_finaux"].pop(etat) # delete the former states
+            automate0["Etats_finaux"].remove(etat) # delete the former states
 
         print("\nAutomate converti :")
         displayAEF(automate0) # display the deterministic automaton
