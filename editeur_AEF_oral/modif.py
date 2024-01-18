@@ -6,7 +6,7 @@ import re
 
 
 def verif(val):
-    return bool(re.match(r'^[\w-]+$', val)) # letters, numbers, underscore or -
+    return bool(re.match(r'^[0-9a-bA-B]+$', val)) # letters, numbers, underscore or -
 
 
 
@@ -23,7 +23,7 @@ def editStates(list_automate, automate_selected): # add or delete transition or 
 		print("\n\n\n\n\n\n\n\n\n")
 		dis.displayAEF(list_automate[automate_selected])
 		print("\nEntrez les états et transitions sous la forme : état, transition, état_suivant.\nUne transition déjà existante sera supprimée, ou ajoutée si elle n'existe pas")
-		print("\nCaractères autorisés : lettres chiffres underscores et tirets")
+		print("\nCaractères autorisés : lettres et chiffres (restrictions dûes au rendu graphique)")
 		transition_input = input("Entrez la nouvelle partie de votre AEF ou appuyez sur Entrer pour terminer : ").split(',') # state name : no special characters
 		# print(transition_input)
 		if(len(transition_input) == 3 and verif(transition_input[0].strip()) and verif(transition_input[1].strip()) and verif(transition_input[2].strip())):
