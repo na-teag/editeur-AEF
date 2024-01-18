@@ -111,6 +111,18 @@ def rendredeterministe(automate):
                 automate0["Etats"][listechgmt[0]] = {}
                 nouvetat.append(listechgmt[0]) # adds to nouvetat the states created
                 listechgmt.pop(0)
+        for etats in automate0["Etats"].keys(): # add final states
+            for etat in etats.split(','):
+                if etat in automate["Etats_finaux"]:
+                    if etats not in automate0["Etats_finaux"]:
+                        automate0["Etats_finaux"].append(etats)
+        liste = []
+        for etat_final in automate0["Etats_finaux"]: # check if there is states of the former automaton in the final states
+            if etat_final not in automate0["Etats"].keys():
+                liste.append(etat_final)
+        for etat in liste:
+            automate0["Etats_finaux"].remove(etat) # delete the former states
+
         print("\nAutomate converti :")
         displayAEF(automate0) # display the deterministic automaton
         return automate0 # return the deterministic automaton
