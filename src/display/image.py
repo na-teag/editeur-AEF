@@ -6,6 +6,7 @@ def image(list_automate, automate_selected):
 		import shutil
 		import subprocess
 		import platform
+		import os
 		if shutil.which('dot') is None: # check that graphviz is registered as a program (different from the library installation)
 			dossier = r'C:\Program Files\Graphviz\bin'
 			resultat2 = subprocess.run(f'dir "{dossier}"', shell=True, capture_output=True, text=True)
@@ -81,35 +82,59 @@ def image(list_automate, automate_selected):
 		
 		for etat, transitions in automate['Etats'].items(): # declares the state and their shape on the image in function of their type
 			if etat in automate['Etats_initiaux']:
-				fichier.write(f'    {etat} [shape=circle];\n')
-				fichier.write(f'    start_node_{etat} [shape=point, width=0];\n')
-				fichier.write(f'    start_node_{etat} -> {etat} [label=""];\n')
+				fichier.write(f'    "{etat}" [shape=circle];\n')
+				fichier.write(f'    "start_node_{etat}" [shape=point, width=0];\n')
+				fichier.write(f'    "start_node_{etat}" -> "{etat}" [label=""];\n')
 			elif etat in automate['Etats_finaux']:
-				fichier.write(f'    {etat} [shape=doublecircle];\n')
+				fichier.write(f'    "{etat}" [shape=doublecircle];\n')
 			else:
-				fichier.write(f'    {etat} [shape=circle];\n')
+				fichier.write(f'    "{etat}" [shape=circle];\n')
 			
 		
 		for etat, transitions in automate['Etats'].items(): # declares the links between the states, with the name of the transitions
 			for transition, etats_suivants in transitions.items():
 				for etat_suivant in etats_suivants:
-					fichier.write(f'    {etat} -> {etat_suivant} [label="{transition}"];\n')
+					fichier.write(f'    "{etat}" -> "{etat_suivant}" [label="{transition}"];\n')
 		
 		fichier.write('}')
 
+	'''
 	graph = graphviz.Source.from_file("../file/image_automate.dot") # creates a graph
-	graph.render("../file/image_automate", format='png', cleanup=True) # generates the image
+	graph.render("../file/image_automate", format='png') # generates the image
 
 	print("\033[2J") # clear the screen
-	print("\n\nL'image à été générée")
+	print("\n\nL'image à été générée")'''
 	
-	
+	dot_file_path = "../file/image_automate.dot"
+	output_file_path = "../file/image_automate"
+	output_file_path += "_" + automate["Nom"]
+
+	try:
+		graph = graphviz.Source.from_file(dot_file_path)
+		subprocess.run(["dot", "-Tpng", dot_file_path, "-o", output_file_path + ".png"], check=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+	except subprocess.CalledProcessError as e:
+		print("\033[2J") # clear the screen
+		result = e.stderr.decode('utf-8')
+		print(f"Erreur lors de la génération de l'image : {result}")
+	else:
+		print("\033[2J") # clear the screen
+		print("Image générée avec succès.")
+
+
+	try:
+		if(platform.system() == 'Linux'): # delete the .dot file afterward, because if the file is corupted, it is impossible to generate a new one while the corupted one still exists
+			subprocess.run(['rm', '../file/image_automate.dot'])
+		if(platform.system() == 'Windows'):
+			subprocess.run(['rm', '../file/image_automate.dot'], shell=True)
+	except:
+		print("", end='')
+
+	output_file_path += ".png"
 	if(platform.system() == 'Windows'): # opening the image with default software managing images
-		import os
-		chemin = os.path.abspath("../file/image_automate.png")
+		chemin = os.path.abspath(output_file_path)
 		subprocess.run(["explorer", chemin])
 	elif(platform.system() == 'Linux'):
-		subprocess.run(["xdg-open", "../file/image_automate.png"])
+		subprocess.run(["xdg-open", output_file_path])
 	else:
 		print("\n\nveuillez ouvrir l'image du dossier \"file\" manuellement")
 	print("\n\n\n\n\n\n\n\n\n\n\n")

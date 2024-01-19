@@ -238,7 +238,8 @@ def main(): # in a function so it can be called by tests.py
 			return 0
 		else:
 			print("\033[2J") # clear the screen
-			print("Veuillez entrer l'une des options proposées\n")
+			print("Veuillez entrer l'une des options proposées")
+			print("\n\n\n\n\n\n\n\n\n\n\n")
 
 
 

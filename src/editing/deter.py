@@ -97,7 +97,7 @@ def rendredeterministe(automate):
                                 temp = '_'.join(automate0["Etats"][etat_rechercherc[0]][transi])
                                 etatcreer = list(map(str, temp.split('_')))
                                 if etatfinc not in etatcreer:
-                                    etatcomplet = [",".join(etatfinl+automate0["Etats"][etat_rechercherc[0]][transi])]
+                                    etatcomplet = ["_".join(etatfinl+automate0["Etats"][etat_rechercherc[0]][transi])]
                                     automate0["Etats"][etat_rechercherc[0]][transi] = etatcomplet                   
             etats0 = automate0["Etats"]
             u = '"' + str(etat_rechercher) + '"'
@@ -112,7 +112,7 @@ def rendredeterministe(automate):
                 nouvetat.append(listechgmt[0]) # adds to nouvetat the states created
                 listechgmt.pop(0)
         for etats in automate0["Etats"].keys(): # add final states
-            for etat in etats.split(','):
+            for etat in etats.split('_'):
                 if etat in automate["Etats_finaux"]:
                     if etats not in automate0["Etats_finaux"]:
                         automate0["Etats_finaux"].append(etats)
