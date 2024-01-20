@@ -1,124 +1,248 @@
 import re
+import data.structure as strct
 '''
-n = 2
-liste_etat_finaux = ["2","1"]
-liste_etat_initiaux = ["1"]
-
 automate = {
 	"Etats": {
-		"q0": {"a": ["q0","q1"]},
-		"q1": {"c": ["q0","q2"], "d": ["q1"]},
-		"q2": {"a": ["q0"], "b": ["q1"]},
-		"q3": {"b": ["q2"]}
+		"q0": {"a": ["q0"], "b": ["q1"]},
+		"q1": {"b": ["q1"], "a": ["q0"], "c": ["q0"]}
 	},
 	"Etats_initiaux": ["q0"],
-	"Etats_finaux": ["q2"],
+	"Etats_finaux": ["q1", "q0"],
 	"Nom" : "test"
 }
 '''
 
-def creer_matrice(nbr):
-	matrice = [['NULL' for _ in range(nbr)] for _ in range(nbr)]
-	return matrice
+def showEquations(equations):
+	for etat, equation in equations.items():
+		print(f'{etat} : {equation}')
 
-def afficher(mat):
-	for liste in mat:
-		print(liste)
-	print("\n")
+def getEquations(automate): # get the equations of the FA
+	equations = {}
+	for etat in automate["Etats"].keys():
+		equations[etat] = []
+		for transition, etats_suivants in automate["Etats"][etat].items():
+			for etat_suivant in etats_suivants:
+				relation = transition + "." + etat_suivant
+				equations[etat].append(relation)
+		if etat in automate["Etats_finaux"]:
+			equations[etat].append("ε")
+	return equations
 
-def corriger_matrice(mat):
-	for liste in mat:
-		for i in range(len(liste)):
-			liste[i] = re.sub(r'\++', '+', liste[i]) # replace +++++etc by only one +
-			liste[i] = re.sub(r'\*+', '*', liste[i]) # same for *
-			liste[i] = liste[i].replace('+*', '*') # replace "+*" by "*"
-			liste[i] = liste[i].replace('*+', '*') # replace "*+" by "*"
-
-
-def calculer_matrice(automate): # this functions calculate the matrice associated to the automaton
-	liste = list(automate["Etats"].keys())
-	mat = creer_matrice(len(automate["Etats"].keys()))
-
+def deleteUnused(equations): # delete the equations that are unnecessary (if a state has no other state leading to it)
+	liste = []
+	for etat in equations.keys():
+		test=0
+		for etat2, equation in equations.items():
+			if(etat2 != etat):
+				if etat in '.'.join(equation):
+					test=1
+		if(test==0 and etat not in etats_initiaux):
+			liste.append(etat)
+	#print(liste)
 	for etat in liste:
-		for etat2 in liste:
-			for transition, etat_suivant in automate["Etats"][etat].items():
-				if(etat2 in etat_suivant):
-					if(mat[liste.index(etat)][liste.index(etat2)] == 'NULL'):
-						mat[liste.index(etat)][liste.index(etat2)] = transition
-					else:
-						mat[liste.index(etat)][liste.index(etat2)] += ('|' + transition)
-	return liste, mat
+		del equations[etat]
+	return equations
 
 
-
-'''
-The following function comes from https://fr.wikipedia.org/wiki/Algorithme_de_McNaughton_et_Yamada#Pseudo-code, but has more case by case options
-'''
-
-def result(mat, n, liste_etat_initiaux, liste_etat_finaux, liste):
-	for k in range(0, n):
-		for p in range(0, n):
-			for q in range(0, n):
-				if(not (mat[p][k] == "NULL" and mat[k][k] == "NULL" and mat[k][q] == "NULL")):
-					if(mat[p][q] == mat[p][k] and mat[p][k] == mat[k][k] and mat[k][k] == mat[k][q]):
-						if(mat[p][q] != "NULL"):
-							mat[p][q] = mat[p][q] + "+"
-					elif(mat[p][k] == mat[k][k] and mat[k][k] == mat[k][q]):
-						mat[p][q] = "(" + mat[p][q] + " U " + mat[k][q] + "+ )"
-					elif(mat[p][k] == mat[k][k]):
-						if(mat[k][k] == "NULL"):
-							if(mat[p][q] != mat[k][q]):
-								mat[p][q] = "(" + mat[p][q] + " U " + mat[k][q] + ")"
-						elif(mat[k][q] == "NULL"):
-							if(mat[p][q] != "NULL"):
-								mat[p][q] = "(" + mat[p][q] + " U " + mat[k][k] + "+ )"
-							else:
-								mat[p][q] = mat[k][k] + "*"
-						else:
-							mat[p][q] = "(" + mat[p][q] + " U " + mat[k][k] + "+ " + mat[k][q] + ")"
-					elif(mat[k][k] == mat[k][q]):
-						if(mat[p][k] == "NULL"):
-							if(mat[p][q] != "NULL"):
-								mat[p][q] = "(" + mat[p][q] + " U " + mat[k][k] + "+ )"
-							else:
-								mat[p][q] = mat[k][k] + "*"
-						elif(mat[k][k] == "NULL"):
-							if(mat[p][q] != mat[p][k]):
-								mat[p][q] = "(" + mat[p][q] + " U " + mat[p][k] + ")"
-						else:
-							mat[p][q] = "(" + mat[p][q] + " U " + mat[p][k] + " " + mat[k][k] + "+ )"
-					else:
-						if(mat[p][k] == "NULL"):
-							mat[p][q] = "(" + mat[p][q] + " U " + mat[k][k] + "* " + mat[k][q] + ")"
-						elif(mat[k][k] == "NULL"):
-							mat[p][q] = "(" + mat[p][q] + " U " + mat[p][k] +  " " + mat[k][q] + ")"
-						elif(mat[k][q] == "NULL"):
-							mat[p][q] = "(" + mat[p][q] + " U " + mat[p][k] + " " + mat[k][k] + "*" + ")"
-						else:
-							mat[p][q] = "(" + mat[p][q] + " U " + mat[p][k] + " " + mat[k][k] + "* " + mat[k][q] + ")"
-				
-	res = ""
-	corriger_matrice(mat)
-	for p in liste_etat_initiaux:
-		for q in liste_etat_finaux:
-			if(p == q):
-				mat[liste.index(p)][liste.index(p)] = "(ɛ U " + mat[liste.index(p)][liste.index(p)] + ")"
-			if(res != ""):
-				res = "(" + res + " U " + mat[liste.index(p)][liste.index(p)] + ")"
-			else:
-				res = mat[liste.index(p)][liste.index(p)]
+def replace(equations): # replace states by their values in the equations, only if these states do not lead to themself (else, it's arden that must be used first)
+	liste = []
+	for etat, equation in equations.items():
+		test=0
+		for elem in equation:
+			if etat in elem:
+				test=1
+		if(test == 0 and etat not in etats_initiaux):
+			liste.append(etat)
 	
-	#afficher(mat)
-	return res
+	for etat in liste:
+		dico_delete = {}
+		dico_add = {}
+		for etat2, equation in equations.items():
+			dico_delete[etat2] = []
+			dico_add[etat2] = []
+			for elem in equation:
+				if etat in elem:
+					chaine = elem[:elem.index(etat)]
+					dico_delete[etat2].append(equation.index(elem))
+					for equation2 in equations[etat]:
+						chaine2 = chaine + equation2
+						dico_add[etat2].append(chaine2)
+		for etat2 in dico_add:
+			for elem in dico_add[etat2]:
+				equations[etat2].append(elem)
+		for etat2 in dico_delete:
+			for elem in dico_delete[etat2]:
+				del equations[etat2][elem]
+		del equations[etat]
+	return equations
 
 
-def regex(automate):
-	liste, mat = calculer_matrice(automate)
-	print("\n\n\n\n\n\n\n\n\n\n")
-	afficher(mat)
-	print("\n\n\n")
-	res = result(mat, len(liste), automate["Etats_initiaux"], automate["Etats_finaux"], liste)
-	print(res)
-	return res
+def replace_initials(equations): # replace states by their values in the equations, but do not delete the initial ones because they are from initials states
+	test = 0
+	liste = []
+	for etat, equation in equations.items():
+		liste.append('.'.join(equation))
+	for etat in equations.keys():
+		if etat in '.'.join(liste):
+			test = 1
+			break
+	i = 0
+	max = 250
+	while test and i<max:
+		liste = []
+		for etat, equation in equations.items():
+			for elem in equation:
+				for etat2 in equations.keys():
+					if etat2 in elem:
+						test2 = 1
+						if(len(equations[etat2]) == 1):
+							for etat3 in equations.keys():
+									if etat3 in equations[etat2][0]:
+										test2 = 0
+							if test2:
+								equations[etat][equations[etat].index(elem)] = equations[etat][equations[etat].index(elem)].replace(etat2, equations[etat2][0])
 
-#regex(automate)
+		for etat in equations.keys():
+			if etat in '.'.join(liste):
+				test = 1
+				break
+		i+=1
+	if(i >= max):
+		print("erreur, impossible de terminer la simplification\nrésultat actuel :")
+		print("\n\n\n\n\n")
+	return equations
+
+
+
+def arden(equations): # lemme of Arden ( X = aX+B  =>  X = a*B)
+	choice = []
+	for etat, equation in equations.items():
+		for elem in equation:
+			if etat in elem and etat not in choice:
+				choice.append(etat)
+	#print(choice)
+	if(len(choice) != 0): # erratum : limit to one execution of arden at a time
+		choice = [choice[0]]
+	for etat in choice:
+		liste = []
+		for elem in equations[etat]:
+			if etat in elem:
+				liste.append(equations[etat].index(elem))
+		liste2 = []
+		#print(liste)
+		for elem in liste:
+			liste2.append(equations[etat][elem][:-(len(etat)+1)])
+		if(len(liste2) != 1): # if the * affects multiples values
+			a_etoile = '(' + ' + '.join(liste2) + ')*'
+		else:
+			a_etoile = liste2[0] + "*" # if there is only one value, do not use the ()
+		#print(a_etoile)
+		for elem in liste2:
+			del equations[etat][equations[etat].index(elem + '.' + etat)]
+		#print(equations[etat])
+		for elem in equations[etat]:
+			equations[etat][equations[etat].index(elem)] = a_etoile + "." + elem
+	return equations
+
+
+def simplify(equations):
+	#print(equations)
+	for transition in alphabet:
+		for etat, equation in equations.items():
+			for elem in equation:
+				index = equations[etat].index(elem)
+				test = 1
+				while(test == 1):
+					test = 0
+
+					new = re.sub(r'\*+', '*', equations[etat][index]) # replace a** by a*
+					if(new != equations[etat][index]):
+						test = 1
+					equations[etat][index] = new
+
+					new = re.sub(f"{transition}\*\.{transition}\*", f"{transition}*", equations[etat][index]) # replace a*.a* by a*
+					if(new != equations[etat][index]):
+						test = 1
+					equations[etat][index] = new
+
+					new = re.sub(f"{transition}\*\.{transition}(?!\*)", f"{transition}+", equations[etat][index]) # replace a*.a by a+
+					if(new != equations[etat][index]):
+						test = 1
+					equations[etat][index] = new
+
+					new = re.sub(f"{transition}\.{transition}\*", f"{transition}+", equations[etat][index]) # replace a.a* by a+
+					if(new != equations[etat][index]):
+						test = 1
+					equations[etat][index] = new
+
+					new = re.sub(f"{transition}\+\.ε", f"{transition}*", equations[etat][index]) # replace a+.ε by a*
+					if(new != equations[etat][index]):
+						test = 1
+					equations[etat][index] = new
+
+					new = re.sub(f"{transition}\*\.ε", f"{transition}*", equations[etat][index]) # replace a*.ε by a*
+					if(new != equations[etat][index]):
+						test = 1
+					equations[etat][index] = new
+
+					new = re.sub(f"{transition} \+ ε(?!\.)", f"{transition}*", equations[etat][index]) # replace a + ε by a*
+					if(new != equations[etat][index]):
+						test = 1
+					equations[etat][index] = new
+
+					new = re.sub(f"{transition}\.ε(?!\.)", f"{transition}", equations[etat][index]) # replace a.ε by a
+					if(new != equations[etat][index]):
+						test = 1
+					equations[etat][index] = new
+	return equations
+
+
+
+def regex(automate): # calculates the regex expression (several initial states accepted)
+	print("\033[2J") # clear the screen
+	global alphabet
+	alphabet = strct.alphabet(automate)
+	global etats_initiaux
+	etats_initiaux = automate["Etats_initiaux"]
+	equations = getEquations(automate) # calculates the equations
+	#showEquations(equations)
+	#print("")
+	equations = deleteUnused(equations) # deletes the useless equations
+	#print("")
+	#showEquations(equations)
+	#print("")
+	test = 1
+	while test:
+		if(len(equations) == len(etats_initiaux)):
+			test = 0
+		equations = replace(equations) # replace expression of a state by its value in other states
+		#print("")
+		#showEquations(equations)
+		#print("")
+		equations = arden(equations) # use arden theorem
+		#print("")
+		#showEquations(equations)
+		#print("")
+	equations = simplify(equations)
+	#showEquations(equations)
+	#print("")
+	equations = replace_initials(equations)
+	#print("")
+	#showEquations(equations)
+	#print("")
+	equations = simplify(equations)
+	#showEquations(equations)
+	#print("")
+	result = ""
+	for etat, equation in equations.items():
+		for elem in equation:
+			print(equations[etat][equations[etat].index(elem)])
+			result += equations[etat][equations[etat].index(elem)]
+			if(list(equations.keys()).index(etat) != len(equations)-1 or equations[etat].index(elem) != len(equation)-1):
+				print("+")
+				result += "  +  "
+	print("\n\n\n\n\n\n\n\n\n")
+	return result
+
+
+# ajouter regex et arden dans les tags github

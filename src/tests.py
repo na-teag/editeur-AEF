@@ -22,6 +22,7 @@ import unitTest.testcomplet as comp
 import unitTest.testdeter as deter
 import editing.emonde as emd
 import editing.langage as lang
+import editing.regex as rgx
 
 
 MAGENTA = '\033[95m'
@@ -277,6 +278,15 @@ class Test_tester4(unittest.TestCase):  # test of function tester, and thus func
 	def test_tester4(self, mock_inputs):
 		result = testermot.tester(automate)
 		self.assertEqual(result, False)
+
+############################################################################  functions from regex.py #############################################################################
+
+class Test_regex(unittest.TestCase):  # test of function tester, and thus function tester_mot, with another non-valid word (path does not exist)
+	@patch('builtins.input', side_effect=[])
+	def test_regex(self, mock_inputs):
+		result = rgx.regex(automate)
+		expression = "(a+.(d + c.b)*.c + a+.(d + c.b)*.c.a)*.a+.(d + c.b)*.c"
+		self.assertEqual(result, expression)
 
 ##########################################################################  test of functions complet.py  #########################################################################
 
