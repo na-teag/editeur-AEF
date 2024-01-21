@@ -25,7 +25,7 @@ def getEquations(automate): # get the equations of the FA
 				relation = transition + "." + etat_suivant
 				equations[etat].append(relation)
 		if etat in automate["Etats_finaux"]:
-			equations[etat].append("ε")
+			equations[etat].append("NULL")
 	return equations
 
 def deleteUnused(equations): # delete the equations that are unnecessary (if a state has no other state leading to it)
@@ -49,31 +49,44 @@ def replace(equations): # replace states by their values in the equations, only 
 	for etat, equation in equations.items():
 		test=0
 		for elem in equation:
-			if etat in elem:
+			if bool(re.search(re.compile(fr"(?<!_){etat}(?!_)"), elem)):
 				test=1
 		if(test == 0 and etat not in etats_initiaux):
 			liste.append(etat)
-	
+			#print("\n\n")
+	#showEquations(equations)
 	for etat in liste:
 		dico_delete = {}
 		dico_add = {}
+		#print("etat : ", etat)
 		for etat2, equation in equations.items():
 			dico_delete[etat2] = []
 			dico_add[etat2] = []
 			for elem in equation:
-				if etat in elem:
+				#print("elem", elem, end='\t')
+				if bool(re.search(re.compile(fr"(?<!_){etat}(?!_)"), elem)):
+					#print("inclus", end='\t\t')
 					chaine = elem[:elem.index(etat)]
 					dico_delete[etat2].append(equation.index(elem))
 					for equation2 in equations[etat]:
 						chaine2 = chaine + equation2
 						dico_add[etat2].append(chaine2)
+				#else:
+					#print("non inclus", end='\t')
+				#print("dans ", etat2, " : ", equation)
 		for etat2 in dico_add:
 			for elem in dico_add[etat2]:
 				equations[etat2].append(elem)
 		for etat2 in dico_delete:
 			for elem in dico_delete[etat2]:
 				del equations[etat2][elem]
-		del equations[etat]
+		test=1
+		for etat2, equation2 in equations.items():
+			for elem in equation2:
+				if bool(re.search(re.compile(fr"(?<!_){etat}(?!_)"), elem)):
+					test = 0
+		if test:
+			del equations[etat]
 	return equations
 
 
@@ -83,7 +96,7 @@ def replace_initials(equations): # replace states by their values in the equatio
 	for etat, equation in equations.items():
 		liste.append('.'.join(equation))
 	for etat in equations.keys():
-		if etat in '.'.join(liste):
+		if bool(re.search(re.compile(fr"(?<!_){etat}(?!_)"), '.'.join(liste))):
 			test = 1
 			break
 	i = 0
@@ -93,17 +106,17 @@ def replace_initials(equations): # replace states by their values in the equatio
 		for etat, equation in equations.items():
 			for elem in equation:
 				for etat2 in equations.keys():
-					if etat2 in elem:
+					if bool(re.search(re.compile(fr"(?<!_){etat2}(?!_)"), elem)):
 						test2 = 1
 						if(len(equations[etat2]) == 1):
 							for etat3 in equations.keys():
-									if etat3 in equations[etat2][0]:
+									if bool(re.search(re.compile(fr"(?<!_){etat3}(?!_)"), equations[etat2][0])):
 										test2 = 0
 							if test2:
 								equations[etat][equations[etat].index(elem)] = equations[etat][equations[etat].index(elem)].replace(etat2, equations[etat2][0])
 
 		for etat in equations.keys():
-			if etat in '.'.join(liste):
+			if bool(re.search(re.compile(fr"(?<!_){etat}(?!_)"), '.'.join(liste))):
 				test = 1
 				break
 		i+=1
@@ -118,7 +131,7 @@ def arden(equations): # lemme of Arden ( X = aX+B  =>  X = a*B)
 	choice = []
 	for etat, equation in equations.items():
 		for elem in equation:
-			if etat in elem and etat not in choice:
+			if bool(re.search(re.compile(fr"(?<!_){etat}(?!_)"), elem)) and etat not in choice:
 				choice.append(etat)
 	#print(choice)
 	if(len(choice) != 0): # erratum : limit to one execution of arden at a time
@@ -126,7 +139,7 @@ def arden(equations): # lemme of Arden ( X = aX+B  =>  X = a*B)
 	for etat in choice:
 		liste = []
 		for elem in equations[etat]:
-			if etat in elem:
+			if bool(re.search(re.compile(fr"(?<!_){etat}(?!_)"), elem)):
 				liste.append(equations[etat].index(elem))
 		liste2 = []
 		#print(liste)
@@ -137,9 +150,9 @@ def arden(equations): # lemme of Arden ( X = aX+B  =>  X = a*B)
 		else:
 			a_etoile = liste2[0] + "*" # if there is only one value, do not use the ()
 		#print(a_etoile)
+		#print(equations[etat])
 		for elem in liste2:
 			del equations[etat][equations[etat].index(elem + '.' + etat)]
-		#print(equations[etat])
 		for elem in equations[etat]:
 			equations[etat][equations[etat].index(elem)] = a_etoile + "." + elem
 	return equations
@@ -175,22 +188,22 @@ def simplify(equations):
 						test = 1
 					equations[etat][index] = new
 
-					new = re.sub(f"{transition}\+\.ε", f"{transition}*", equations[etat][index]) # replace a+.ε by a*
+					new = re.sub(f"{transition}\+\.NULL", f"{transition}*", equations[etat][index]) # replace a+.NULL by a*
 					if(new != equations[etat][index]):
 						test = 1
 					equations[etat][index] = new
 
-					new = re.sub(f"{transition}\*\.ε", f"{transition}*", equations[etat][index]) # replace a*.ε by a*
+					new = re.sub(f"{transition}\*\.NULL", f"{transition}*", equations[etat][index]) # replace a*.NULL by a*
 					if(new != equations[etat][index]):
 						test = 1
 					equations[etat][index] = new
 
-					new = re.sub(f"{transition} \+ ε(?!\.)", f"{transition}*", equations[etat][index]) # replace a + ε by a*
+					new = re.sub(f"{transition} \+ NULL(?!\.)", f"{transition}*", equations[etat][index]) # replace a + NULL by a*
 					if(new != equations[etat][index]):
 						test = 1
 					equations[etat][index] = new
 
-					new = re.sub(f"{transition}\.ε(?!\.)", f"{transition}", equations[etat][index]) # replace a.ε by a
+					new = re.sub(f"{transition}\.NULL(?!\.)", f"{transition}", equations[etat][index]) # replace a.NULL by a
 					if(new != equations[etat][index]):
 						test = 1
 					equations[etat][index] = new
